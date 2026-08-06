@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLMOps 8영역 지도 · 빠른 참조</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+<style>
+  /* 이 문서 전용: 플라이휠 다이어그램 */
+  .flywheel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: 0.6rem;
+    margin: 2rem 0;
+    counter-reset: step;
+  }
+  .flywheel .step {
+    padding: 0.85rem 0.9rem;
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--accent);
+    border-radius: 2px 2px 5px 5px;
+    background: var(--paper-alt);
+    font: 0.88rem/1.4 var(--font-sans);
+  }
+  .flywheel .step::before {
+    counter-increment: step;
+    content: counter(step);
+    display: block;
+    font: 600 0.7rem var(--font-mono);
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+  .flywheel .step b { display: block; margin-bottom: 0.2rem; }
+  .flywheel .step span { color: var(--ink-soft); font-size: 0.82rem; }
+  .loop-note { font: 0.85rem var(--font-sans); color: var(--ink-faint); margin-top: -1rem; }
+  td.area-cell { font-weight: 600; white-space: nowrap; }
+  td.metric-cell code { font-size: 0.8rem; }
+</style>
+</head>
+<body>
+
+<p class="kicker">Reference · 빠른 참조</p>
+<h1>LLMOps 8영역 지도</h1>
+<p class="subtitle">각 영역이 <em>어떤 질문에 답하는지</em>, 무엇을 숫자로 봐야 하는지, 어디서 미끄러지는지.
+프린트해서 옆에 두고 쓰는 문서.</p>
+
+<h2>운영 루프 (플라이휠)</h2>
+
+<p>8개 영역은 병렬 목록이 아니라 <strong>하나의 루프에 붙은 부품</strong>이다.
+루프가 한 바퀴 돌지 않으면 어떤 도구를 넣어도 품질은 올라가지 않는다.</p>
+
+<div class="flywheel">
+  <div class="step"><b>트레이스 수집</b><span>입력·출력·중간단계를 남긴다</span></div>
+  <div class="step"><b>오류분석</b><span>사람이 읽고 실패를 서술한다</span></div>
+  <div class="step"><b>실패 유형 분류</b><span>서술을 taxonomy로 묶는다</span></div>
+  <div class="step"><b>평가셋 · 판정기</b><span>유형별 통과/실패를 자동화</span></div>
+  <div class="step"><b>변경</b><span>프롬프트·컨텍스트·모델</span></div>
+  <div class="step"><b>게이트</b><span>평가 통과 못하면 배포 불가</span></div>
+  <div class="step"><b>배포 · 롤아웃</b><span>단계적으로 트래픽 이관</span></div>
+  <div class="step"><b>→ 1번으로</b><span>새 트레이스가 다시 쌓인다</span></div>
+</div>
+
+<p class="loop-note">루프의 시작점은 <strong>1번(트레이스)이 아니라 2번(오류분석)</strong>이라고 생각하는 편이 안전하다.
+트레이스는 이미 어딘가에 쌓여 있는 경우가 많고, 건너뛰는 것은 언제나 "읽는" 단계다.</p>
+
+<h2>영역별 요약</h2>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th style="width:11rem">영역</th>
+      <th>답하는 질문</th>
+      <th style="width:13rem">핵심 지표</th>
+      <th style="width:16rem">흔한 함정</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="area-cell">1. 개념 지도</td>
+      <td>이 시스템의 품질 문제는 누구의 책임이고 어느 층에서 고쳐야 하는가?</td>
+      <td class="metric-cell">— (지표가 아니라 위치 잡기)</td>
+      <td>모든 문제를 "프롬프트 문제"로 환원한다.</td>
+    </tr>
+    <tr>
+      <td class="area-cell">2. 오류분석</td>
+      <td>우리 시스템은 <em>구체적으로 어떻게</em> 실패하는가?</td>
+      <td class="metric-cell">실패 유형 수, 유형별 빈도</td>
+      <td>유형을 정하기 전에 지표를 먼저 고른다.
+          → 결과적으로 아무 것도 개선되지 않는 대시보드가 생긴다.</td>
+    </tr>
+    <tr>
+      <td class="area-cell">3. 평가 (Eval)</td>
+      <td>이 변경이 좋아진 것인가, 나빠진 것인가?</td>
+      <td class="metric-cell">유형별 통과율, 평가셋 크기</td>
+      <td>공개 벤치마크 점수를 우리 품질로 착각한다.
+          우리 실패 유형을 담지 못한 평가는 무의미하다.</td>
+    </tr>
+    <tr>
+      <td class="area-cell">4. LLM-as-judge</td>
+      <td>사람 없이도 판정을 신뢰할 수 있는가?</td>
+      <td class="metric-cell"><code>TPR</code> / <code>TNR</code>
+          (사람 라벨 대비)</td>
+      <td>판정기를 사람과 정렬시키지 않고 바로 쓴다.
+          judge도 평가받아야 하는 모델이다.</td>
+    </tr>
+    <tr>
+      <td class="area-cell">5. 관측성</td>
+      <td>어제 그 이상한 답변이 왜 나왔는지 재구성할 수 있는가?</td>
+      <td class="metric-cell">트레이스 커버리지, p95 지연</td>
+      <td>벤더 고유 포맷에 종속된다.
+          <code>gen_ai.*</code> (OTel GenAI 규약)로 남기면 이관이 가능하다.</td>
+    </tr>
+    <tr>
+      <td class="area-cell">6. 비용 · 토큰</td>
+      <td>품질 1%를 올리는 데 비용 몇 %를 쓰고 있는가?</td>
+      <td class="metric-cell">요청당 토큰·비용, 캐시 적중률</td>
+      <td>총액만 본다. 품질과 묶어서 보지 않으면
+          비용 절감이 조용한 품질 하락으로 돌아온다.</td>
+    </tr>
+    <tr>
+      <td class="area-cell">7. RAG 운영</td>
+      <td>틀린 답의 원인이 검색인가, 생성인가?</td>
+      <td class="metric-cell">retrieval recall / 근거 충실도</td>
+      <td>두 단계를 합쳐서 측정한다.
+          분리하지 않으면 고칠 곳을 특정할 수 없다.</td>
+    </tr>
+    <tr>
+      <td class="area-cell">8. 프롬프트 CI · 배포</td>
+      <td>나쁜 변경이 프로덕션에 도달하는 것을 무엇이 막는가?</td>
+      <td class="metric-cell">게이트 통과율, 롤백 소요 시간</td>
+      <td>프롬프트를 코드 리뷰 밖에 둔다.
+          디프가 없으면 원인 추적이 불가능해진다.</td>
+    </tr>
+    <tr>
+      <td class="area-cell">9. 서빙</td>
+      <td>같은 하드웨어로 몇 배를 더 처리할 수 있는가?</td>
+      <td class="metric-cell">TTFT, 처리량(tok/s), 동시성</td>
+      <td>평균 지연만 본다. 체감을 지배하는 것은
+          첫 토큰까지의 시간(TTFT)과 p95다.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p class="sidenote">표에는 9행이 있다. 2번(오류분석)은 원래 "평가"의 일부지만,
+건너뛰기 쉬운 단계라서 일부러 독립시켜 놓았다.</p>
+
+<h2>한 문장 판정 기준</h2>
+
+<div class="callout key">
+  <span class="callout-label">각 영역에 대해 물을 것</span>
+  <p>“이 영역의 상태를 <strong>숫자 하나와 그 숫자를 만든 코드/문서의 위치</strong>로 답할 수 있는가?”
+  머릿속에만 있으면 그 영역은 <em>없는</em> 것이다.</p>
+</div>
+
+<div class="lesson-footer">
+  <h4>관련 문서</h4>
+  <div class="nav-links">
+    <a href="../lessons/0001-llmops-map-and-self-audit.html">← 레슨 0001 · LLMOps 지도와 자기진단</a>
+    <a href="../RESOURCES.md">RESOURCES.md</a>
+    <a href="../MISSION.md">MISSION.md</a>
+  </div>
+</div>
+
+</body>
+</html>

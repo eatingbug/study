@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레퍼런스 — Index DCF 핵심 공식 카드</title>
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+  /* 레퍼런스는 본문보다 조금 조밀하게 — 인쇄해서 옆에 두는 용도 */
+  body { max-width: 50rem; }
+  h2 { margin-top: 2.5rem; font-size: 1.3rem; }
+  h2 .tag {
+    font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-faint);
+    border: 1px solid var(--rule); border-radius: 3px;
+    padding: 0.15rem 0.4rem; margin-left: 0.6rem; vertical-align: 0.22em;
+  }
+  .formula { margin: 1rem 0; text-align: left; padding: 0.9rem 1.1rem; }
+  .formula .lead { display: inline-block; min-width: 9.5rem; }
+  table { font-size: 0.88rem; }
+  .snapshot { background: #fff; border: 1px dashed var(--ink-faint); }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">Reference · Week 9</p>
+  <h1>Index DCF 핵심 공식 카드</h1>
+  <p class="standfirst">한 장으로 압축한 Week 9 전체. 숙제를 하면서 옆에 띄워 두거나 인쇄해서 쓰세요.</p>
+</header>
+
+<div class="note">
+  <span class="label">읽는 법</span>
+  <p>각 절의 <span style="font-family:var(--sans);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;border:1px solid var(--rule);border-radius:3px;padding:0.15rem 0.4rem;">L0001</span> 같은 태그는 그 내용을 다루는 레슨입니다. 아직 안 배운 절이 있어도 정상입니다 — 이 문서는 <em>레슨을 따라 채워지는 것이 아니라, 처음부터 완성된 참조표</em>로 두고 필요할 때 꺼내 보는 용도입니다.</p>
+</div>
+
+<h2>1. 할인 <span class="tag">L0001</span></h2>
+
+<div class="formula">
+  <span class="lead">현재가치</span> PV = CF<sub>t</sub> ÷ (1 + r)<sup>t</sup><br>
+  <span class="lead">할인율</span> r = 무위험이자율(risk-free) + 리스크 프리미엄(risk premium)<br>
+  <span class="lead">같은 말</span> r = 총 요구수익률 (required return)<br>
+  <span class="lead">뒤집으면</span> 리스크 프리미엄 = 총 요구수익률 − 무위험이자율
+</div>
+
+<ul>
+  <li>t는 <strong>지수</strong> 자리 → 먼 미래일수록 기하급수적으로 작아진다.</li>
+  <li>r은 <strong>분모</strong> → r이 오르면 가치는 내려간다.</li>
+  <li>리스크 프리미엄이 오르는 경로는 둘. ① 총 요구수익률 상승(=인플레 공포) ② 무위험이자율 하락(=양적완화).</li>
+</ul>
+
+<h2>2. 2단 구조 <span class="tag">L0002</span></h2>
+
+<p>상장기업·지수는 영구 존속을 가정하지만, 5년 넘는 미래를 한 해씩 추정하는 건 불확실성이 너무 크다. 그래서 둘로 쪼갠다.</p>
+
+<div class="formula">
+  <span class="lead">전체</span> V₀ = <span style="color:var(--accent)">Σ<sub>t=1..n</sub> CF<sub>t</sub>/(1+r)<sup>t</sup></span> &nbsp;+&nbsp; <span style="color:var(--good)">TV<sub>n</sub> ÷ (1+r)<sup>n</sup></span><br>
+  <span class="lead" style="color:var(--accent)">근미래 파트</span> 컨센서스·사이클로 한 해씩 추정 (보통 n = 3~10)<br>
+  <span class="lead" style="color:var(--good)">종료가치 파트</span> TV<sub>n</sub> = CF<sub>n+1</sub> ÷ (r − g),&nbsp; CF<sub>n+1</sub> = CF<sub>n</sub> × (1 + g)
+</div>
+
+<ul>
+  <li>TV의 <span class="num">÷ (r − g)</span>는 무한등비급수의 합. <strong>g &lt; r 이 아니면 식이 깨진다.</strong></li>
+  <li>TV<sub>n</sub>은 <em>n년차 시점</em>의 값 → 다시 <span class="num">(1+r)<sup>n</sup></span>으로 현재까지 끌고 와야 한다.</li>
+  <li><strong>비중 감각:</strong> 근미래 파트는 전체의 10~20% 수준. 나머지 80~90%가 종료가치. 그래서 10-1 ~ 10-4 칸이 승부처다.</li>
+  <li>n을 3으로 두면 4년차부터 곧바로 영구성장 체제로 점프한다 → 두 자릿수 성장에서 3.75%로 급락하는 비현실적 가정. 그래서 n을 10까지 늘려 <strong>수렴 경로</strong>를 그린다.</li>
+</ul>
+
+<h2>3. 성장의 내부 일관성 <span class="tag">L0003</span></h2>
+
+<p>종료가치의 <strong>주주환원율은 입력하는 값이 아니라 도출되는 값</strong>이다. 영구성장률과 장기 ROE를 정하면 자동으로 정해진다.</p>
+
+<div class="formula">
+  <span class="lead">출발</span> g = ROE × 유보율<br>
+  <span class="lead">유보율</span> = 1 − 주주환원율<br>
+  <span class="lead">→ 환원율</span> 주주환원율 = 1 − g ÷ ROE<br>
+  <span class="lead">→ ROE</span> ROE = g ÷ (1 − 주주환원율)
+</div>
+
+<ul>
+  <li>직관: 번 돈을 다 나눠 주면(유보율 0) 재투자할 돈이 없으니 g = 0. 덜 나눠 주거나 ROE가 높아야 성장한다.</li>
+  <li><strong>일관성 체크:</strong> 주주환원율 80.72%를 유지하면서 g = 3.75%를 원한다면 ROE는 <span class="num">3.75 ÷ 0.1928 = 19.45%</span>가 나와야 한다. 장기 ROE로는 무리한 가정 → g를 낮추거나 환원율을 낮춰야 앞뒤가 맞는다.</li>
+  <li>근미래 파트의 주주환원율은 반대로 <em>직접 입력</em>한다. 과거 25년 평균이 무난 (배당성향 33.72% + 바이백 47% = <strong>80.72%</strong>, 평균회귀가 안정적).</li>
+</ul>
+
+<h2>4. 영구성장률 g <span class="tag">L0003</span></h2>
+
+<ul>
+  <li><strong>이론적 상한 = 경제의 명목 성장률.</strong> 이를 넘기면 언젠가 지수가 경제 전체보다 커지는 모순.</li>
+  <li>미국 기준 상한 ≈ 실질 2% + 연준 PCE 목표 2% = <strong>4%</strong>. 툴팁 권장은 2~3%, 보수적으로 1%.</li>
+  <li>단, S&amp;P 500의 '경제'는 미국 GDP가 아니라 <em>미국 기업이 활약하는 경제</em>라 볼 여지가 있다 (다국적화·해외매출). 월가아재는 이를 감안해 상한 근처인 <strong>3.5~3.8%, 통상 3.75%</strong>를 넣는다.</li>
+  <li><strong>주의:</strong> 1번 칸의 EPS 성장률은 <em>주당(per-share)</em> 개념이라 자사주 소각분이 섞여 있고, g는 <em>총액</em> 개념이다. 단위가 다르다. 28년 EPS 성장률 12.25% vs g 3.75%를 나이브하게 비교하면 안 되고, 3.75%를 4.75~5% 정도로 환산해서 봐야 한다.</li>
+</ul>
+
+<h2>5. 장기 무위험수익률 3분해 <span class="tag">L0004</span></h2>
+
+<p>논리상 30년물이 맞지만 수급 왜곡·지정학 노이즈가 커서 그대로 못 쓴다. 10년물 정보로 조립한다.</p>
+
+<div class="formula">
+  장기 무위험수익률 = 중립 실질금리(단기) + 기대 인플레이션 + 기간 프리미엄
+</div>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>항</th><th>출처</th><th>칼럼의 계산 (2026-07)</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>중립 실질금리</td>
+      <td>FOMC SEP의 longer-run 연방기금금리 − longer-run PCE</td>
+      <td class="num">3.1% − 2.0% = 1.1%</td>
+    </tr>
+    <tr>
+      <td>기대 인플레이션</td>
+      <td>10년물 명목 − 10년물 TIPS (=브레이크이븐). <strong>CPI 기준</strong>이므로 (CPI − PCE) 갭만큼 차감</td>
+      <td class="num">2.26% − 0.26% = 2.00%</td>
+    </tr>
+    <tr>
+      <td>기간 프리미엄</td>
+      <td>장기채 보유 vs 단기채 롤오버의 기대수익률 차. 음수도 가능. <strong>시나리오 판단 영역</strong></td>
+      <td class="num">0.5% / 1.2% / 2.0%</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note">
+  <span class="label">일관성 원칙</span>
+  <p>중립 실질금리를 <strong>PCE</strong>로 뽑았으면 기대 인플레이션도 <strong>PCE</strong>여야 한다. TIPS 브레이크이븐은 CPI 기준이므로 그냥 쓰면 단위가 어긋난다. 밸류에이션에서 가장 흔하고 가장 조용한 오류가 이런 단위 불일치다.</p>
+</div>
+
+<p><strong>근미래(n=1~3) 무위험수익률</strong>은 필라델피아 연은 <a href="https://www.philadelphiafed.org/surveys-and-data/real-time-data-research/survey-of-professional-forecasters">SPF</a>(분기별, 2·5·8·11월 중순 발표)의 10년물 전망을 쓴다. 영향력은 작으므로 과하게 고민하지 않아도 된다.</p>
+
+<h2>6. 주식시장 위험 프리미엄 ERP <span class="tag">L0005</span></h2>
+
+<p><strong>방법 1 — 과거 데이터.</strong> 쓰지 않는다. 기간 선택에 따라 4.12% ~ 13.08%까지 벌어지고, 산술/기하평균·단기채/장기채 기준에 따라 3%p 이상 차이가 난다. 다모다란 본인도 안 쓴다.</p>
+
+<p><strong>방법 2 — 내재 ERP(Implied ERP).</strong> 적정가치 자리에 <em>현재 시장가격</em>을 놓고 r을 역산한 뒤 무위험수익률을 뺀다.</p>
+
+<div class="formula">
+  A + B + C + <strong>D</strong> = E &nbsp;→&nbsp; E를 시장가격으로 고정 &nbsp;→&nbsp; <strong>D</strong> = E − A − B − C
+</div>
+
+<p><strong>순환논리 경고.</strong> 내재 ERP를 그대로 넣고 적정가치를 구하면, 나오는 답은 정의상 <em>현재 시장가격 그 자체</em>다. 적정가치를 알려고 시작했는데 시장가격이 나온다.</p>
+
+<p><strong>해법 — 레짐(regime).</strong> <a href="https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/histimpl.html">다모다란의 내재 ERP 시계열(1960~2025, 엑셀 다운로드 가능)</a>에서 구간을 나누고, 앞으로의 세상이 어느 레짐을 닮을지로 고른다. 참고로 다모다란 본인이 게시하는 값은 2025년 말 기준 <span class="num">4.23%</span>, 2026년 7월 1일 기준 <span class="num">4.42%</span>(S&amp;P 7,499.36)다.</p>
+
+<p class="caption" style="font-size:0.85rem;color:var(--ink-faint)">아래 구간 구분과 평균은 <strong>월가아재가 이 시계열을 직접 잘라 계산한 값</strong>이지, 다모다란이 발표한 구간 평균이 아니다. 본인 숙제에 쓰려면 엑셀을 받아 직접 검산할 것.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>구간</th><th>성격</th><th class="n">평균 ERP</th><th>ERP가 높/낮은 이유</th></tr></thead>
+  <tbody>
+    <tr><td>1961~72</td><td>브레튼우즈 후 안정기</td><td class="n">3.3%</td><td>—</td></tr>
+    <tr><td>1973~84</td><td>대인플레이션</td><td class="n">5.2%</td><td>총 요구수익률 상승 (인플레 공포)</td></tr>
+    <tr><td>1985~99</td><td>볼커 후 디스인플레 + 닷컴 도취</td><td class="n">3.3%</td><td>—</td></tr>
+    <tr><td>2000~07</td><td>정상화</td><td class="n">3.8%</td><td>—</td></tr>
+    <tr><td>2008~21</td><td>금융위기와 양적완화</td><td class="n">5.4%</td><td>무위험수익률이 눌림 (QE)</td></tr>
+    <tr><td>2022~25</td><td>COVID 후 인플레와 정상화</td><td class="n">4.8%</td><td>총 요구수익률 상승 (인플레 공포)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>7. 장기 ROE <span class="tag">L0003</span></h2>
+
+<ul>
+  <li>역사적 밴드: 20세기 <span class="num">10~14%</span> → 1995년 이후 <span class="num">13~18%</span> → 2021~25년 <span class="num">18~21%</span>.</li>
+  <li>최근 ROE가 높은 건 상당 부분 <strong>일시적/기술적 요인</strong>:
+    <ul>
+      <li><strong>세율</strong> — 60년대 실효 법인세율 50% 안팎 → 현재 13~21%. 국가부채를 감안하면 되돌아갈 가능성.</li>
+      <li><strong>자본의 축소</strong> — 자사주 매입·소각이 분모(자기자본 E)를 줄여 ROE를 밀어올림.</li>
+      <li><strong>무형자산 비용처리</strong> — R&amp;D·소프트웨어 개발비를 자산화하지 않고 비용 처리 → 장부상 자기자본 과소계상 → ROE 부풀림.</li>
+      <li><strong>진짜 상승분</strong> — 서비스 경제 전환, 기술 섹터 비중 확대는 실제 개선.</li>
+    </ul>
+  </li>
+  <li>따라서 '장기 ROE'는 18~21%가 아니라 <strong>13~18% 밴드</strong>에서 시나리오별로 잡는 게 안전하다.</li>
+</ul>
+
+<h2>8. 입력칸 체크리스트</h2>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>칸</th><th>항목</th><th>어디서 오나</th></tr></thead>
+  <tbody>
+    <tr><td class="num">1</td><td>EPS 추정</td><td>애널리스트 컨센서스 (LLM 다중 검색 + Yardeni). n=4~10은 영구성장률로의 수렴 경로를 직접 그림</td></tr>
+    <tr><td class="num">2·3</td><td>배당성향 / 바이백성향</td><td>과거 25년 평균 (33.72% / 47%)</td></tr>
+    <tr><td class="num">4·5</td><td>—</td><td>자동 기입</td></tr>
+    <tr><td class="num">6</td><td>근미래 무위험수익률</td><td>필라델피아 연은 SPF</td></tr>
+    <tr><td class="num">7</td><td>주식시장 위험 프리미엄</td><td>다모다란 내재 ERP + 레짐 판단</td></tr>
+    <tr><td class="num">8·9</td><td>—</td><td>자동 기입</td></tr>
+    <tr><td class="num">10-1</td><td>영구성장률 g</td><td>실질성장 + PCE 목표를 상한으로 두고 판단</td></tr>
+    <tr><td class="num">10-2</td><td>장기 무위험수익률</td><td>중립 실질금리 + 기대 인플레 + 기간 프리미엄</td></tr>
+    <tr><td class="num">10-3</td><td>장기 ERP</td><td>레짐 판단</td></tr>
+    <tr><td class="num">10-4</td><td>장기 ROE</td><td>13~18% 밴드에서 시나리오별</td></tr>
+    <tr><td>—</td><td>종료가치 주주환원율</td><td><strong>입력 아님. 1 − g/ROE 로 자동 도출</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>9. 실전 활용 네 가지</h2>
+
+<ol>
+  <li><strong>적정가치 자체를 매매 기준으로.</strong> 단, 지수는 종목 분산으로 오차를 상쇄할 수 없으므로 안전마진을 위아래 15%씩, 최소 30% 밴드로 크게 잡는다. 그리고 <em>하나의</em> 확률적 우위 레이어로만 쓰고 다른 방법론과 중첩한다.</li>
+  <li><strong>시나리오별 등락폭.</strong> 스윙 트레이딩의 손익비를 매크로 뷰에 근거해 최적화한다.</li>
+  <li><strong>민감도.</strong> "무위험수익률 +1% → 적정가치 −700" 같은 <em>마지널한 변화</em>는 절대 수준보다 훨씬 정확하게 잡힌다. 시황 뉴스를 숫자로 번역하는 도구.</li>
+  <li><strong>헷지 판단.</strong> (심화) 시나리오별 결과가 극단적으로 벌어지는 국면에서는 풋옵션 헷지가 효과 대비 싸다. 정성적 매크로 시나리오는 내재변동성에 잘 반영되지 않기 때문.</li>
+</ol>
+
+<h2>10. 오차의 두 원천</h2>
+
+<div class="formula">
+  <span class="lead">오차 ①</span> 내 생각 자체가 엄밀하지 않아서 → <em>깊게</em> 리서치해야 줄어든다<br>
+  <span class="lead">오차 ②</span> 세상에 새로운 이벤트가 있어서 → <em>넓게</em> 분산해야 줄어든다
+</div>
+
+<p>둘은 시간을 놓고 상충한다. 개별종목이면 5~10개에 집중해 ①을 줄이고 분산으로 ②를 덮는다. <strong>지수는 ②를 분산으로 못 줄이므로 ①에 집중하는 수밖에 없다</strong> — 대신 다른 방법론과의 확률적 우위 중첩으로 보완한다.</p>
+
+<div class="note snapshot">
+  <span class="label">2026년 7월 워크드 예제 — 재사용 금지</span>
+  <p>아래는 월가아재가 <strong>2026년 7월</strong>에 뽑은 숫자다. 구조를 익히는 용도로만 보고, 본인 숙제에는 <em>실행 시점의 최신값</em>을 다시 뽑을 것.</p>
+  <div class="scroll-x">
+  <table>
+    <thead><tr><th>시나리오</th><th class="n">rf</th><th class="n">ERP</th><th class="n">ROE</th><th class="n">적정가치</th><th class="n">본인 확률</th></tr></thead>
+    <tbody>
+      <tr><td>골디락스</td><td class="n">3.60%</td><td class="n">4.35%</td><td class="n">16.5%</td><td class="n">9,513</td><td class="n">35%</td></tr>
+      <tr><td>현상 유지</td><td class="n">4.30%</td><td class="n">4.80%</td><td class="n">13.0%</td><td class="n">6,710</td><td class="n">15%</td></tr>
+      <tr><td>재정 지배</td><td class="n">5.10%</td><td class="n">5.20%</td><td class="n">11.5%</td><td class="n">5,407</td><td class="n">50%</td></tr>
+      <tr><td><strong>가중평균</strong></td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n"><strong>7,040</strong></td><td class="n">100%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>공통 입력: EPS 26/27/28 = <span class="num">340.39 / 397.87 / 446.60</span>, 근미래 주주환원율 <span class="num">80.72%</span>, g = <span class="num">3.75%</span>. 안전마진 ±15% 밴드 = <span class="num">5,984 ~ 8,096</span> (당시 지수 <span class="num">7,411</span> → 밴드 안, 즉 <strong>판단 보류 구간</strong>).</p>
+  <p><strong>확률 35 / 15 / 50 은 방법론이 아니라 월가아재 본인의 주관적 사전확률이다.</strong> 가운데 시나리오가 가장 낮고 재정 지배에 50%를 준 강한 뷰다. Index DCF의 요점은 <em>여기에 당신의 확률이 들어가는 것</em>이다.</p>
+</div>
+
+<div class="footer">
+  <h3>이어지는 곳</h3>
+  <ul>
+    <li><a href="../lessons/0001-discount-rate.html">레슨 0001 — 할인율: DCF의 심장</a></li>
+    <li>워크스페이스 루트의 <code>RESOURCES.md</code> — 각 입력값의 1차 자료 링크</li>
+  </ul>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레슨 0001 · LLMOps 지도와 자기진단</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+<link rel="stylesheet" href="../assets/widgets.css">
+</head>
+<body>
+
+<p class="kicker">Lesson 0001 · 약 20분</p>
+<h1>루프를 먼저 본다</h1>
+<p class="subtitle">LLMOps는 8개의 도구 카테고리가 아니라 하나의 루프다.
+이 레슨이 끝나면 당신이 운영 중인 시스템에서 <em>루프가 끊긴 지점</em>을 정확히 짚을 수 있다 —
+그리고 그게 다음에 배울 것을 결정한다.</p>
+
+<h2>1. LLMOps가 MLOps와 다른 세 가지</h2>
+
+<p>당신은 이미 프로덕션에서 LLM을 돌리고 있다. 그래서 이 레슨은
+"LLM이란 무엇인가"를 설명하지 않는다. 대신 <strong>운영 체계</strong>를 설계할 때
+기존 소프트웨어/ML 운영의 직관이 어디서 배신하는지부터 짚는다.</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th style="width:9rem">차이</th><th>기존 ML / 소프트웨어</th><th>LLM 시스템</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>정답</strong></td>
+      <td>라벨이 데이터에 들어 있다. 정확도를 계산하면 된다.</td>
+      <td><strong>라벨이 없다.</strong> "좋은 답"의 기준을 우리가 만들어야 한다.
+          즉 평가 자체가 만들어야 할 산출물이다.</td>
+    </tr>
+    <tr>
+      <td><strong>변경 단위</strong></td>
+      <td>코드와 모델 가중치. 디프가 명확하다.</td>
+      <td>프롬프트·컨텍스트·모델 버전·검색 결과.
+          <strong>가장 영향 큰 변경이 가장 추적되지 않는다.</strong></td>
+    </tr>
+    <tr>
+      <td><strong>비용</strong></td>
+      <td>주로 학습 시점에 발생. 추론은 상대적으로 싸다.</td>
+      <td><strong>런타임 변수다.</strong> 품질을 올리는 거의 모든 수단
+          (긴 컨텍스트, 더 큰 모델, 재시도)이 비용·지연을 직접 밀어올린다.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">여기서 따라오는 결론</span>
+  <p>정답이 없다는 것은 <em>측정이 불가능하다</em>는 뜻이 아니다.
+  <strong>측정 기준을 만드는 일이 업무의 일부</strong>라는 뜻이다.
+  LLMOps 역량의 대부분은 여기에 있다 — 그래서 이 커리큘럼도 평가에서 시작한다.</p>
+</div>
+
+<h2>2. 8개 영역이 아니라 하나의 루프</h2>
+
+<p>LLMOps를 도구 카테고리 목록으로 배우면 아무 것도 남지 않는다.
+아래 순서가 실제 구조다. 각 영역은 이 루프의 <em>부품</em>이다.</p>
+
+<pre><code>트레이스 수집 ──► 오류분석 ──► 실패 유형 분류(taxonomy)
+                                        │
+                                        ▼
+   배포·롤아웃 ◄── 게이트 ◄── 변경 ◄── 평가셋 · 판정기
+        │
+        └──────────────► (새 트레이스가 쌓인다) ──► 처음으로
+</code></pre>
+
+<p class="sidenote">영역별 "답하는 질문 / 핵심 지표 / 흔한 함정"은
+<a href="../reference/llmops-map.html">참조 문서: LLMOps 8영역 지도</a>에 한 장으로 정리해 두었다.
+프린트해서 옆에 두면 된다.</p>
+
+<p>이 루프에서 가장 중요한 사실은 순서가 아니라, <strong>어느 단계가 실제로 건너뛰어지는가</strong>다.
+답은 거의 항상 같다.</p>
+
+<div class="callout trap">
+  <span class="callout-label">가장 흔한 실패 방식</span>
+  <p>팀은 루프의 시작점을 <strong>도구 도입</strong>으로 잡는다.
+  관측성 SaaS를 붙이고, 대시보드에 "Helpfulness 4.2" 같은 숫자를 띄우고,
+  그 숫자가 왜 4.2인지 아무도 모르는 상태로 6개월이 지난다.</p>
+  <p>루프의 진짜 시작점은 <strong>사람이 트레이스를 눈으로 읽는 것</strong>이다.
+  무엇이 실패인지 정의하지 못한 상태에서 만든 지표는, 정의를 대신해 주지 않는다.</p>
+</div>
+
+<blockquote>
+  “Error analysis is <strong>the most important activity in evals</strong>.
+  Error analysis helps you decide what evals to write in the first place.”
+  <cite>— Hamel Husain &amp; Shreya Shankar,
+  <a href="https://hamel.dev/blog/posts/evals-faq/">LLM Evals: Everything You Need to Know</a></cite>
+</blockquote>
+
+<p>즉 순서가 뒤집혀 있다. <em>지표를 정하고 → 측정한다</em>가 아니라,
+<em>실패를 읽고 → 유형을 만들고 → 그 유형에 대한 지표를 정한다</em>.
+이 방향이 이 커리큘럼 전체를 관통한다.</p>
+
+<h2>3. 자기진단 — 내 시스템의 루프는 어디서 끊겼는가</h2>
+
+<p>이 레슨의 실질적 산출물이다. 지금 운영 중인 서비스를 떠올리면서 체크해라.
+판정 기준은 하나다 — <strong>문서나 코드로 존재하고, 나 아닌 사람이 찾을 수 있는가.</strong>
+머릿속에만 있으면 없는 것으로 센다.</p>
+
+<section class="assess" data-assess data-key="llmops-maturity-v1">
+  <div class="widget-head">
+    <span class="widget-hint">체크할 때마다 즉시 갱신된다. 브라우저에 저장되므로 다시 열어도 남아 있다.</span>
+    <span class="score-pill" data-score></span>
+  </div>
+
+  <div class="area" data-area="오류분석" data-next="레슨 0002에서 다룬다 (다음 세션 후보 1순위)">
+    <div class="area-head">
+      <div class="area-name">오류분석<small>실패를 언어화했는가</small></div>
+      <span class="area-score" data-area-score></span>
+    </div>
+    <ul class="checks">
+      <li><label><input type="checkbox"><span>최근 실제 트레이스를 <strong>사람이 통독</strong>한 기록이 있다 (자유 서술 메모 형태)</span></label></li>
+      <li><label><input type="checkbox"><span>우리 시스템의 <strong>실패 유형 목록</strong>이 문서로 존재한다</span></label></li>
+      <li><label><input type="checkbox"><span>각 실패 유형이 전체 요청 중 <strong>몇 %인지</strong> 대략 안다</span></label></li>
+    </ul>
+    <div class="bar"><i></i></div>
+  </div>
+
+  <div class="area" data-area="평가 (Eval)" data-next="실패 유형 → 평가셋 만들기">
+    <div class="area-head">
+      <div class="area-name">평가 (Eval)<small>변경의 좋고 나쁨을 판정하는가</small></div>
+      <span class="area-score" data-area-score></span>
+    </div>
+    <ul class="checks">
+      <li><label><input type="checkbox"><span>고정된 <strong>평가 데이터셋</strong>이 버전 관리되고 있다</span></label></li>
+      <li><label><input type="checkbox"><span>판정이 <strong>통과/실패 이진</strong> 형태다 (5점 척도 종합점수가 아니다)</span></label></li>
+      <li><label><input type="checkbox"><span>프롬프트를 바꾼 뒤 <strong>이전 대비 숫자</strong>를 비교해 본 적이 있다</span></label></li>
+    </ul>
+    <div class="bar"><i></i></div>
+  </div>
+
+  <div class="area" data-area="LLM-as-judge" data-next="판정기를 사람 라벨과 정렬시키기 (TPR/TNR)">
+    <div class="area-head">
+      <div class="area-name">LLM-as-judge<small>자동 판정을 신뢰할 근거가 있는가</small></div>
+      <span class="area-score" data-area-score></span>
+    </div>
+    <ul class="checks">
+      <li><label><input type="checkbox"><span>LLM 판정기를 쓰고 있고, 그 <strong>프롬프트가 버전 관리</strong>된다</span></label></li>
+      <li><label><input type="checkbox"><span>판정기 결과를 <strong>사람 라벨과 비교</strong>한 데이터가 있다</span></label></li>
+      <li><label><input type="checkbox"><span>판정기의 <strong>오탐/미탐률</strong>을 숫자로 말할 수 있다</span></label></li>
+    </ul>
+    <div class="bar"><i></i></div>
+  </div>
+
+  <div class="area" data-area="관측성" data-next="OTel gen_ai.* 규약으로 트레이스 스키마 정리">
+    <div class="area-head">
+      <div class="area-name">관측성<small>과거의 이상 응답을 재구성할 수 있는가</small></div>
+      <span class="area-score" data-area-score></span>
+    </div>
+    <ul class="checks">
+      <li><label><input type="checkbox"><span>요청의 <strong>입력·출력·중간 단계</strong>가 모두 트레이스로 남는다</span></label></li>
+      <li><label><input type="checkbox"><span>응답 하나를 골라 <strong>어떤 프롬프트 버전</strong>이 쓰였는지 역추적할 수 있다</span></label></li>
+      <li><label><input type="checkbox"><span>트레이스 필드가 <strong>표준 규약</strong>(OTel <code>gen_ai.*</code>)을 따른다 — 벤더 이관 가능</span></label></li>
+    </ul>
+    <div class="bar"><i></i></div>
+  </div>
+
+  <div class="area" data-area="비용 · 토큰" data-next="품질–비용 트레이드오프를 한 표에 놓기">
+    <div class="area-head">
+      <div class="area-name">비용 · 토큰<small>품질과 비용을 같이 보는가</small></div>
+      <span class="area-score" data-area-score></span>
+    </div>
+    <ul class="checks">
+      <li><label><input type="checkbox"><span><strong>요청 1건당</strong> 평균 토큰·비용을 안다 (월 총액이 아니라)</span></label></li>
+      <li><label><input type="checkbox"><span>비용 상위 <strong>경로/기능</strong>이 무엇인지 특정할 수 있다</span></label></li>
+      <li><label><input type="checkbox"><span>비용 절감 변경을 할 때 <strong>품질 지표를 함께</strong> 확인한다</span></label></li>
+    </ul>
+    <div class="bar"><i></i></div>
+  </div>
+
+  <div class="area" data-area="RAG 운영" data-defer
+       data-next="(우선순위 하향 — 8개 영역을 한 바퀴 돈 뒤 다룬다)">
+    <div class="area-head">
+      <div class="area-name">RAG 운영<small>현재 프로젝트 우선순위 낮음 — 점수·순위 계산에서 제외</small></div>
+      <span class="area-score" data-area-score></span>
+    </div>
+    <ul class="checks">
+      <li><label><input type="checkbox"><span>검색 단계와 생성 단계를 <strong>따로</strong> 측정한다</span></label></li>
+      <li><label><input type="checkbox"><span>필요한 문서가 애초에 검색됐는지(<strong>recall</strong>)를 볼 수 있다</span></label></li>
+      <li><label><input type="checkbox"><span>답변이 <strong>검색된 근거 안에서</strong> 나왔는지 확인하는 장치가 있다</span></label></li>
+    </ul>
+    <div class="bar"><i></i></div>
+  </div>
+
+  <div class="area" data-area="프롬프트 CI · 배포" data-next="평가셋을 PR 게이트로 승격시키기">
+    <div class="area-head">
+      <div class="area-name">프롬프트 CI · 배포<small>나쁜 변경을 무엇이 막는가</small></div>
+      <span class="area-score" data-area-score></span>
+    </div>
+    <ul class="checks">
+      <li><label><input type="checkbox"><span>프롬프트가 <strong>코드 리뷰</strong>를 거친다 (디프가 남는다)</span></label></li>
+      <li><label><input type="checkbox"><span>평가를 통과하지 못한 변경은 <strong>배포가 막힌다</strong></span></label></li>
+      <li><label><input type="checkbox"><span>문제 발생 시 <strong>이전 프롬프트로 롤백</strong>하는 절차가 있다</span></label></li>
+    </ul>
+    <div class="bar"><i></i></div>
+  </div>
+
+  <div class="area" data-area="서빙" data-next="TTFT · p95 · 처리량 지표 읽기">
+    <div class="area-head">
+      <div class="area-name">서빙<small>체감 속도를 지표로 잡고 있는가</small></div>
+      <span class="area-score" data-area-score></span>
+    </div>
+    <ul class="checks">
+      <li><label><input type="checkbox"><span><strong>첫 토큰까지의 시간</strong>(TTFT)을 측정한다</span></label></li>
+      <li><label><input type="checkbox"><span>평균이 아니라 <strong>p95/p99</strong> 지연을 본다</span></label></li>
+      <li><label><input type="checkbox"><span>트래픽이 몰릴 때의 <strong>동시성 한계</strong>를 안다</span></label></li>
+    </ul>
+    <div class="bar"><i></i></div>
+  </div>
+
+  <div class="assess-result" data-result></div>
+</section>
+
+<div class="callout note">
+  <span class="callout-label">이 결과를 어떻게 쓰는가</span>
+  <p>가장 비어 있는 영역이 곧 다음 레슨이다. 결과를 나(선생)에게 알려주면
+  커리큘럼 순서를 당신 시스템에 맞춰 다시 짜겠다.
+  단, <strong>오류분석이 비어 있다면 그것이 무조건 1순위</strong>다 —
+  루프의 다른 부품은 모두 오류분석의 산출물에 의존한다.</p>
+  <p><strong>RAG 운영은 보류로 표시돼 있다.</strong> 현재 프로젝트 우선순위가 낮다고 했으므로
+  성숙도 총점과 다음 학습 순위에서 빼 두었다. 체크는 여전히 가능하니
+  기록용으로만 남겨라 — 프로젝트에서 검색이 중요해지는 시점에 되살린다.</p>
+</div>
+
+<h2>4. 인출 연습</h2>
+
+<p>위로 스크롤해서 답을 찾지 마라. 기억에서 꺼내려는 시도 자체가 학습이다.
+틀려도 된다 — 틀린 뒤에 보는 해설이 가장 오래 남는다.</p>
+
+<section class="quiz" data-quiz>
+  <div class="widget-head">
+    <span class="widget-hint">문항당 한 번만 답할 수 있다. 선택지 순서는 열 때마다 바뀐다.</span>
+    <span class="score-pill" data-score></span>
+  </div>
+
+  <div class="q" data-answer="1">
+    <p class="q-text">LLM 시스템 운영이 기존 ML 운영과 근본적으로 다른 지점은?</p>
+    <ul class="opts">
+      <li>모델 학습에 훨씬 많은 GPU 자원이 필요해진다</li>
+      <li>정답 라벨이 없어 평가 기준을 직접 만들어야 한다</li>
+      <li>배포 파이프라인을 컨테이너로 감싸야만 한다</li>
+      <li>데이터 전처리 단계가 비교할 수 없이 복잡하다</li>
+    </ul>
+    <div class="explain">
+      정답이 데이터에 들어 있지 않다. 그래서 <strong>"좋은 답"의 정의를 만드는 일이 업무에 포함된다.</strong>
+      나머지 셋은 정도의 차이일 뿐 종류의 차이가 아니다.
+    </div>
+  </div>
+
+  <div class="q" data-answer="3">
+    <p class="q-text">평가 체계를 처음 세울 때 가장 먼저 해야 하는 일은?</p>
+    <ul class="opts">
+      <li>관측성 도구를 도입해 품질 대시보드를 만든다</li>
+      <li>공개 벤치마크로 우리 시스템 점수를 측정한다</li>
+      <li>판정용 LLM에 5점 척도 채점을 맡겨서 돌린다</li>
+      <li>실제 트레이스를 사람이 읽고 실패를 서술한다</li>
+    </ul>
+    <div class="explain">
+      오류분석이 먼저다. 무엇이 실패인지 정의하기 전에 만든 지표는 그 정의를 대신해 주지 않는다.
+      <a href="https://hamel.dev/blog/posts/evals-faq/">Hamel &amp; Shreya</a>가
+      <em>"the most important activity in evals"</em>라고 부르는 단계.
+    </div>
+  </div>
+
+  <div class="q" data-answer="2">
+    <p class="q-text">판정 결과의 형태로 권장되는 것은?</p>
+    <ul class="opts">
+      <li>1~5점 리커트 척도로 낸 종합 품질 점수값</li>
+      <li>항목별 가중 평균으로 환산한 100점 만점값</li>
+      <li>특정 실패 유형에 대한 통과·실패 이진 판정</li>
+      <li>도움됨·정확함·친절함 세 축의 평균 점수값</li>
+    </ul>
+    <div class="explain">
+      이진 판정이 더 일관된 라벨링을 만든다. 리커트 척도는 3점과 4점의 차이가
+      주관적이고 사람마다 달라서, 숫자가 올라갔는지조차 신뢰할 수 없게 된다.
+      "Helpfulness 4.2" 같은 대시보드는 이 함정의 결과물이다.
+    </div>
+  </div>
+
+  <div class="q" data-answer="1">
+    <p class="q-text">오류분석에서 트레이스를 몇 개나 읽어야 하는가?</p>
+    <ul class="opts">
+      <li>최소 10개, 유형이 하나만 나오면 바로 중단해도 됨</li>
+      <li>최소 100개, 20개 연속 새 유형이 없으면 중단한다</li>
+      <li>최소 1000개, 통계적 유의성이 확보될 때까지 계속</li>
+      <li>정해진 기준은 없고 도구가 알아서 판단해 주는 값</li>
+    </ul>
+    <div class="explain">
+      경험 법칙: <strong>100개는 읽고 시작</strong>, 그 뒤로 20개를 봐도 새로운 실패 유형이
+      나오지 않으면 포화로 보고 멈춘다. 목표는 통계적 유의성이 아니라
+      <em>유형 목록의 포화</em>다.
+    </div>
+  </div>
+
+  <div class="q" data-answer="3">
+    <p class="q-text">프롬프트 변경이 품질을 떨어뜨리는 것을 막는 장치는?</p>
+    <ul class="opts">
+      <li>배포한 뒤 사용자 문의가 늘어나는지 관찰한다</li>
+      <li>담당자가 직접 몇 개 물어보고 감으로 확인한다</li>
+      <li>모델 버전을 올려 성능이 좋아지기를 기대한다</li>
+      <li>평가셋을 배포 게이트로 걸어 자동 판정시킨다</li>
+    </ul>
+    <div class="explain">
+      평가셋은 만들어 두고 안 돌리면 아무 것도 막지 못한다.
+      <strong>게이트로 승격</strong>되는 순간부터 회귀 테스트가 된다.
+      2번은 사후 탐지(이미 유출됨), 3번은 vibe check, 4번은 통제되지 않은 변경이다.
+    </div>
+  </div>
+
+  <div class="quiz-result" data-result></div>
+</section>
+
+<h2>5. 실습 — 30분, 산출물 1개</h2>
+
+<div class="task">
+  <p class="est">예상 30분 · 필요: 사내 LLM 로그 접근 권한</p>
+  <p><strong>목표:</strong> 우리 서비스의 <em>실패 유형 목록 v0</em>을 만든다. 도구는 쓰지 않는다.</p>
+  <ol>
+    <li>최근 트래픽에서 <strong>트레이스 20개</strong>를 뽑는다.
+        무작위로. "이상해 보이는 것"만 고르면 분포가 왜곡된다.</li>
+    <li>각 트레이스를 읽고, 스프레드시트에 <strong>자유 서술 한 줄</strong>을 적는다.
+        분류하지 말고 그냥 서술한다 — <em>"질문은 환불 규정인데 배송 규정을 답했다"</em> 처럼.
+        문제가 없으면 "이상 없음"이라고 적는다.</li>
+    <li>20줄을 다 적은 뒤, 비슷한 것끼리 묶어 <strong>3~5개 유형에 이름을 붙인다.</strong>
+        이름은 구체적으로 — "품질 문제"(✗) / "근거 없는 수치를 만들어냄"(○).</li>
+    <li>유형별 개수를 센다. 이게 첫 <strong>빈도 분포</strong>다.</li>
+    <li><code>learning-records/</code> 나 별도 파일에 저장하고, 나에게 결과를 공유해라.
+        다음 레슨(평가셋 만들기)이 이 목록 위에 세워진다.</li>
+  </ol>
+  <p><strong>멈추는 기준:</strong> 20개로 유형이 계속 새로 나오면 정상이다.
+  아직 포화가 아니라는 신호이므로, 시간이 되면 100개까지 늘려라.</p>
+</div>
+
+<div class="callout note">
+  <span class="callout-label">블로그 관점 주의</span>
+  <p>사내 로그 원문은 외부 공개 불가다. 글에 쓸 때는
+  <strong>유형 이름과 분포 비율만</strong> 남기고 예시는 합성 데이터로 다시 만들어라.
+  실제로 "익명화하면서 알게 된 것"도 좋은 글감이 된다.</p>
+</div>
+
+<h2>6. 1차 자료</h2>
+
+<div class="primary-source">
+  <p class="src-title"><a href="https://hamel.dev/blog/posts/evals-faq/">LLM Evals: Everything You Need to Know</a>
+  — Hamel Husain &amp; Shreya Shankar</p>
+  <p class="src-why">이 분야에서 가장 신뢰도 높은 단일 문서다. FAQ 7개 섹션.
+  <strong>이번엔 "Error Analysis &amp; Data Collection" 섹션만</strong> 읽어라 (15분). 전부 읽지 마라 —
+  나머지는 이후 레슨에서 각각 다룬다.
+  통근길용 <a href="https://hamel.dev/blog/posts/evals-faq/evals-faq.pdf">PDF 버전</a>도 있다.</p>
+</div>
+
+<p>넓은 지도 쪽 배경이 더 필요하면
+<a href="https://huyenchip.com/2023/04/11/llm-engineering.html">Chip Huyen, <em>Building LLM applications for production</em></a>.
+도구 언급은 낡았지만 <em>문제의 구조</em>는 지금도 정확하다.</p>
+
+<div class="lesson-footer">
+  <h4>다음 단계</h4>
+  <p>자기진단 결과와 실습 산출물(실패 유형 목록)을 공유해라.
+  그 두 개를 받으면 레슨 0002를 당신 시스템에 맞춰 만든다 —
+  기본 계획은 <strong>실패 유형에서 평가셋과 이진 판정기를 뽑아내는 것</strong>이다.</p>
+
+  <div class="ask-teacher">
+    <strong>막히면 물어라.</strong> 나는 이 워크스페이스의 선생이다.
+    "우리는 RAG가 아니라 요약 서비스인데 이 체크리스트가 맞나?",
+    "실패 유형을 몇 개까지 쪼개야 하나?",
+    "이 트레이스는 실패인지 아닌지 애매하다" — 전부 물어볼 만한 질문이다.
+    특히 <em>애매한 판정 사례</em>를 가져오면 가장 많이 배운다.
+  </div>
+
+  <div class="nav-links">
+    <a href="../reference/llmops-map.html">참조 · LLMOps 8영역 지도 →</a>
+    <a href="../MISSION.md">MISSION.md</a>
+    <a href="../RESOURCES.md">RESOURCES.md</a>
+  </div>
+</div>
+
+<script src="../assets/quiz.js"></script>
+<script src="../assets/assess.js"></script>
+</body>
+</html>

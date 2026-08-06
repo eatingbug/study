@@ -1,0 +1,42 @@
+# ─── 원본 자료 (저작권 있는 3자 콘텐츠 · 유료 구독 자료) ───
+# 학습을 위해 로컬에 보관하지만 재배포하지 않는다.
+# 압축된 학습 결과물(lessons/ · reference/)만 저장소에 남긴다.
+raw/
+**/raw/
+
+# ─── 사내 데이터 · 실습 산출물 원본 ───
+# 채점 로그, 학습자 답안, 트레이스 덤프 등은 절대 커밋하지 않는다.
+# 실습에서 나온 "숫자"만 학습기록에 옮겨 적는다.
+data/
+*.csv
+*.tsv
+*.jsonl
+*.parquet
+*.xlsx
+*.xls
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# ─── 비밀정보 ───
+.env
+.env.*
+*.pem
+*.key
+*credential*
+*secret*
+
+# ─── 에디터 · OS ───
+.obsidian/
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# ─── 파이썬 (실습 스크립트용) ───
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/

@@ -1,0 +1,367 @@
+/* ============================================================
+   Shared stylesheet for the study workspace.
+   Tufte-ish: wide margin for sidenotes, generous measure,
+   restrained palette, prints cleanly on A4.
+   Every lesson and reference doc links this file.
+   ============================================================ */
+
+:root {
+  --ink:        #1a1a1a;
+  --ink-soft:   #55524d;
+  --ink-faint:  #8c8880;
+  --paper:      #fffcf7;
+  --rule:       #ded9d0;
+  --accent:     #8b2f1d;   /* 붉은 벽돌 — 강조, 링크 */
+  --accent-bg:  #fbf1ee;
+  --good:       #1f6b45;
+  --good-bg:    #edf6f1;
+  --bad:        #a8321f;
+  --bad-bg:     #fbeeeb;
+  --note-bg:    #f5f1e8;
+
+  --sans: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+          "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+  --serif: Georgia, "Iowan Old Style", "Times New Roman",
+           "Apple SD Gothic Neo", serif;
+  --mono: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 17px; }
+
+body {
+  margin: 0 auto;
+  padding: 4rem 2rem 8rem;
+  max-width: 46rem;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.75;
+  letter-spacing: -0.003em;
+  word-break: keep-all;      /* 한국어 줄바꿈을 어절 단위로 */
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- masthead ---------- */
+
+.masthead {
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+.eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 0 0 0.6rem;
+}
+.masthead h1 { margin: 0 0 0.5rem; }
+.standfirst {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ---------- type ---------- */
+
+h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 2.1rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 1.45rem;
+  line-height: 1.35;
+  margin: 3.5rem 0 1rem;
+  letter-spacing: -0.015em;
+}
+h3 {
+  font-size: 1.02rem;
+  font-weight: 700;
+  margin: 2.25rem 0 0.6rem;
+  letter-spacing: -0.01em;
+}
+p { margin: 0 0 1.2rem; }
+ul, ol { margin: 0 0 1.2rem; padding-left: 1.35rem; }
+li { margin-bottom: 0.45rem; }
+li > ul, li > ol { margin-top: 0.45rem; }
+
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(139,47,29,0.3); }
+a:hover { border-bottom-color: var(--accent); }
+
+strong { font-weight: 700; }
+em { font-style: italic; }
+
+code, .num {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  background: rgba(0,0,0,0.045);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+.num { background: none; padding: 0; font-variant-numeric: tabular-nums; }
+
+/* ---------- structural bits ---------- */
+
+hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+blockquote {
+  margin: 1.75rem 0;
+  padding: 0.1rem 0 0.1rem 1.25rem;
+  border-left: 2px solid var(--rule);
+  font-family: var(--serif);
+  color: var(--ink-soft);
+}
+blockquote p:last-child { margin-bottom: 0; }
+
+.formula {
+  font-family: var(--mono);
+  font-size: 1rem;
+  text-align: center;
+  background: var(--note-bg);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 1.1rem 1rem;
+  margin: 1.75rem 0;
+  line-height: 1.9;
+}
+.formula .lead { color: var(--ink-faint); }
+
+.note {
+  background: var(--note-bg);
+  border-left: 3px solid var(--ink-faint);
+  padding: 1rem 1.15rem;
+  margin: 1.75rem 0;
+  font-size: 0.93rem;
+  line-height: 1.7;
+}
+.note p:last-child { margin-bottom: 0; }
+.note .label {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 0.4rem;
+}
+.note.mission { background: var(--accent-bg); border-left-color: var(--accent); }
+.note.mission .label { color: var(--accent); }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.75rem 0;
+  font-size: 0.93rem;
+  font-variant-numeric: tabular-nums;
+}
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); }
+td.n, th.n { text-align: right; }
+
+.scroll-x { overflow-x: auto; margin: 1.75rem 0; }
+.scroll-x table { margin: 0; }
+
+/* ---------- interactive widgets ---------- */
+
+.widget {
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: #fff;
+  padding: 1.4rem 1.5rem;
+  margin: 2rem 0;
+}
+.widget > h3:first-child { margin-top: 0; }
+.widget .caption { font-size: 0.85rem; color: var(--ink-faint); margin: 0 0 1.1rem; line-height: 1.6; }
+
+.control { margin-bottom: 1rem; }
+.control label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.3rem;
+}
+.control label .val {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+
+.readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  border-top: 1px solid var(--rule);
+  padding-top: 1rem;
+  margin-top: 1.2rem;
+}
+.readout .metric { flex: 1 1 8rem; }
+.readout .metric .k {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 0.2rem;
+}
+.readout .metric .v {
+  font-family: var(--mono);
+  font-size: 1.35rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.readout .metric .v.hl { color: var(--accent); }
+
+/* bar chart for cashflow visualisations */
+.bars { display: flex; align-items: stretch; gap: 0.3rem; height: 8rem; margin: 1.2rem 0 0.4rem; }
+.bars .bar { flex: 1; display: flex; flex-direction: column; height: 100%; min-width: 0; }
+.bars .bar .track { flex: 1; display: flex; align-items: flex-end; }
+.bars .bar .fill { width: 100%; background: var(--accent); opacity: 0.3; border-radius: 2px 2px 0 0; min-height: 1px; }
+.bars .bar .fill.solid { opacity: 0.75; }
+.bars .bar .lbl { flex: 0 0 1rem; font-size: 0.62rem; color: var(--ink-faint); text-align: center; font-family: var(--mono); }
+
+/* ---------- quiz ---------- */
+
+.quiz { border: 1px solid var(--rule); border-radius: 6px; background: #fff; padding: 1.4rem 1.5rem; margin: 2rem 0; }
+.quiz > h3:first-child { margin-top: 0; }
+.quiz .q { margin-bottom: 1.6rem; }
+.quiz .q:last-of-type { margin-bottom: 0.5rem; }
+.quiz .q .stem { font-weight: 700; margin-bottom: 0.7rem; }
+.quiz .opts { display: flex; flex-direction: column; gap: 0.4rem; }
+.quiz button.opt {
+  font: inherit;
+  font-size: 0.95rem;
+  text-align: left;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+.quiz button.opt:hover:not(:disabled) { border-color: var(--ink-faint); background: #fff; }
+.quiz button.opt:disabled { cursor: default; }
+.quiz button.opt.correct { background: var(--good-bg); border-color: var(--good); color: var(--good); font-weight: 700; }
+.quiz button.opt.wrong { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); }
+.quiz .why {
+  display: none;
+  margin-top: 0.7rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--note-bg);
+  border-radius: 4px;
+  font-size: 0.89rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+.quiz .why.show { display: block; }
+.quiz .score {
+  border-top: 1px solid var(--rule);
+  padding-top: 0.9rem;
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- numeric drill ---------- */
+
+.drill { border: 1px solid var(--rule); border-radius: 6px; background: #fff; padding: 1.4rem 1.5rem; margin: 2rem 0; }
+.drill > h3:first-child { margin-top: 0; }
+.drill .row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.drill .row:last-of-type { border-bottom: 0; }
+.drill .row .ask { flex: 1 1 16rem; font-size: 0.95rem; }
+.drill .row input[type="text"] {
+  font: inherit;
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  width: 7.5rem;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--paper);
+  text-align: right;
+}
+.drill .row input.ok { border-color: var(--good); background: var(--good-bg); color: var(--good); }
+.drill .row input.no { border-color: var(--bad); background: var(--bad-bg); color: var(--bad); }
+.drill .row .unit { font-size: 0.85rem; color: var(--ink-faint); min-width: 2rem; }
+.drill .row .mark { font-size: 1rem; min-width: 1.2rem; }
+.drill .row .hint {
+  flex-basis: 100%;
+  display: none;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  background: var(--note-bg);
+  padding: 0.55rem 0.8rem;
+  border-radius: 4px;
+}
+.drill .row .hint.show { display: block; }
+.drill .actions { margin-top: 1rem; }
+button.ghost {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+button.ghost:hover { border-color: var(--ink-faint); color: var(--ink); }
+
+/* ---------- footer ---------- */
+
+.footer { margin-top: 4rem; border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.9rem; color: var(--ink-soft); }
+.footer h3 { margin-top: 0; }
+.footer ul { padding-left: 1.2rem; }
+
+.ask-teacher {
+  background: var(--accent-bg);
+  border: 1px dashed var(--accent);
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  margin: 2.5rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+.ask-teacher .label { color: var(--accent); }
+
+.next-up { font-size: 0.92rem; color: var(--ink-soft); }
+
+/* ---------- print ---------- */
+
+@media print {
+  html { font-size: 11.5pt; }
+  body { background: #fff; padding: 0; max-width: none; }
+  a { color: var(--ink); border-bottom: 0; }
+  .widget, .quiz, .drill, .note, .formula { break-inside: avoid; }
+  button { display: none; }
+  .quiz .why, .drill .row .hint { display: block !important; }
+  .ask-teacher { display: none; }
+  h2 { break-after: avoid; }
+}
+
+@media (max-width: 34rem) {
+  html { font-size: 16px; }
+  body { padding: 2.5rem 1.1rem 5rem; }
+  h1 { font-size: 1.7rem; }
+}

@@ -1,0 +1,184 @@
+/* ─────────────────────────────────────────────────────────────
+   widgets.css — 인터랙티브 컴포넌트 공용 스타일
+   quiz.js (리트리벌 퀴즈) 와 assess.js (자기진단 스코어러) 가 함께 쓴다.
+   lesson.css 의 CSS 변수에 의존한다 — 항상 lesson.css 다음에 링크할 것.
+   ───────────────────────────────────────────────────────────── */
+
+/* ══ 공통 ══════════════════════════════════════════════════ */
+.widget-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+}
+.widget-head .widget-hint {
+  font: 0.82rem var(--font-sans); color: var(--ink-faint);
+}
+.score-pill {
+  font: 600 0.8rem var(--font-mono);
+  padding: 0.28rem 0.7rem; border-radius: 999px;
+  background: var(--paper-alt); border: 1px solid var(--rule);
+  color: var(--ink-soft); white-space: nowrap;
+}
+
+/* ══ 퀴즈 (quiz.js) ════════════════════════════════════════ */
+.quiz {
+  margin: 2.5rem 0;
+  padding: 1.5rem;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--paper);
+}
+
+.quiz .q { padding: 1.2rem 0; border-top: 1px solid var(--rule); }
+.quiz .q:first-of-type { border-top: none; padding-top: 0; }
+
+.quiz .q-text {
+  font-size: 1rem; font-weight: 600; margin: 0 0 0.9rem; max-width: none;
+}
+.quiz .q-num {
+  font: 600 0.75rem var(--font-mono); color: var(--ink-faint);
+  margin-right: 0.5rem;
+}
+
+.quiz .opts { list-style: none; margin: 0; padding: 0; max-width: none;
+              display: grid; gap: 0.45rem; }
+.quiz .opts li {
+  margin: 0; padding: 0.65rem 0.9rem;
+  border: 1px solid var(--rule); border-radius: 5px;
+  background: var(--paper-alt);
+  font: 0.95rem/1.45 var(--font-sans);
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+  user-select: none;
+}
+.quiz .opts li:hover { border-color: var(--ink-faint); }
+
+.quiz .q.done .opts li { cursor: default; }
+.quiz .q.done .opts li:hover { border-color: var(--rule); }
+
+.quiz .opts li.correct {
+  background: var(--ok-bg); border-color: var(--ok); color: var(--ok);
+  font-weight: 600;
+}
+.quiz .opts li.wrong {
+  background: var(--bad-bg); border-color: var(--bad); color: var(--bad);
+  text-decoration: line-through;
+}
+.quiz .opts li.correct::before { content: "✓  "; }
+.quiz .opts li.wrong::before   { content: "✗  "; }
+
+.quiz .explain {
+  display: none;
+  margin-top: 0.9rem; padding: 0.85rem 1rem;
+  background: var(--accent-bg); border-left: 3px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+  font: 0.92rem/1.55 var(--font-sans);
+  max-width: none;
+}
+.quiz .q.done .explain { display: block; }
+.quiz .explain a { font-weight: 600; }
+
+.quiz-result {
+  display: none;
+  margin-top: 1.5rem; padding: 1rem 1.2rem;
+  border-radius: 6px; background: var(--paper-alt);
+  border: 1px solid var(--rule);
+  font: 0.95rem/1.6 var(--font-sans);
+}
+.quiz-result.show { display: block; }
+.quiz-result strong { font-size: 1.05rem; }
+
+@media print {
+  .quiz .explain, .quiz-result { display: block !important; }
+  .quiz .opts li { cursor: default; }
+}
+
+/* ══ 자기진단 스코어러 (assess.js) ═════════════════════════ */
+.assess {
+  margin: 2.5rem 0;
+  padding: 1.5rem;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+}
+
+.assess .area { padding: 1rem 0; border-top: 1px solid var(--rule); }
+.assess .area:first-of-type { border-top: none; padding-top: 0; }
+
+.assess .area-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 0.8rem; margin-bottom: 0.6rem;
+}
+.assess .area-name { font: 600 0.98rem var(--font-sans); }
+.assess .area-name small {
+  display: block; font: 400 0.8rem var(--font-sans); color: var(--ink-faint);
+  margin-top: 0.15rem;
+}
+.assess .area-score {
+  font: 600 0.78rem var(--font-mono); color: var(--ink-faint); white-space: nowrap;
+}
+
+.assess .checks { list-style: none; margin: 0; padding: 0; max-width: none;
+                  display: grid; gap: 0.35rem; }
+.assess .checks li { margin: 0; }
+.assess .checks label {
+  display: flex; gap: 0.6rem; align-items: flex-start;
+  padding: 0.5rem 0.7rem; border-radius: 5px;
+  font: 0.91rem/1.45 var(--font-sans); color: var(--ink-soft);
+  cursor: pointer;
+}
+.assess .checks label:hover { background: var(--paper-alt); }
+.assess .checks input { margin: 0.28rem 0 0; flex: none; accent-color: var(--ok); }
+.assess .checks input:checked + span { color: var(--ink); }
+
+/* 진행 바 */
+.assess .bar {
+  height: 4px; border-radius: 2px; background: var(--rule);
+  margin-top: 0.7rem; overflow: hidden;
+}
+.assess .bar > i {
+  display: block; height: 100%; width: 0;
+  background: var(--ok); transition: width 0.25s ease;
+}
+
+.assess-result {
+  margin-top: 1.8rem; padding: 1.1rem 1.3rem;
+  border-radius: 6px; background: var(--accent-bg);
+  border-left: 4px solid var(--accent);
+  font: 0.95rem/1.6 var(--font-sans);
+}
+.assess-result .verdict { font-weight: 600; margin: 0 0 0.5rem; max-width: none; }
+.assess-result ol { margin: 0.5rem 0 0; padding-left: 1.3rem; max-width: none; }
+.assess-result li { margin-bottom: 0.3rem; }
+.assess-result .empty { color: var(--ink-soft); margin: 0; max-width: none; }
+.assess-result .deferred-note {
+  margin: 0.9rem 0 0; padding-top: 0.7rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.85rem; color: var(--ink-faint); max-width: none;
+}
+
+/* 우선순위를 내린 영역: 여전히 체크 가능하지만 시각적으로 물러나 있다 */
+.assess .area[data-defer] { opacity: 0.62; }
+.assess .area[data-defer]:hover,
+.assess .area[data-defer]:focus-within { opacity: 1; }
+.assess .area[data-defer] .bar > i { background: var(--ink-faint); }
+.assess .area[data-defer] .area-name::after {
+  content: "보류";
+  display: inline-block; margin-left: 0.5rem; vertical-align: 0.1em;
+  font: 600 0.62rem/1 var(--font-sans); letter-spacing: 0.08em;
+  padding: 0.25em 0.45em; border-radius: 3px;
+  background: var(--rule); color: var(--ink-soft);
+}
+
+@media print {
+  .assess .checks label { cursor: default; }
+  /* 브라우저 인쇄 경로에서 체크박스 상태가 유실되는 경우가 많다 →
+     체크된 항목에 텍스트 마커를 붙여 종이에서도 상태가 남게 한다. */
+  .assess .checks input { -webkit-appearance: none; appearance: none;
+                          width: 0.9em; height: 0.9em; border: 1px solid #555;
+                          border-radius: 2px; }
+  .assess .checks input:checked::after {
+    content: "✓"; display: block; line-height: 0.8em;
+    font-size: 0.9em; text-align: center; color: #000;
+  }
+  .assess .checks input:checked + span { font-weight: 600; }
+}

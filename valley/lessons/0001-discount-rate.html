@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레슨 0001 — 할인율: DCF의 심장</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">Lesson 0001 · Week 9 · Index DCF</p>
+  <h1>할인율 — DCF의 심장</h1>
+  <p class="standfirst">이번 레슨의 목표는 딱 하나입니다. <strong>왜 미래의 돈을 깎아서 보는가</strong>, 그리고 <strong>그 깎는 비율은 어디서 오는가</strong>.</p>
+</header>
+
+<div class="note mission">
+  <span class="label">왜 이걸 먼저 배우나</span>
+  <p>숙제 3번에서 당신이 <em>직접 판단해</em> 채워야 할 칸은 아홉 개입니다 (4·5·8·9번은 자동 계산). 그중 <strong>네 개</strong> — 6번 무위험수익률, 7번 위험 프리미엄, 10-2번 장기 무위험수익률, 10-3번 장기 위험 프리미엄 — 이 전부 하나의 숫자 <em>할인율</em>을 만드는 부품입니다.</p>
+  <p>월가아재의 세 시나리오가 <span class="num">9,513</span> / <span class="num">6,710</span> / <span class="num">5,407</span> 로 갈리는 이유의 절반 이상이 여기서 나옵니다. 할인율을 모르면 나머지 여섯 칸은 채워도 방어할 수 없습니다.</p>
+</div>
+
+<h2>1. 왜 깎는가</h2>
+
+<p>어떤 회사가 딱 1년만 존속합니다. 내년에 <span class="num">100만원</span>을 벌고 문을 닫습니다. 이 회사를 지금 사려면 얼마를 내야 할까요?</p>
+
+<p><span class="num">100만원</span>은 아닙니다. 은행 예금이자가 3%라면, 그 <span class="num">100만원</span>을 그냥 은행에 넣어도 내년에 <span class="num">103만원</span>이 됩니다. 회사를 <span class="num">100만원</span>에 사는 건 확실한 손해죠.</p>
+
+<p>은행 예금과 정확히 <em>동률</em>이 되는 가격은 얼마일까요? 내년의 <span class="num">100만원</span>을 <span class="num">1.03</span>으로 나눈 <span class="num">97.09만원</span>입니다. 이게 <strong>할인(discounting)</strong>입니다. 미래의 돈을, 지금 돈으로 환산하는 것.</p>
+
+<p>그런데 <span class="num">97.09만원</span>에 사면 될까요? 아닙니다. 은행 예금은 예금자보호가 되는 <strong>무위험</strong> 상품이지만, 이 회사는 부도가 날 수도 있고 <span class="num">100만원</span>을 못 벌 수도 있습니다. 같은 <span class="num">100만원</span>이라도 <em>확실한</em> 100만원과 <em>아마도</em> 100만원은 값이 다릅니다.</p>
+
+<p>그래서 3%보다 <strong>더</strong> 깎아야 합니다. 이 추가로 깎는 몫이 <strong>리스크 프리미엄(risk premium)</strong>입니다. 7%로 잡는다면:</p>
+
+<div class="formula">
+  <span class="lead">할인율</span> r = 무위험이자율 3% + 리스크 프리미엄 7% = <strong>10%</strong><br>
+  <span class="lead">적정가치</span> = 100만원 ÷ (1 + 0.10) = <strong>90.91만원</strong>
+</div>
+
+<div class="note">
+  <span class="label">이름을 바꿔 보면</span>
+  <p>할인율은 <strong>총 요구수익률</strong>의 다른 이름입니다. "미래 돈을 몇 %로 깎을까"와 "이 자산에 돈을 넣으려면 최소 몇 %를 받아야 할까"는 같은 질문입니다. 이 관점이 나중에 리스크 프리미엄을 거꾸로 계산할 때(<em>레슨 0005</em>) 결정적으로 쓰입니다.</p>
+</div>
+
+<h2>2. 여러 해면, 복리로 깎는다</h2>
+
+<p>회사가 2년간 영업하고 폐업한다면? 1년 뒤 현금흐름은 <span class="num">1.10</span>으로, 2년 뒤 현금흐름은 2년치 복리인 <span class="num">1.10² = 1.21</span>로 나눕니다.</p>
+
+<div class="formula">
+  적정가치 = CF₁/(1+r)<sup>1</sup> + CF₂/(1+r)<sup>2</sup> + … + CF<sub>n</sub>/(1+r)<sup>n</sup>
+</div>
+
+<p>여기서 놓치면 안 되는 게 하나 있습니다. <strong>t가 지수 자리에 있다</strong>는 것. 먼 미래일수록 산술적으로가 아니라 <em>기하급수적으로</em> 작아집니다. 슬라이더를 직접 움직여서 그 감각을 잡아 보세요.</p>
+
+<div class="widget">
+  <h3>할인 계산기</h3>
+  <p class="caption">앞으로 30년 동안 <strong>매년 100원씩</strong> 들어옵니다. 막대 하나가 그 해 100원의 현재가치입니다. 할인율을 바꿔 보세요.</p>
+
+  <div class="control">
+    <label for="rate"><span>할인율 r</span><span class="val" data-for="rate">10.0%</span></label>
+    <input type="range" id="rate" min="2" max="14" step="0.1" value="10">
+  </div>
+
+  <div class="bars" id="bars"></div>
+
+  <div class="readout">
+    <div class="metric"><span class="k">30년 합계</span><span class="v hl" id="total">—</span></div>
+    <div class="metric"><span class="k">30년차 100원의 값</span><span class="v" id="last">—</span></div>
+    <div class="metric"><span class="k">1~3년이 차지하는 비중</span><span class="v" id="share">—</span></div>
+  </div>
+</div>
+
+<div class="note">
+  <span class="label">다음 레슨 미리 보기</span>
+  <p>세 번째 숫자를 눈여겨보세요. 할인율 10%에서도 <strong>1~3년치는 전체의 26%밖에 안 됩니다</strong>. 나머지 74%는 4년차 이후에서 나옵니다.</p>
+  <p>월가아재가 칼럼에서 "근미래 3~5년의 무위험수익률 추정치가 미치는 영향은 적다 … 많아야 전체의 10~20%"라고 쓰고, 종료가치 파트(10-1, 10-2, 10-3)에 대부분의 지면을 쓰는 이유가 정확히 이겁니다. <strong>레슨 0002</strong>에서 이 구조를 정면으로 다룹니다.</p>
+</div>
+
+<h2>3. 그래서 r이 왜 그렇게 중요한가</h2>
+
+<p>r은 <strong>분모</strong>에 있고, 그것도 <strong>거듭제곱의 밑</strong>에 있습니다. 조금만 움직여도 결과가 크게 흔들립니다.</p>
+
+<p>극단적으로 단순화해 봅시다. 성장 없이 매년 <span class="num">100원</span>이 <em>영원히</em> 들어온다면, 그 현재가치는 깔끔하게 <span class="num">100 ÷ r</span>입니다. 월가아재가 세 시나리오에 넣은 실제 숫자를 그대로 대입해 보겠습니다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead>
+    <tr>
+      <th>시나리오</th>
+      <th class="n">장기 무위험수익률</th>
+      <th class="n">ERP</th>
+      <th class="n">할인율 r</th>
+      <th class="n">영구 100원의 값</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>골디락스</td><td class="n">3.60%</td><td class="n">4.35%</td><td class="n">7.95%</td><td class="n">1,258</td></tr>
+    <tr><td>현상 유지</td><td class="n">4.30%</td><td class="n">4.80%</td><td class="n">9.10%</td><td class="n">1,099</td></tr>
+    <tr><td>재정 지배</td><td class="n">5.10%</td><td class="n">5.20%</td><td class="n">10.30%</td><td class="n">971</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>할인율이 <span class="num">7.95%</span>에서 <span class="num">10.30%</span>로, 겨우 <span class="num">2.35%p</span> 올라갔을 뿐인데 가치는 <strong>23% 증발</strong>했습니다. 현금흐름은 한 푼도 안 바뀌었는데요.</p>
+
+<p>실제 Index DCF에서는 여기에 성장률까지 붙어서 차이가 더 벌어집니다. 그게 <span class="num">9,513</span> 대 <span class="num">5,407</span>의 정체입니다.</p>
+
+<div class="note">
+  <span class="label">이게 실전에서 무슨 뜻이냐면</span>
+  <p>"10년물 금리 0.5% 상승"이라는 뉴스를 보면, 대부분의 개인 투자자는 <em>"금리 오르네, 주식에 안 좋겠다"</em>에서 멈춥니다. 할인율의 구조를 알면 그 다음 칸으로 갈 수 있습니다 — <strong>무위험수익률 입력값을 0.5% 올리면 적정가치가 몇 포인트 빠지는지</strong>를 직접 재 볼 수 있으니까요. 칼럼 후반의 "셋째, 민감도 기준으로 마지널한 변화를 가늠한다"가 바로 이 이야기입니다.</p>
+</div>
+
+<hr>
+
+<h2>4. 확인 — 기억에서 꺼내기</h2>
+
+<p class="next-up">보고 고르는 게 아니라 <em>떠올려서</em> 고르세요. 틀린 뒤에 읽는 해설이 가장 오래 남습니다.</p>
+
+<div class="quiz" data-quiz>
+  <h3>개념 4문항</h3>
+
+  <div class="q" data-answer="1">
+    <p class="stem">다른 조건이 모두 같을 때, 할인율이 올라가면 적정가치는?</p>
+    <div class="opts">
+      <button class="opt">적정가치 상승</button>
+      <button class="opt">적정가치 하락</button>
+      <button class="opt">적정가치 유지</button>
+    </div>
+    <div class="why">할인율은 분모에 있습니다. 분모가 커지면 몫은 작아집니다. 금리가 오를 때 주가에 하방 압력이 생기는 것도, Index DCF에서 무위험수익률 칸을 올리면 적정가치가 떨어지는 것도 전부 같은 한 줄의 산수입니다.</div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">할인율을 이루는 두 부품은 무위험이자율과 무엇인가?</p>
+    <div class="opts">
+      <button class="opt">리스크 프리미엄</button>
+      <button class="opt">자기자본 이익률</button>
+      <button class="opt">명목 경제성장률</button>
+      <button class="opt">예금자 보호제도</button>
+    </div>
+    <div class="why">할인율 = 무위험이자율 + 리스크 프리미엄. 앞부분은 "돈을 지금이 아니라 나중에 받는 것에 대한 대가", 뒷부분은 "그 돈이 안 들어올 수도 있는 위험을 지는 것에 대한 대가"입니다. Index DCF의 6번·7번 입력칸이 정확히 이 둘입니다.</div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">3년 뒤에 들어올 현금흐름을 현재가치로 바꿀 때, 무엇으로 나누는가?</p>
+    <div class="opts">
+      <button class="opt">(1+r)을 3제곱</button>
+      <button class="opt">(1+r)을 3배수</button>
+      <button class="opt">(1+r)을 3분할</button>
+    </div>
+    <div class="why">해마다 복리로 깎이므로 t년 뒤 현금흐름의 분모는 (1+r)<sup>t</sup>입니다. r=10%라면 3년 뒤 100만원의 현재가치는 100 ÷ 1.331 = 75.13만원. t가 <em>지수 자리</em>에 있다는 게 핵심입니다 — 그래서 먼 미래일수록 기하급수적으로 작아집니다.</div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">2008년 이후 양적완화로 무위험수익률이 인위적으로 눌렸을 때, 시장의 리스크 프리미엄은 오히려 <em>높아졌습니다</em>. 왜일까요?</p>
+    <div class="opts">
+      <button class="opt">요구수익률이 덜 하락해서</button>
+      <button class="opt">요구수익률이 더 하락해서</button>
+      <button class="opt">기대인플레이션이 급등해서</button>
+    </div>
+    <div class="why">식을 뒤집으면 <strong>리스크 프리미엄 = 총 요구수익률 − 무위험수익률</strong>입니다. 연준이 무위험수익률을 0 근처까지 눌러도, 투자자가 주식에 요구하는 총 수익률은 그만큼 비례해서 내려가지 않습니다. <em>빼는 값</em>만 크게 줄었으니 차이는 커집니다. 월가아재가 다모다란의 내재 ERP 시계열에서 2008~21년 구간을 잘라 낸 평균이 5.4%로 앞뒤 구간보다 높은데, 그 정체가 이겁니다 — "ERP가 높다 = 주식이 싸다"로 단순 해석하면 안 되는 이유이기도 하고요.</div>
+  </div>
+
+  <div class="score"></div>
+</div>
+
+<div class="drill" data-drill>
+  <h3>계산 5문항</h3>
+  <p class="caption">답을 입력하면 즉시 채점됩니다. 소수점 둘째 자리까지.</p>
+
+  <div class="row" data-answer="9.1" data-tol="0.02">
+    <span class="ask">무위험수익률 4.3%, ERP 4.8%. 할인율은?</span>
+    <input type="text" placeholder="?"><span class="unit">%</span><span class="mark"></span>
+    <div class="hint">4.3 + 4.8 = 9.1%. 그냥 더하기입니다 — 곱하지 않습니다.</div>
+  </div>
+
+  <div class="row" data-answer="4.35" data-tol="0.02">
+    <span class="ask">할인율 7.95%, 무위험수익률 3.6%. ERP는?</span>
+    <input type="text" placeholder="?"><span class="unit">%</span><span class="mark"></span>
+    <div class="hint">7.95 − 3.6 = 4.35%. 식을 뒤집는 이 방향이 <em>내재 ERP</em>의 출발점입니다 (레슨 0005).</div>
+  </div>
+
+  <div class="row" data-answer="90.91" data-tol="0.02">
+    <span class="ask">1년 뒤 100만원, r = 10%. 현재가치는?</span>
+    <input type="text" placeholder="?"><span class="unit">만원</span><span class="mark"></span>
+    <div class="hint">100 ÷ 1.10 = 90.91만원.</div>
+  </div>
+
+  <div class="row" data-answer="82.64" data-tol="0.02">
+    <span class="ask">2년 뒤 100만원, r = 10%. 현재가치는?</span>
+    <input type="text" placeholder="?"><span class="unit">만원</span><span class="mark"></span>
+    <div class="hint">100 ÷ 1.10² = 100 ÷ 1.21 = 82.64만원. 1.10 × 2 = 2.20으로 나누는 게 아닙니다.</div>
+  </div>
+
+  <div class="row" data-answer="1000" data-tol="1">
+    <span class="ask">매년 100원이 성장 없이 영원히, r = 10%. 현재가치는?</span>
+    <input type="text" placeholder="?"><span class="unit">원</span><span class="mark"></span>
+    <div class="hint">100 ÷ 0.10 = 1,000원. 무한히 더하는데 값이 발산하지 않는 이유는 뒤로 갈수록 각 항이 기하급수적으로 작아지기 때문입니다 — 무한등비급수. 이 식이 레슨 0002의 <strong>종료가치</strong>가 됩니다.</div>
+  </div>
+
+  <div class="actions"><button class="ghost" data-reveal>정답 보기</button></div>
+</div>
+
+<hr>
+
+<h2>이번 주에 읽을 것 (하나만)</h2>
+
+<p><strong>1차 자료 —</strong> <a href="https://aswathdamodaran.blogspot.com/2026/03/the-price-of-risk-equity-risk-premium.html">Aswath Damodaran, “The Price of Risk: An Equity Risk Premium Monologue!” (2026년 3월)</a></p>
+
+<p>다모다란은 뉴욕대 스턴의 밸류에이션 교수이고, 월가아재가 칼럼에서 ERP 레짐 평균을 뽑아 쓴 데이터의 원작자입니다. 약 2,500단어. <strong>전부 읽지 마세요.</strong> 이번 주에는 <em>historical vs. implied</em> 를 대비하는 대목만 보시면 됩니다 — 왜 과거 수익률 평균으로 리스크 프리미엄을 추정하면 안 되는지가 원저자의 입으로 나옵니다. 이게 그대로 <strong>숙제 2번</strong>의 답이 되고, <strong>레슨 0005</strong>의 본론이 됩니다.</p>
+
+<p class="next-up"><strong>진도 —</strong> 월가아재 글로벌 매크로 지식편 6회차 1강(자산군 관점에서의 주식), 2강(주가지수의 DCF).</p>
+
+<div class="ask-teacher">
+  <span class="label">막히면 물어보세요</span>
+  저는 이 워크스페이스의 선생입니다. 이해가 안 되는 문장, 납득이 안 가는 숫자, "이건 왜 이렇게 하는 거죠?" 싶은 대목 — 무엇이든 그냥 물어보세요. 특히 이번 레슨에서 <em>복리로 할인한다</em>는 부분이 흐릿하게 남았다면 넘어가지 말고 짚고 가는 게 좋습니다. 레슨 0002의 종료가치 공식이 전부 여기 위에 얹힙니다.
+</div>
+
+<div class="footer">
+  <h3>이어지는 곳</h3>
+  <ul>
+    <li><a href="../reference/dcf-core.html">레퍼런스 — Index DCF 핵심 공식 카드</a> (인쇄해서 옆에 두세요)</li>
+    <li>레슨 0002 — 2단 구조: 근미래 파트와 종료가치 파트 <em>(예정)</em></li>
+    <li>워크스페이스 루트의 <code>MISSION.md</code> · <code>RESOURCES.md</code> · <code>GLOSSARY.md</code></li>
+  </ul>
+</div>
+
+<script src="../assets/dcf.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+(function () {
+  var YEARS = 30, CF = 100;
+  var barsEl  = document.getElementById('bars');
+  var totalEl = document.getElementById('total');
+  var lastEl  = document.getElementById('last');
+  var shareEl = document.getElementById('share');
+
+  DCF.bindRange('#rate', function (v) { return v.toFixed(1) + '%'; }, function (pctVal) {
+    var r = pctVal / 100;
+    var pvs = [];
+    for (var t = 1; t <= YEARS; t++) pvs.push(DCF.pv(CF, r, t));
+
+    var labels = pvs.map(function (_, i) {
+      var y = i + 1;
+      return (y === 1 || y === 10 || y === 20 || y === 30) ? String(y) : '';
+    });
+    DCF.drawBars(barsEl, pvs, labels, { max: CF });
+
+    var total = pvs.reduce(function (a, b) { return a + b; }, 0);
+    var near3 = pvs[0] + pvs[1] + pvs[2];
+
+    totalEl.textContent = DCF.fmt(total, 0) + '원';
+    lastEl.textContent  = DCF.fmt(pvs[YEARS - 1], 1) + '원';
+    shareEl.textContent = (near3 / total * 100).toFixed(1) + '%';
+  });
+})();
+</script>
+
+</body>
+</html>

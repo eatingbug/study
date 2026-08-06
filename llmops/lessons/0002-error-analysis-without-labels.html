@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레슨 0002 · 라벨 없이 시작하는 오류분석</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+<link rel="stylesheet" href="../assets/widgets.css">
+</head>
+<body>
+
+<p class="kicker">Lesson 0002 · 약 25분 + 실습 20분</p>
+<h1>정답이 없어도 측정은 시작된다</h1>
+<p class="subtitle">사람 라벨이 하나도 없는 상태에서 품질 진단을 시작하는 방법.
+이 레슨이 끝나면 <strong>당신 시스템에 대한 숫자 3개</strong>가 손에 남는다 —
+그리고 그 중 하나는 아마 당신을 불편하게 할 것이다.</p>
+
+<div class="callout note">
+  <span class="callout-label">이 레슨의 위치</span>
+  <p>레슨 0001의 루프에서 <strong>2번(오류분석)</strong> 단계다.
+  일반 LLMOps 기술을 다루고, 예시와 실습은 당신의 루브릭 채점기로 든다.
+  <a href="0001-llmops-map-and-self-audit.html">← 레슨 0001</a></p>
+</div>
+
+<h2>1. "라벨이 없어서 평가를 못 한다"는 오해</h2>
+
+<p>레슨 0001에서 LLMOps의 첫 번째 특징은 <em>정답 라벨이 없다</em>는 것이었다.
+여기서 대부분의 팀이 잘못된 결론으로 간다 — <strong>"그러니 사람이 라벨링을 다 하기 전까지는
+아무 것도 측정할 수 없다"</strong>. 그래서 라벨링 프로젝트를 기획하고, 리소스를 못 받고, 6개월이 지난다.</p>
+
+<p>실제로는 정답 없이 볼 수 있는 것이 꽤 많다. 핵심 구분은 이것이다:</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th style="width:12rem">질문의 종류</th><th>사람 라벨</th><th>예</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>정확한가?</strong><br><small>정답 대비 얼마나 맞나</small></td>
+      <td>필수</td>
+      <td>사람 점수와의 일치율, QWK, 밴드별 혼동행렬</td>
+    </tr>
+    <tr>
+      <td><strong>일관적인가?</strong><br><small>같은 입력에 같은 출력인가</small></td>
+      <td class="need-no"><strong>불필요</strong></td>
+      <td>같은 답안 재채점 시 점수 변동폭</td>
+    </tr>
+    <tr>
+      <td><strong>그럴듯한가?</strong><br><small>출력 분포가 말이 되는가</small></td>
+      <td class="need-no"><strong>불필요</strong></td>
+      <td>점수 분포, 밴드 사용 빈도, 길이와의 상관</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">일반화되는 원리</span>
+  <p>정답이 없을 때는 <strong>정확성 대신 일관성과 분포부터 공격한다.</strong>
+  이건 채점기만의 이야기가 아니다 — 요약·분류·생성 어디서든,
+  같은 입력에 다른 출력이 나오거나 출력 분포가 이상하면
+  <em>정답을 몰라도</em> 그건 결함이다.</p>
+  <p>그리고 이 진단들은 <strong>라벨링을 어디에 집중할지</strong> 알려준다.
+  전수 라벨링을 기획하는 대신, 문제가 보이는 구간만 라벨링하면 된다.</p>
+</div>
+
+<h2>2. 두 개의 judge를 분리하기</h2>
+
+<p>당신의 제품은 채점기다. 그런데 레슨 0001에서 "판정은 통과/실패 이진으로 하라"고 했다.
+루브릭 점수는 5단계인데 이진으로 하라니 — 모순처럼 느껴졌다면 정확한 감각이다.
+여기서 풀린다. <strong>judge가 두 개다.</strong></p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th style="width:8rem"></th><th>Judge A — 제품</th><th>Judge B — A를 평가하는 것</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>역할</strong></td>
+        <td>학습자 답안에 루브릭 점수를 매긴다</td>
+        <td>A의 출력이 실패인지 판정한다</td></tr>
+    <tr><td><strong>출력</strong></td>
+        <td><strong>서열형</strong> 밴드 점수 — 도메인이 요구한다</td>
+        <td><strong>이진</strong> 통과/실패 — 실패 유형마다 하나</td></tr>
+    <tr><td><strong>정답</strong></td>
+        <td>사람 채점자 점수 (지금 없음)</td>
+        <td>사람이 라벨한 "이게 실패인가" 여부</td></tr>
+    <tr><td><strong>예</strong></td>
+        <td><code>Organization: 4 / 5</code></td>
+        <td><code>루브릭에 없는 기준으로 감점했나? → 실패</code><br>
+            <code>근거와 점수가 서로 맞나? → 통과</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">이 레슨의 가장 중요한 한 줄</span>
+  <p>"이진 판정" 원칙은 <strong>Judge B에 적용된다. Judge A에는 적용되지 않는다.</strong>
+  제품이 5단계 점수를 내는 것은 옳다. 하지만 <em>그 5단계 점수가 틀렸는지를 판정할 때</em>는
+  "2밴드 이상 벗어났는가" 처럼 이진으로 잘라야 한다 —
+  그래야 라벨링이 일관되고, 통과율이라는 하나의 숫자가 의미를 갖는다.</p>
+</div>
+
+<p class="sidenote">이 구분을 안 하면 흔히 이런 대시보드가 생긴다:
+"채점 품질 4.2점". 무엇이 4.2를 만들었는지 아무도 모르고,
+4.3이 되어도 무엇이 좋아졌는지 말할 수 없다.</p>
+
+<h2>3. 라벨 0개로 가능한 진단 세 가지</h2>
+
+<p>실패 유형 전체 카탈로그는
+<a href="../reference/scorer-failure-modes.html">참조 문서: 채점기 실패 유형 카탈로그</a>에 있다
+(9개 유형 중 6개가 라벨 없이 탐지된다). 여기서는 <strong>가장 값싸고 가장 자주 걸리는 3개</strong>만 한다.</p>
+
+<h3>진단 1 — 중심화 경향 (점수 히스토그램)</h3>
+
+<p>LLM은 서열 척도를 매길 때 <strong>양 극단을 회피하고 중간으로 몰리는</strong> 경향이 있다
+(<a href="https://arxiv.org/pdf/2605.16386">arXiv 2605.16386</a>).
+5단계 루브릭이 실질적으로 3단계로 붕괴하면, 상위권과 하위권 학습자는
+자기 수준에 대한 정보를 못 받는다. 히스토그램 한 장으로 보인다.</p>
+
+<h3>진단 2 — 길이 편향 (길이 대 점수 상관)</h3>
+
+<p>LLM judge는 <strong>긴 출력을 선호</strong>하는 경향이 문헌에서 반복 확인된다
+(<a href="https://arxiv.org/pdf/2410.02736">arXiv 2410.02736</a>).
+채점기에서는 이게 "분량을 채우면 점수가 오른다"로 나타난다.
+루브릭이 분량을 요구하지 않는데 상관이 강하면 편향이다.</p>
+
+<h3>진단 3 — 자기 비일관성 (같은 답안 재채점)</h3>
+
+<p>같은 답안을 두 번 채점해서 점수가 다르면, <strong>그 변동폭이 당신 시스템 정확도의 상한</strong>이다.
+사람 점수를 나중에 확보해도 이 변동폭보다 정밀한 주장은 할 수 없다.
+그래서 이걸 <em>먼저</em> 재는 것이 순서상 맞다.</p>
+
+<div class="callout trap">
+  <span class="callout-label">순서를 뒤집지 말 것</span>
+  <p>자기 일관성을 재기 전에 사람 라벨링에 예산을 쓰면 안 된다.
+  재채점 변동폭이 2밴드인 시스템에 사람 점수를 붙여 봐야,
+  "일치율 60%"가 편향 탓인지 그냥 노이즈 탓인지 구분할 수 없다.</p>
+</div>
+
+<h2>4. 실습 — 숫자 3개를 손에 넣는다</h2>
+
+<div class="task">
+  <p class="est">예상 20분 · 필요: 채점 로그 CSV, Python (pandas·matplotlib). API 키는 진단 3에만.</p>
+
+  <p><strong>준비.</strong> 최근 채점 결과를 CSV로 뽑는다. 최소 컬럼:</p>
+  <pre><code>answer_id, criterion, score, answer_text   # answer_text 대신 char_len 만 있어도 진단 1·2는 된다</code></pre>
+  <p>표본은 <strong>무작위 500건 이상</strong>이면 충분하다. "이상해 보이는 것"만 뽑으면 분포가 왜곡된다.</p>
+
+  <h4>진단 1 · 2 — 라벨 불필요, API 불필요</h4>
+  <pre><code>import pandas as pd, matplotlib.pyplot as plt
+
+df = pd.read_csv("scores.csv")
+df["char_len"] = df["answer_text"].str.len()      # char_len 컬럼이 있으면 이 줄 생략
+
+for crit, g in df.groupby("criterion"):
+    # ── 진단 1: 밴드 사용 빈도 (중심화 경향)
+    freq = g["score"].value_counts(normalize=True).sort_index()
+    print(f"\n[{crit}] 밴드 사용 비율")
+    print((freq * 100).round(1).to_string())
+    print(f"  1% 미만으로 사실상 안 쓰이는 밴드: "
+          f"{list(freq[freq < 0.01].index) or '없음'}")
+
+    # ── 진단 2: 길이–점수 상관
+    r = g["char_len"].corr(g["score"], method="spearman")
+    print(f"  길이-점수 스피어만 상관: {r:.2f}")
+
+    g["score"].plot(kind="hist", bins=range(int(df.score.min()), int(df.score.max()) + 2),
+                    title=f"{crit} 점수 분포", rwidth=0.85)
+    plt.show()
+</code></pre>
+
+  <p><strong>읽는 법.</strong> 아래 수치는 <em>논문에서 온 임계값이 아니라 출발선으로 쓸 경험적 기준</em>이다.
+  당신 루브릭의 밴드 수와 채점 대상에 따라 적정선이 달라진다.
+  그래서 목적은 <strong>합격/불합격 판정이 아니라 기준선 기록</strong>이다 —
+  이 값을 적어 두고, 프롬프트나 모델을 바꾼 뒤 같은 숫자를 다시 재서 비교하는 것이 본 용도다.</p>
+  <ul>
+    <li>밴드 사용 비율이 중간 1~2개에 <strong>절반 이상</strong> 몰려 있으면 중심화 경향을 의심한다.</li>
+    <li>사용 비율이 <strong>1% 미만인 밴드</strong>는 사실상 존재하지 않는 밴드다.
+        루브릭이 5단계를 의도했다면 설계와 어긋난다 — 이건 기준이 아니라 사실 확인이다.</li>
+    <li>길이–점수 상관은 <strong>절대값보다 기준 간 비교</strong>가 정보량이 크다.
+        루브릭에 "충분한 전개" 같은 항목이 있는 기준은 상관이 어느 정도 나오는 게 정상이지만,
+        분량과 무관해야 할 기준(예: Grammar)에서 상관이 높으면 편향 신호다.</li>
+  </ul>
+
+  <h4>진단 3 — API 필요, 라벨 불필요</h4>
+  <p>루브릭 기준이 여러 개라면 <strong>변동폭도 기준별로 다르다</strong> —
+  Grammar는 안정적이고 Organization은 흔들리는 게 보통이다.
+  하나의 평균값으로 합치면 그 차이가 지워지므로, 기준별로 나눠 잰다.</p>
+
+  <pre><code>import os, itertools, statistics
+import pandas as pd
+from openai import OpenAI
+
+# 이 스니펫만 따로 돌린다면 df 를 먼저 읽어야 한다
+# df = pd.read_csv("scores.csv")
+
+client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+MODEL  = "..."     # 프로덕션에서 쓰는 모델과 정확히 동일하게
+N      = 3         # 같은 답안을 몇 번 재채점할지
+TEMPS  = [None, 0] # None = 프로덕션 설정 그대로, 0 = 최소 무작위성. 둘 다 재서 비교한다
+SAMPLE = df.drop_duplicates("answer_id").sample(30, random_state=0)
+
+# ── 아래 두 함수는 당신이 채워야 한다 (프로덕션 코드에서 그대로 가져올 것)
+#    build_scoring_messages(answer_text) -> list[dict]   프로덕션과 동일한 프롬프트·루브릭
+#    parse_score(raw_text)               -> dict         {"Grammar": 4, "Organization": 3, ...}
+#    ※ 기준별 dict 를 반환해야 한다. 스칼라 하나면 기준 간 차이가 지워진다.
+
+rows = []
+for temp in TEMPS:
+    for _, r in SAMPLE.iterrows():
+        runs = []
+        for _ in range(N):
+            kwargs = {"model": MODEL, "messages": build_scoring_messages(r["answer_text"])}
+            if temp is not None:
+                kwargs["temperature"] = temp          # None 이면 파라미터를 아예 안 보낸다
+            raw = client.chat.completions.create(**kwargs).choices[0].message.content
+            runs.append(parse_score(raw))
+        for crit in runs[0]:
+            vals = [run[crit] for run in runs]
+            rows.append({"temp": "prod" if temp is None else f"t={temp}",
+                         "criterion": crit,
+                         "spread": max(vals) - min(vals),
+                         "identical": len(set(vals)) == 1})
+
+out = (pd.DataFrame(rows)
+       .groupby(["temp", "criterion"])
+       .agg(평균변동폭=("spread", "mean"),
+            최대변동폭=("spread", "max"),
+            N회동일비율=("identical", "mean"))
+       .round(2))
+print(out.to_string())
+</code></pre>
+
+  <p><strong>읽는 법.</strong> 기준별 표를 보고, <strong>가장 불안정한 기준</strong>이 무엇인지 찾는다.
+  N회 동일 비율이 낮은 기준은, 앞으로 그 변동폭보다 작은 품질 차이를 어떤 실험으로도 증명할 수 없다.
+  <code>t=0</code>에서도 변동이 남는다면 그건 모델의 본질적 비결정성이다 —
+  프로덕션 설정과 비교해서 <em>지금 설정이 노이즈를 얼마나 더하고 있는지</em> 보는 것이 이 표의 목적이다.</p>
+
+  <p><strong>산출물.</strong> 파일에 적어라 (적어야 "있다"가 된다):
+  ① 기준별 밴드 사용 비율 — 가장 몰린 밴드의 %, ② 기준별 길이–점수 상관,
+  ③ 기준별 N회 동일 비율. 그리고 나에게 공유해라.</p>
+
+  <div class="callout note">
+    <span class="callout-label">숙제 순서</span>
+    <p>레슨 0001의 실습(트레이스 20개 → 실패 유형 목록)이 아직 남아 있다면
+    <strong>이번 레슨의 진단 세 개를 먼저</strong> 해라. 이유는 위 함정 박스와 같다 —
+    라벨링에 사람 시간을 쓰기 전에 노이즈 수준을 알아야 한다.
+    0001의 유형 목록 작업은 레슨 0003에서 <em>이진 판정 문항 설계</em>로 흡수한다.
+    두 개를 동시에 붙들지 마라.</p>
+  </div>
+</div>
+
+<div class="callout note">
+  <span class="callout-label">글감</span>
+  <p>이 세 숫자는 그대로 블로그 한 편이 된다.
+  <em>"사람 채점 데이터 없이 LLM 채점기를 진단한 세 가지 방법"</em> —
+  라벨이 없어 평가를 미루고 있는 팀이 많으므로 수요가 확실한 주제다.
+  학습자 답안 원문은 공개하지 말고 <strong>숫자와 분포 그림만</strong> 쓴다.</p>
+</div>
+
+<h2>5. 인출 연습</h2>
+
+<p>레슨 0001 내용도 섞여 있다. 스크롤하지 말고 기억에서 꺼내라.</p>
+
+<section class="quiz" data-quiz>
+  <div class="widget-head">
+    <span class="widget-hint">문항당 한 번만. 선택지 순서는 열 때마다 바뀐다.</span>
+    <span class="score-pill" data-score></span>
+  </div>
+
+  <div class="q" data-answer="2">
+    <p class="q-text">사람 라벨이 전혀 없을 때, 가장 먼저 재야 하는 것은?</p>
+    <ul class="opts">
+      <li>공개 벤치마크 대비 우리 채점기의 정확도값</li>
+      <li>사람 채점자끼리의 일치도를 먼저 확보한 값</li>
+      <li>같은 입력을 재처리했을 때의 출력 변동폭</li>
+      <li>경쟁 서비스와 비교한 우리 점수의 분포차</li>
+    </ul>
+    <div class="explain">
+      재채점 변동폭이 <strong>정확도 주장의 상한</strong>이다. 변동폭이 2밴드인 시스템에
+      사람 점수를 붙여도, 불일치가 편향 탓인지 노이즈 탓인지 구분할 수 없다.
+      그래서 라벨링에 예산을 쓰기 <em>전에</em> 이것부터 잰다.
+    </div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="q-text">"판정은 통과/실패 이진으로" 원칙이 적용되는 대상은?</p>
+    <ul class="opts">
+      <li>제품 출력을 실패로 판정하는 평가 쪽 판정기</li>
+      <li>학습자에게 점수를 돌려주는 제품 쪽 채점기</li>
+      <li>제품과 평가 양쪽 모두에 예외 없이 적용된다</li>
+      <li>사람 채점자가 라벨을 매길 때에만 적용된다</li>
+    </ul>
+    <div class="explain">
+      Judge B(평가)에만 적용된다. Judge A(제품)는 도메인이 서열형 밴드 점수를 요구하므로
+      이진으로 만들 수 없고, 만들어서도 안 된다.
+      이 구분을 놓치면 "이진 원칙"이 제품 요구사항과 충돌하는 것처럼 보인다.
+    </div>
+  </div>
+
+  <div class="q" data-answer="3">
+    <p class="q-text">5단계 루브릭인데 점수가 3·4점에만 몰려 있다. 이 현상의 이름은?</p>
+    <ul class="opts">
+      <li>길이 편향 — 분량에 반응해 점수가 쏠린 것</li>
+      <li>후광효과 — 한 기준이 다른 기준에 전이된 것</li>
+      <li>자기 비일관성 — 재채점 시 점수가 흔들린 것</li>
+      <li>중심화 경향 — 극단 밴드를 회피해 몰린 것</li>
+    </ul>
+    <div class="explain">
+      중심화 경향(central tendency bias). 서열 척도 채점에서 반복 관찰되는 현상이고
+      <strong>점수 히스토그램 한 장으로 탐지된다</strong> — 라벨이 필요 없다.
+      실질적 피해는 상·하위권 학습자가 자기 수준 정보를 못 받는 것이다.
+    </div>
+  </div>
+
+  <div class="q" data-answer="1">
+    <p class="q-text">LLMOps 운영 루프에서 팀이 거의 항상 건너뛰는 단계는? <small>(0001 복습)</small></p>
+    <ul class="opts">
+      <li>관측성 도구를 골라서 서비스에 붙이는 단계</li>
+      <li>사람이 실제 트레이스를 직접 읽어보는 단계</li>
+      <li>모델을 최신 버전으로 교체해 올리는 단계</li>
+      <li>프롬프트 문구를 조금씩 다듬어보는 단계</li>
+    </ul>
+    <div class="explain">
+      건너뛰는 것은 언제나 <strong>읽는 단계</strong>다. 도구 도입은 오히려 제일 먼저 일어난다 —
+      그래서 무엇이 실패인지 정의되지 않은 대시보드가 남는다.
+      이번 레슨의 실습 세 가지도 결국 "먼저 본다"의 자동화 버전이다.
+    </div>
+  </div>
+
+  <div class="q" data-answer="3">
+    <p class="q-text">자기진단에서 어떤 항목을 "있다"로 셀 수 있는가? <small>(0001 복습)</small></p>
+    <ul class="opts">
+      <li>담당자 머릿속에 충분히 정리되어 있으면 된다</li>
+      <li>다음 분기 로드맵 문서에 반영되어 있으면 된다</li>
+      <li>팀 회의에서 한 번이라도 논의된 적이 있으면 된다</li>
+      <li>문서나 코드로 있고 남이 찾을 수 있으면 된다</li>
+    </ul>
+    <div class="explain">
+      기준은 <strong>다른 사람이 찾을 수 있는가</strong>다. 머릿속에만 있으면 없는 것으로 센다 —
+      담당자가 바뀌면 실제로 사라지기 때문이다.
+      이번 실습의 숫자 3개도 파일에 적어야 "있다"가 된다.
+    </div>
+  </div>
+
+  <div class="quiz-result" data-result></div>
+</section>
+
+<h2>6. 1차 자료</h2>
+
+<div class="primary-source">
+  <p class="src-title"><a href="https://arxiv.org/html/2607.14605">Investigating first-language bias in
+  LLM-based automated essay scoring</a> — arXiv</p>
+  <p class="src-why">TOEFL11 12,100편, L1 11종. 당신 도메인에 가장 직접적인 논문이다.
+  <strong>RQ3(모국어가 채점에 영향을 주는가) 절만</strong> 읽어라 (20분).
+  핵심 결과: 유럽어권 &gt; 동아시아권 점수 오프셋이 세 밴드 <em>전부</em>에서 유지 —
+  표준화 오프셋 독일어 +0.55 ↔ 한국어·일본어 −0.34.
+  당신 학습자에게 검증 가능한 가설이지만, <strong>사람 점수를 확보한 뒤</strong>에야 잴 수 있다.
+  수치와 해석 주의점은 <a href="../reference/scorer-failure-modes.html">참조 문서</a>에 정리해 두었다.</p>
+</div>
+
+<div class="lesson-footer">
+  <h4>다음 단계</h4>
+  <p>실습에서 나온 <strong>숫자 3개</strong>를 공유해라. 그 결과에 따라 레슨 0003이 갈린다:</p>
+  <ul>
+    <li>재채점 변동폭이 크면 → 먼저 <strong>일관성 잡기</strong> (temperature·프롬프트 구조·파싱)</li>
+    <li>분포·길이가 이상하면 → <strong>실패 유형을 이진 판정 문항으로 변환</strong>하고 보정셋 라벨 스키마 설계</li>
+    <li>셋 다 깨끗하면 → 바로 <strong>보정셋 구축</strong> (문헌 기준 100~300건)으로 간다</li>
+  </ul>
+
+  <div class="ask-teacher">
+    <strong>막히면 물어라.</strong> "우리 루브릭은 기준이 6개인데 이걸 다 따로 봐야 하나?",
+    "길이 상관 0.5가 나왔는데 우리 루브릭엔 전개 항목이 있다 — 편향인가 정상인가?",
+    "재채점을 3번이 아니라 몇 번 해야 하나?" — 전부 좋은 질문이다.
+    특히 <em>실제 숫자를 가져와서 해석을 물어보는 것</em>이 이 단계에서 가장 남는다.
+  </div>
+
+  <div class="nav-links">
+    <a href="0001-llmops-map-and-self-audit.html">← 레슨 0001 · LLMOps 지도와 자기진단</a>
+    <a href="../reference/scorer-failure-modes.html">참조 · 채점기 실패 유형 카탈로그 →</a>
+    <a href="../reference/llmops-map.html">참조 · LLMOps 8영역 지도</a>
+    <a href="../RESOURCES.md">RESOURCES.md</a>
+  </div>
+</div>
+
+<script src="../assets/quiz.js"></script>
+</body>
+</html>
