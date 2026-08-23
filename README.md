@@ -25,6 +25,45 @@
 `learning-records/` 는 배포에서 제외한다 — 학습 기록은 사이트의 일부가 아니고,
 GitHub에서 렌더링해 읽는 편이 낫다. 제외 규칙은 워크플로의 `배포할 파일만 모은다` 단계에 있다.
 
+### 새 레슨을 추가하면
+
+목록 페이지(`index.html` · `<topic>/index.html`)는 손으로 쓰지 않는다.
+`tools/build-index.py` 가 `lessons/` · `reference/` 의 문서를 훑어서 만든다 —
+배포할 때마다 다시 생성하므로 **파일을 추가하고 푸시하면 목록에 자동으로 올라온다.**
+
+각 문서에서 뽑는 것은 문서를 쓸 때 이미 적는 것들이다.
+
+| 목록에 나오는 것 | 어디서 오는가 |
+|---|---|
+| 제목 | `<h1>` (없으면 `<title>`) |
+| 곁줄 (Lesson 0001 · 약 20분) | `class="kicker"` 또는 `class="eyebrow"` |
+| 한 줄 설명 | `class="subtitle"` 또는 `class="standfirst"` 의 첫 문장들 |
+| 순서 | 파일명 순 (`0001-` · `0002-` …) |
+
+목록에 나가는 모습을 문서에서 조정하려면 `<head>` 에 메타 태그를 넣는다.
+
+```html
+<meta name="index-gloss"  content="목록에 쓸 한 줄 설명">
+<meta name="index-order"  content="20">     <!-- 숫자 작을수록 먼저 -->
+<meta name="index-hidden" content="true">   <!-- 목록에서 빼기 -->
+```
+
+새 주제를 시작할 때는 `<topic>/workspace.json` 만 만들면 목록에 섹션이 생긴다.
+
+```json
+{ "title": "LLMOps", "blurb": "한 줄 소개", "order": 1 }
+```
+
+로컬에서 목록을 미리 보거나 최신으로 맞추려면:
+
+```sh
+python3 tools/build-index.py          # 생성
+python3 tools/build-index.py --check  # 커밋된 목록이 문서와 맞는지만 확인
+```
+
+`<topic>/assets/*.css` 는 자동으로 링크되므로 워크스페이스 목록은 그 주제의 문서와
+같은 스타일로 나온다.
+
 ## 워크스페이스
 
 | 주제 | 내용 | 상태 |
@@ -36,7 +75,8 @@ GitHub에서 렌더링해 읽는 편이 낫다. 제외 규칙은 워크플로의
 
 ```
 <topic>/
-├── index.html          이 워크스페이스의 목록 페이지 (Pages 진입점)
+├── workspace.json      제목·소개·순서. 목록 페이지가 이걸 읽는다
+├── index.html          워크스페이스 목록 (생성물 — 직접 고치지 않는다)
 ├── MISSION.md          왜 이걸 배우는가. 모든 레슨이 여기로 소급된다
 ├── NOTES.md            학습 선호·제약·결정 기록
 ├── RESOURCES.md        고신뢰 1차 자료 + 커뮤니티 + 아직 못 채운 Gap
@@ -55,7 +95,8 @@ open llmops/lessons/0001-llmops-map-and-self-audit.html
 ```
 
 각 워크스페이스의 `index.html` 은 그 워크스페이스의 목록 페이지고,
-루트의 `index.html` 은 전체 목록이다.
+루트의 `index.html` 은 전체 목록이다. 둘 다 생성물이니 직접 고치지 말고
+`tools/build-index.py` 를 돌린다.
 
 ## 저장소에 넣지 않는 것
 

@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>study · 학습 워크스페이스</title>
-<meta name="description" content="LLM 운영 체계와 기업가치 평가 학습 워크스페이스. 레슨과 참조 문서 모음.">
+<meta name="description" content="학습 워크스페이스의 레슨과 참조 문서 목록.">
+<!-- 이 파일은 tools/build-index.py 가 생성한다. 직접 고치지 말 것. -->
 <style>
   :root {
     --ink:        #1a1a18;
@@ -46,10 +47,6 @@
   }
   h1 { font-size: 2.1rem; line-height: 1.2; margin: 0 0 0.8rem; letter-spacing: -0.01em; }
   .subtitle { color: var(--ink-soft); max-width: 34rem; margin: 0 0 2.5rem; }
-  .subtitle code {
-    font-size: 0.85em; background: var(--paper-alt);
-    padding: 0.1em 0.35em; border-radius: 3px;
-  }
 
   section.topic {
     border-top: 1px solid var(--rule);
@@ -61,6 +58,8 @@
     gap: 0.75rem; margin-bottom: 0.4rem;
   }
   .topic-head h2 { font-size: 1.5rem; margin: 0; letter-spacing: -0.01em; }
+  .topic-head h2 a { color: inherit; text-decoration: none; }
+  .topic-head h2 a:hover { color: var(--accent); }
   .status {
     font: 0.7rem/1 var(--font-sans); letter-spacing: 0.1em; text-transform: uppercase;
     color: var(--ink-faint); border: 1px solid var(--rule);
@@ -113,18 +112,17 @@
 
 <section class="topic">
   <div class="topic-head">
-    <h2>LLMOps</h2>
-    <span class="status">레슨 2 · 진행 중</span>
+    <h2><a href="./llmops/">LLMOps</a></h2>
+    <span class="status">레슨 2 · 참조 2</span>
   </div>
-  <p class="topic-why">LLM 운영 체계 — 평가·관측성·비용·배포.
-  8개의 도구 카테고리가 아니라 하나의 루프로 본다.</p>
+  <p class="topic-why">LLM 운영 체계 — 평가·관측성·비용·배포. 8개의 도구 카테고리가 아니라 하나의 루프로 본다.</p>
 
   <h3>Lessons</h3>
   <ul class="docs">
     <li><a href="./llmops/lessons/0001-llmops-map-and-self-audit.html">
       <span class="num">Lesson 0001 · 약 20분</span>
       <span class="title">루프를 먼저 본다</span>
-      <span class="gloss">운영 중인 시스템에서 루프가 끊긴 지점을 짚는다. 그게 다음에 배울 것을 결정한다.</span>
+      <span class="gloss">LLMOps는 8개의 도구 카테고리가 아니라 하나의 루프다.</span>
     </a></li>
     <li><a href="./llmops/lessons/0002-error-analysis-without-labels.html">
       <span class="num">Lesson 0002 · 약 25분 + 실습 20분</span>
@@ -138,48 +136,46 @@
     <li><a href="./llmops/reference/llmops-map.html">
       <span class="num">Reference · 빠른 참조</span>
       <span class="title">LLMOps 8영역 지도</span>
-      <span class="gloss">여덟 영역과 그것들이 이루는 플라이휠. 자기진단의 기준표.</span>
+      <span class="gloss">각 영역이 어떤 질문에 답하는지, 무엇을 숫자로 봐야 하는지, 어디서 미끄러지는지. 프린트해서 옆에 두고 쓰는 문서.</span>
     </a></li>
     <li><a href="./llmops/reference/scorer-failure-modes.html">
       <span class="num">Reference · 빠른 참조</span>
       <span class="title">LLM 채점기 실패 유형 카탈로그</span>
-      <span class="gloss">루브릭 채점기가 구체적으로 어떻게 틀리는지, 그중 무엇을 사람 점수 없이 탐지할 수 있는지.</span>
+      <span class="gloss">루브릭 기반 채점기가 구체적으로 어떻게 틀리는지, 각각을 어떻게 탐지하는지, 그리고 사람 점수 없이 오늘 확인할 수 있는 것은 무엇인지.</span>
     </a></li>
   </ul>
-
 </section>
 
 <section class="topic">
   <div class="topic-head">
-    <h2>Valley</h2>
-    <span class="status">레슨 1 · 진행 중</span>
+    <h2><a href="./valley/">기업가치 평가</a></h2>
+    <span class="status">레슨 1 · 참조 1</span>
   </div>
-  <p class="topic-why">기업가치 평가 — DCF·할인율.
-  숫자를 채우는 게 아니라 방어할 수 있게 만드는 것이 목표다.</p>
+  <p class="topic-why">DCF·할인율. 숫자를 채우는 게 아니라 방어할 수 있게 만드는 것이 목표다.</p>
 
   <h3>Lessons</h3>
   <ul class="docs">
     <li><a href="./valley/lessons/0001-discount-rate.html">
       <span class="num">Lesson 0001 · Week 9 · Index DCF</span>
       <span class="title">할인율 — DCF의 심장</span>
-      <span class="gloss">왜 미래의 돈을 깎아서 보는가, 그리고 그 깎는 비율은 어디서 오는가.</span>
+      <span class="gloss">이번 레슨의 목표는 딱 하나입니다. 왜 미래의 돈을 깎아서 보는가, 그리고 그 깎는 비율은 어디서 오는가.</span>
     </a></li>
   </ul>
 
   <h3>Reference</h3>
   <ul class="docs">
     <li><a href="./valley/reference/dcf-core.html">
-      <span class="num">Reference · 공식 카드</span>
-      <span class="title">Index DCF 핵심 공식</span>
-      <span class="gloss">프린트해서 옆에 두는 용도. 할인율·현재가치·영구성장 공식 한 장.</span>
+      <span class="num">Reference · Week 9</span>
+      <span class="title">Index DCF 핵심 공식 카드</span>
+      <span class="gloss">한 장으로 압축한 Week 9 전체. 숙제를 하면서 옆에 띄워 두거나 인쇄해서 쓰세요.</span>
     </a></li>
   </ul>
-
 </section>
 
 <footer>
   <p>모든 문서는 인쇄용 스타일이 들어 있다 — 브라우저에서 그대로 <kbd>⌘P</kbd>.</p>
-  <p><code>main</code> 에 푸시하면 GitHub Actions 가 이 사이트를 다시 배포한다.</p>
+  <p>이 목록은 <code>tools/build-index.py</code> 가 문서에서 생성한다.
+  새 레슨을 추가하고 <code>main</code> 에 푸시하면 자동으로 올라온다.</p>
 </footer>
 
 </body>

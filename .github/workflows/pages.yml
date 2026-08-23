@@ -27,9 +27,16 @@ jobs:
 
       - uses: actions/configure-pages@v5
 
-      # 사이트에 올릴 것은 레슨·참조 문서(HTML)와 그 에셋뿐이다.
+      # 목록 페이지는 lessons/ · reference/ 의 문서에서 생성한다.
+      # 새 레슨을 추가하고 푸시하면 목록에 자동으로 들어온다 —
+      # 커밋된 index.html 이 낡아 있어도 배포본은 항상 최신이다.
+      - name: 목록 페이지 생성
+        run: python3 tools/build-index.py
+
+      # 사이트에 올릴 것은 레슨·참조 문서(HTML)와 그 에셋, 목록 페이지뿐이다.
       # 마크다운 문서(MISSION·NOTES·RESOURCES·GLOSSARY)와 learning-records/ 는
       # 웹에 노출하지 않는다 — 저장소에서 GitHub 렌더링으로 읽는다.
+      # tools/ 와 workspace.json 은 빌드 입력이라 배포하지 않는다.
       - name: 배포할 파일만 모은다
         run: |
           mkdir -p _site
@@ -40,6 +47,8 @@ jobs:
             --exclude=./.gitignore \
             --exclude='*.md' \
             --exclude=learning-records \
+            --exclude=./tools \
+            --exclude='workspace.json' \
             . | tar -xf - -C _site
           echo "---- 배포 대상 ----"
           find _site -type f | sort
