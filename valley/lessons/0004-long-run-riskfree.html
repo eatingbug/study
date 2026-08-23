@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레슨 0004 — 10-2번 한 칸을 세 조각으로 조립하기</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">Lesson 0004 · Week 9 · Index DCF</p>
+  <h1>장기 무위험수익률 조립하기</h1>
+  <p class="standfirst">레슨 0003에서 종료가치 탭의 <span class="num">10-1번</span>과 <span class="num">10-4번</span>을 채웠습니다. 이제 그 옆칸 <span class="num">10-2번</span>입니다. 이 칸은 <strong>어디서도 그냥 받아 적을 수 없습니다</strong> — 조립해야 합니다.</p>
+</header>
+
+<div class="note mission">
+  <span class="label">이번 레슨의 한 가지 win</span>
+  <p>Valley AI의 종료가치 탭에서 <span class="num">10-2번(장기 무위험수익률)</span>을 보세요. 여기에 오늘 시장의 10년물 금리를 그냥 옮겨 적으면 안 됩니다.</p>
+  <p>오늘 끝나면 이 칸을 <strong>세 조각으로 쪼개서 조립</strong>할 수 있게 됩니다. 그리고 그 세 조각 중 <strong>딱 하나만이 당신의 뷰</strong>라는 것 — 나머지 둘은 받아 오는 값이라는 것을 구별할 수 있게 됩니다.</p>
+</div>
+
+<h2>0. 시작 전 — 꺼내 보기</h2>
+
+<div class="quiz" data-quiz>
+  <h3>워밍업 2문항</h3>
+
+  <div class="q" data-answer="0">
+    <p class="stem">종료가치의 할인율 r은 어떤 두 칸을 더한 값인가요?</p>
+    <div class="opts">
+      <button class="opt">10-2번 + 10-3번</button>
+      <button class="opt">10-1번 + 10-4번</button>
+      <button class="opt">10-2번 + 10-4번</button>
+    </div>
+    <div class="why">r = <strong>무위험수익률 + 위험 프리미엄</strong>. 종료가치 탭에서는 <span class="num">10-2번(장기 무위험수익률)</span> + <span class="num">10-3번(ERP)</span>입니다. 오늘은 앞의 것, 다음 레슨이 뒤의 것입니다. 참고로 <span class="num">10-1번</span>은 g, <span class="num">10-4번</span>은 장기 ROE — 이 둘은 <em>현금흐름</em> 쪽이고 할인율과는 상관이 없습니다.</div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">g = 3.75%, 장기 ROE = 13%일 때 도출되는 주주환원율은?</p>
+    <div class="opts">
+      <button class="opt">약 71%</button>
+      <button class="opt">약 29%</button>
+      <button class="opt">약 81%</button>
+    </div>
+    <div class="why"><span class="num">1 − 3.75/13 = 71.2%</span>. 29%는 유보율(1 − 71.2%)이고, 81%는 근미래 파트에 넣는 과거 25년 평균(80.72%)입니다. 셋이 전부 이 모형 안에 나오는 숫자라서 헷갈리기 쉽습니다.</div>
+  </div>
+
+  <div class="score"></div>
+</div>
+
+<h2>1. 왜 30년물 금리를 그냥 못 쓰는가</h2>
+
+<p><span class="num">10-2번</span>이 요구하는 것은 <em>영구히 성립할 명목 무위험수익률</em>입니다. 논리상 가장 긴 만기, 즉 <strong>30년물 국채 금리</strong>를 봐야 맞습니다.</p>
+
+<p>그런데 월가아재는 30년물 시장 금리를 그대로 쓰지 않습니다. 이유는 두 가지입니다 — <strong>수급 왜곡이 크고</strong>(30년물을 사는 주체가 연금·보험처럼 한정되어 있어 가격이 수요 사정에 흔들립니다), <strong>일시적 지정학 요인이 껴 있습니다</strong>(칼럼 작성 시점에는 이란 사태). 영구히 성립할 값을 뽑아야 하는데, 오늘의 노이즈가 섞인 숫자를 영원에 못 박는 셈이죠.</p>
+
+<p>그래서 <strong>더 유동성이 좋은 10년물의 정보로 조립</strong>합니다. 조립 설계도는 이렇습니다.</p>
+
+<div class="formula">
+  장기 무위험수익률 = 중립 실질금리(단기) + 기대 인플레이션 + 기간 프리미엄
+</div>
+
+<h2>2. 세 조각이 아니라, "단기 + 다리"다</h2>
+
+<p>이 식을 <em>독립적인 세 숫자를 찾아서 더하는 것</em>으로 읽으면 오늘 배운 게 사흘 뒤에 남지 않습니다. 실은 <strong>두 덩어리</strong>입니다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>덩어리</th><th>무엇인가</th><th>조각</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>① 중립 <em>단기</em> 명목금리</strong></td>
+      <td>경제가 정상일 때 <em>짧은</em> 국채를 계속 굴리면 나오는 이자</td>
+      <td>중립 실질금리 + 기대 인플레이션</td>
+    </tr>
+    <tr>
+      <td><strong>② 다리</strong></td>
+      <td>짧은 걸 계속 롤오버하는 대신 <em>긴</em> 걸 들고 있는 대가</td>
+      <td>기간 프리미엄</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>식 안에 <strong>"(단기)"</strong>라고 적혀 있는 게 힌트입니다. 첫 두 조각은 <em>짧은</em> 금리를 만들고, 세 번째 조각이 그것을 <em>긴</em> 금리로 옮겨 줍니다.</p>
+
+<h3>조각별로 어디서 오는가</h3>
+
+<p><strong>중립 실질금리(neutral real rate)</strong> — 경제가 완전고용이고 인플레이션이 목표에 있을 때의 실질 <em>단기</em> 금리. 받아 오는 값입니다. FOMC의 SEP(Summary of Economic Projections)에서 연준이 <em>longer-run</em>으로 보는 연방기금금리에서 <em>longer-run</em> PCE를 빼면 나옵니다. 칼럼 시점(2026년 6월 FOMC)에는 <span class="num">3.1% − 2.0% = 1.1%</span>.</p>
+
+<p><strong>기대 인플레이션(expected inflation)</strong> — 장기적으로 예상되는 평균 물가 상승률. 이것도 받아 오는 값입니다. <span class="num">10년물 국채 명목금리 − 10년물 TIPS 금리</span>를 계산하면 나옵니다. 이 차이를 <strong>브레이크이븐 인플레이션(TIPS breakeven)</strong>이라 부릅니다.</p>
+
+<div class="note">
+  <span class="label">TIPS가 무엇인지만 짚고 갑니다</span>
+  <p><strong>TIPS(Treasury Inflation-Protected Securities, 물가연동국채)</strong>는 일반 국채와 딱 한 군데가 다릅니다 — <strong>물가가 오르면 원금이 같이 커집니다.</strong></p>
+  <p>1,000달러어치를 샀는데 1년 동안 CPI가 3% 올랐다면 원금이 <span class="num">1,030달러</span>로 조정되고, 이자도 조정된 원금 위에서 계산됩니다(1,030 × 2.5%). 만기에 돌려받는 것도 누적 조정된 원금입니다. 그래서 표시된 <span class="num">2.5%</span>는 물가를 이미 걷어낸 <strong>실질금리</strong>이고, 일반 국채의 <span class="num">4.7%</span>는 물가가 섞인 <strong>명목금리</strong>입니다.</p>
+  <p>발행자도, 만기도, 부도 위험도 같습니다. <strong>다른 건 물가 위험을 누가 지느냐뿐입니다.</strong> 명목 국채를 사는 사람은 <em>물가 위험을 지고</em> 4.7%를 받고, TIPS를 사는 사람은 <em>물가 위험을 넘기고</em> 2.5%를 받는다면 — 그 차이 <span class="num">2.2%</span>가 시장이 값을 매긴 물가 상승률입니다.</p>
+  <p><strong>"브레이크이븐(손익분기)"이라 부르는 이유도 여기 있습니다</strong> — 실제 물가가 정확히 2.2%로 나오면 두 채권의 수익률이 똑같아집니다. 설문으로 "물가 얼마 오를 것 같아요?"를 묻는 게 아니라, <em>실제로 돈을 걸고 있는 사람들의 가격에서</em> 뽑아낸다는 것이 이 방식의 강점입니다.</p>
+</div>
+
+<p><strong>기간 프리미엄(term premium)</strong> — 장기채를 계속 보유하는 것 대비 단기채를 계속 롤오버하는 것의 기대수익률 차이. <strong>여기가 당신의 뷰가 들어가는 유일한 자리입니다.</strong> 정책금리 경로도, 국채 수급도, 인플레이션도 모르니 <em>음수도 양수도 될 수 있습니다.</em> 월가아재는 세 시나리오에 자의적으로 <span class="num">0.5% / 1.2% / 2.0%</span>를 부여했습니다. 시나리오를 어떻게 세우는지는 <strong>레슨 0006</strong>에서 다룹니다 — 오늘은 "이 칸이 뷰의 자리"라는 것만 가져가면 됩니다.</p>
+
+<h2>3. 일관성 — 오늘의 진짜 기술</h2>
+
+<p>여기서 칼럼이 한 번 멈춰 섭니다. 브레이크이븐이 <span class="num">2.26%</span>로 나왔는데, 이 값을 <strong>그대로 쓰면 안 된다</strong>고 합니다. 왜일까요?</p>
+
+<p><strong>TIPS는 CPI에 연동됩니다.</strong> 그러니 브레이크이븐은 <em>CPI 기준</em> 기대 인플레이션입니다. 그런데 방금 중립 실질금리를 뽑을 때 우리가 뺀 것은 <em>PCE</em>였습니다. CPI 기준 숫자와 PCE 기준 숫자를 그냥 더하고 있는 셈이죠.</p>
+
+<div class="note">
+  <span class="label">일관성 원칙</span>
+  <p>가치평가에서는 <strong>내가 쓰는 숫자들의 단위가 서로 맞아야 합니다.</strong> 중립 실질금리를 PCE로 뽑았으면, 기대 인플레이션도 PCE여야 합니다.</p>
+  <p>그래서 <span class="num">(CPI − PCE)</span> 갭만큼 깎습니다. 월가아재의 계산 — 현재 서베이상 갭은 0.18%, 장기 평균 갭은 0.30% 정도이므로 절충해 <span class="num">0.26%</span>를 쓰고, 브레이크이븐 2.26%를 <span class="num">2.00%</span>로 보정합니다. <em>(이 0.18 / 0.30 / 0.26이라는 숫자 자체의 출처는 확인되지 않았습니다. 숙제 실행 시점에는 BEA·BLS 원자료나 서베이로 직접 확인하세요.)</em></p>
+</div>
+
+<p>이게 왜 오늘의 핵심인가 하면 — <strong>단위 불일치는 가치평가에서 가장 흔하고 가장 조용한 오류</strong>입니다. 레슨 0003의 두 가지 실패를 떠올려 보세요. 식이 깨지면 화면이 소리를 지릅니다. 단위가 어긋나면 <em>화면은 아무 말도 하지 않습니다.</em> 2.26%도 2.00%도 똑같이 얌전한 숫자로 들어갑니다. 0.26%p 차이는 작아 보이지만, 잠시 뒤 위젯에서 그게 적정가치를 몇 % 움직이는지 보게 됩니다.</p>
+
+<h3>같은 원칙의 다른 얼굴 — 6번 vs 10-2번</h3>
+
+<p>근미래 파트의 <span class="num">6번(무위험수익률)</span>도 있습니다. 이건 그냥 필라델피아 연은 <a href="https://www.philadelphiafed.org/surveys-and-data/real-time-data-research/survey-of-professional-forecasters">SPF</a>(전문 예측가 서베이)의 10년물 전망을 참조해 넣습니다. 향후 10년 평균 전망은 <span class="num">4.00%</span>입니다.</p>
+
+<p>그런데 방금 조립한 <span class="num">10-2번</span>은 현상 유지 시나리오에서 <span class="num">4.30%</span>입니다. <strong>다른 숫자입니다. 그리고 그게 맞습니다.</strong> SPF의 4.00%는 <em>향후 10년 동안의 10년물 평균 전망</em>이고, 10-2번은 <em>영구히 성립할 값</em>입니다. 재는 대상이 다르니 같아야 할 이유가 없습니다.</p>
+
+<p>한 가지 더 — 칼럼은 <strong>6번을 무엇으로 넣든 적정가치에 미치는 영향이 생각보다 작다</strong>고 말합니다. 근미래 3~5년은 전체의 10~20%밖에 안 되고, 할인은 복리로 작동하니 할인율 오차의 효과도 먼 해에 훨씬 크게 쌓이기 때문입니다. 그러니 6번에 오래 고민할 이유가 없습니다. <strong>고민은 10-2번에 쏟으세요.</strong> (숫자로 얼마나 차이 나는지는 레슨 0007 민감도 분석에서 다룹니다.)</p>
+
+<h2>4. 직접 조립해 보기</h2>
+
+<div class="widget">
+  <h3>10-2번 조립기</h3>
+  <p class="caption">세 조각을 움직여 <span class="num">10-2번</span>을 만들고, 그것이 적정가치까지 어떻게 흘러가는지 봅니다. 나머지 칸은 <strong>현상 유지</strong> 시나리오로 고정했습니다 — ERP 4.8%, 장기 ROE 13%, g 3.75%, <strong>n = 10, EPS 수렴 경로는 12.25% → g 7년 선형</strong>.</p>
+
+  <div class="control">
+    <label for="rr"><span>① 중립 실질금리 <em style="color:var(--ink-faint);font-size:0.85em">(SEP: 3.1 − 2.0)</em></span><span class="val" data-for="rr">1.10%</span></label>
+    <input type="range" id="rr" min="0" max="2.5" step="0.05" value="1.1">
+  </div>
+
+  <div class="control">
+    <label for="pi"><span>② 기대 인플레이션 <em style="color:var(--ink-faint);font-size:0.85em">(브레이크이븐 − PCE 보정)</em></span><span class="val" data-for="pi">2.00%</span></label>
+    <input type="range" id="pi" min="1" max="4" step="0.02" value="2.00">
+  </div>
+
+  <div class="control">
+    <label for="tp"><span>③ 기간 프리미엄 <em style="color:var(--good,#2f6f4f);font-size:0.85em">← 당신의 뷰</em></span><span class="val" data-for="tp">1.20%</span></label>
+    <input type="range" id="tp" min="-0.5" max="3" step="0.05" value="1.2">
+  </div>
+
+  <p class="caption" style="margin:1.2rem 0 0">10-2번이 어떻게 조립되는가</p>
+  <div id="stack"></div>
+
+  <div class="readout">
+    <div class="metric"><span class="k">10-2번 장기 무위험수익률</span><span class="v hl" id="rf">—</span></div>
+    <div class="metric"><span class="k">+ 10-3번 ERP (고정)</span><span class="v" style="color:var(--ink-faint)">4.80%</span></div>
+    <div class="metric"><span class="k">= 할인율 r</span><span class="v" id="r">—</span></div>
+    <div class="metric"><span class="k">S&amp;P 500 적정가치</span><span class="v hl" id="val">—</span></div>
+    <div class="metric"><span class="k">기준(4.30%) 대비</span><span class="v" id="delta">—</span></div>
+  </div>
+
+  <div class="verdict" id="verdict">—</div>
+
+  <p class="caption" style="margin-top:1rem">이 계산기는 칼럼의 세 결과(9,513 / 6,710 / 5,407)를 <strong>±3.6% 안에서 재현</strong>합니다. 남은 오차는 관측할 수 없는 n = 4~10 EPS 경로에서 옵니다. 그러니 <strong>절대값보다 변화폭을 보세요</strong> — 옆에 띄워 놓은 Valley AI 화면과 절대값이 몇십 포인트 다를 수 있습니다.</p>
+</div>
+
+<h3>손잡이 하나씩 확인해 볼 것</h3>
+
+<ol>
+  <li><strong>③ 기간 프리미엄만</strong> 0.5% → 2.0%로 밀어 보세요. 다른 두 조각은 그대로입니다. 적정가치가 <span class="num">8,011 → 6,033</span>, <strong>약 −25%</strong>. 세 조각 중 유일하게 <em>당신이 정한</em> 조각이 이만큼을 움직입니다.</li>
+  <li><strong>② 기대 인플레이션을</strong> 2.00%에서 2.26%로 되돌려 보세요 — PCE 보정을 <em>안 한</em> 경우입니다. 적정가치가 <span class="num">약 −5%</span> 움직입니다. 단위 하나 안 맞춘 대가입니다.</li>
+  <li><strong>10-2번을 4.30% → 4.80%</strong>가 되게 아무 조각이나 올려 보세요. <span class="num">약 −8.7%</span>. 이게 <em>"10년물이 0.5% 오르면 S&amp;P가 몇 % 빠지나"</em>에 대한 이 모형의 답입니다 — 미션의 성공 조건 중 하나였죠. <strong>그리고 이 −8.7%는 위 캡션의 수렴 경로 가정을 바꿔도 잘 안 흔들립니다</strong> (n을 8~13으로, 수렴 시작 성장률을 9~15%로 바꿔 봐도 −8.5 ~ −8.9%). 적정가치의 <em>절대값</em>은 6,459 ~ 7,654까지 크게 움직이는데 <em>민감도</em>는 거의 그대로 — 그래서 "지금 몇 % 고평가"보다 "이 입력값이 몇 %를 움직이나"가 훨씬 믿을 만한 결론입니다.</li>
+  <li><strong>③을 음수(−0.5%)로</strong> 내려 보세요. 값이 계산됩니다. 기간 프리미엄은 실제로 음수가 될 수 있습니다 — 장기채를 들고 있으려는 수요가 충분히 강할 때요.</li>
+</ol>
+
+<h2>5. 이 식이 틀리는 지점</h2>
+
+<p>세 조각 전부에 금이 가 있습니다. 숙제 리포트에서 <span class="num">10-2번</span>을 방어하려면 이걸 먼저 알아야 합니다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>조각</th><th>무엇을 가정하는가</th><th>어디서 깨지는가</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>중립 실질금리</td>
+      <td>연준의 longer-run 전망이 "정상 상태"의 좋은 대리값이다</td>
+      <td>중립금리는 <strong>관측할 수 없습니다.</strong> SEP의 longer-run 값은 위원들 전망의 중앙값이고, 실제로 해마다 바뀝니다. 영구히 쓸 값을 <em>현재의 추정치</em>에서 가져오는 셈입니다.</td>
+    </tr>
+    <tr>
+      <td>기대 인플레이션</td>
+      <td>브레이크이븐 = 시장의 기대 인플레이션</td>
+      <td>연준 연구진 본인들이 <strong>아니라고</strong> 합니다. 브레이크이븐에는 <em>인플레 리스크 프리미엄</em>과 <em>TIPS 유동성 프리미엄</em>이 섞여 있습니다 (아래 인용).</td>
+    </tr>
+    <tr>
+      <td>기간 프리미엄</td>
+      <td>내 시나리오에 부여한 값이 합리적 범위 안에 있다</td>
+      <td>칼럼의 0.5 / 1.2 / 2.0은 <strong>근거가 붙지 않은 자의적 값</strong>입니다(본인도 "제 자의적 시나리오"라고 명시). 뉴욕 연은 ACM 모형 추정치(FRED <code>THREEFYTP10</code>)와 대조해서 역사적으로 어느 수준인지 확인해야 합니다.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note">
+  <span class="label">연준 연구진의 경고 (검증된 인용)</span>
+  <blockquote>
+    <p>“TIPS IC = expected inflation + inflation risk premium – TIPS liquidity premium.”</p>
+    <p>“policymakers and market participants are also cognizant that this spread is an imperfect measure, as it contains other components that can drive a wedge between inflation compensation and market participants' true inflation expectations.”</p>
+  </blockquote>
+  <p>— Kim, Walsh &amp; Wei, <a href="https://www.federalreserve.gov/econres/notes/feds-notes/tips-from-tips-update-and-discussions-20190521.html">“Tips from TIPS: Update and Discussions”</a>, FEDS Notes, 2019-05-21.</p>
+  <p>부호를 보세요. 브레이크이븐은 기대 인플레이션에 리스크 프리미엄을 <strong>더하고</strong> 유동성 프리미엄을 <strong>뺀</strong> 값입니다. 두 프리미엄이 우연히 상쇄되지 않는 한, 브레이크이븐은 기대 인플레이션이 아닙니다.</p>
+</div>
+
+<p><strong>그럼에도 왜 쓰는가.</strong> 세 조각 모두가 흔들리는데 이 식을 왜 쓸까요? 대안이 더 나쁘기 때문입니다. 30년물 시장 금리를 그대로 쓰면 오늘의 수급·지정학 노이즈를 영원에 못 박습니다. 그리고 결정적으로 — <strong>3분해는 어긋날 때 어디가 어긋났는지 짚을 수 있습니다.</strong> "적정가치가 이상한데?"에서 멈추지 않고 "기대 인플레 조각이 리스크 프리미엄만큼 부풀려져 있을 수 있다"까지 갈 수 있죠. 통째로 받아 적은 숫자는 그게 안 됩니다.</p>
+
+<p>숙제 리포트에서 방어의 형태는 이것입니다 — <em>"이 값을 얻기 위해 나는 A, B, C를 가정했고, 그중 C는 내 판단이며, B에는 알려진 편향이 있어 이 방향으로 보정했다."</em></p>
+
+<hr>
+
+<h2>6. 확인 — 기억에서 꺼내기</h2>
+
+<div class="quiz" data-quiz>
+  <h3>개념 4문항</h3>
+
+  <div class="q" data-answer="0">
+    <p class="stem">세 조각 중 <strong>기간 프리미엄</strong>만이 가진 성격은?</p>
+    <div class="opts">
+      <button class="opt">내 뷰가 들어가는 자리이다</button>
+      <button class="opt">시장에서 읽어 오는 값이다</button>
+      <button class="opt">연준이 공표해 주는 값이다</button>
+    </div>
+    <div class="why">중립 실질금리는 <strong>SEP에서 받아 오고</strong>, 기대 인플레이션은 <strong>시장 가격에서 읽어 옵니다</strong>. 기간 프리미엄만이 미래 시나리오에 대한 판단으로 채워집니다 — 그래서 시나리오별로 갈라지는 것도 이 조각뿐입니다.</div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">중립 실질금리를 PCE로 뽑고 기대 인플레는 CPI로 넣으면?</p>
+    <div class="opts">
+      <button class="opt">단위가 어긋난 채 더해진다</button>
+      <button class="opt">부호가 뒤집힌 채 더해진다</button>
+      <button class="opt">항이 하나 빠진 채 더한다</button>
+    </div>
+    <div class="why">서로 다른 물가 지수를 기준으로 한 숫자를 그냥 더하는 것입니다. <strong>화면은 아무 경고도 주지 않습니다</strong> — 이게 단위 오류가 위험한 이유입니다. (CPI − PCE) 갭만큼 보정해야 합니다.</div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">브레이크이븐을 그대로 기대 인플레이션으로 쓰면 안 되는 이유?</p>
+    <div class="opts">
+      <button class="opt">프리미엄 두 종류가 섞여 있어서</button>
+      <button class="opt">만기가 두 종류로 서로 달라서요</button>
+      <button class="opt">국채가 두 종류로 같은 값이어서</button>
+    </div>
+    <div class="why">브레이크이븐 = 기대 인플레이션 <strong>+ 인플레 리스크 프리미엄 − TIPS 유동성 프리미엄</strong>. 연준 연구진(Kim·Walsh·Wei, 2019)이 직접 "imperfect measure"라고 씁니다. 만기는 둘 다 10년물이라 문제가 아닙니다.</div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">10-2번만 4.3% → 4.8%로 올리면 적정가치는? (구조 모델 기준)</p>
+    <div class="opts">
+      <button class="opt">내려간다 — 약 9%</button>
+      <button class="opt">올라간다 — 약 9%</button>
+      <button class="opt">그대로다 — 약 0%</button>
+    </div>
+    <div class="why"><span class="num">6,950 → 6,347</span>, 약 <strong>−8.7%</strong>. 할인율이 오르면 미래 현금흐름의 현재가치가 깎이고, 종료가치가 전체의 61%를 차지하니 그 효과가 크게 나타납니다. 무위험수익률 <strong>0.5%p</strong>가 지수 <strong>9%</strong>입니다.</div>
+  </div>
+
+  <div class="score"></div>
+</div>
+
+<div class="drill" data-drill>
+  <h3>계산 6문항 — 조각에서 할인율까지</h3>
+  <p class="caption">①~④는 한 사슬입니다. 칼럼의 2026년 7월 값을 씁니다.</p>
+
+  <div class="row" data-answer="1.1" data-tol="0.02">
+    <span class="ask">① 중립 실질금리는? (SEP longer-run FFR 3.1% − longer-run PCE 2.0%)</span>
+    <input type="text" placeholder="?"><span class="unit">%</span><span class="mark"></span>
+    <div class="hint">3.1 − 2.0 = 1.1%. <strong>실질</strong> 금리이므로 명목에서 물가를 뺀 것입니다.</div>
+  </div>
+
+  <div class="row" data-answer="2.2" data-tol="0.02">
+    <span class="ask">② 10년물 명목 4.7%, 10년물 TIPS 2.5%. 브레이크이븐은?</span>
+    <input type="text" placeholder="?"><span class="unit">%</span><span class="mark"></span>
+    <div class="hint">4.7 − 2.5 = 2.2%. 물가 위험을 지는 쪽이 그만큼 더 받습니다.</div>
+  </div>
+
+  <div class="row" data-answer="2.0" data-tol="0.02">
+    <span class="ask">③ 실제 브레이크이븐은 2.26%였습니다. (CPI − PCE) 갭 0.26%를 보정하면?</span>
+    <input type="text" placeholder="?"><span class="unit">%</span><span class="mark"></span>
+    <div class="hint">2.26 − 0.26 = 2.00%. TIPS는 CPI 연동이고 ①은 PCE 기준이므로, <strong>단위를 PCE로 맞춥니다.</strong></div>
+  </div>
+
+  <div class="row" data-answer="4.3" data-tol="0.02">
+    <span class="ask">④ 기간 프리미엄 1.2%(현상 유지)를 더하면 10-2번은?</span>
+    <input type="text" placeholder="?"><span class="unit">%</span><span class="mark"></span>
+    <div class="hint">1.1 + 2.00 + 1.2 = 4.3%. 골디락스(0.5%)면 3.6%, 재정 지배(2.0%)면 5.1%가 됩니다 — <strong>갈라지는 건 세 번째 조각뿐</strong>입니다.</div>
+  </div>
+
+  <div class="row" data-answer="9.1" data-tol="0.02">
+    <span class="ask">⑤ 여기에 10-3번 ERP 4.8%를 더한 할인율 r은?</span>
+    <input type="text" placeholder="?"><span class="unit">%</span><span class="mark"></span>
+    <div class="hint">4.3 + 4.8 = 9.1%. 레슨 0002·0003에서 계속 쓰던 그 9.1%가 어디서 왔는지 이제 전부 보입니다.</div>
+  </div>
+
+  <div class="row" data-answer="5.35" data-tol="0.05">
+    <span class="ask">⑥ 만약 ③의 PCE 보정을 <strong>잊고</strong> 2.26%를 그대로 넣었다면, 재정 지배(기간 프리미엄 2.0%)의 10-2번은?</span>
+    <input type="text" placeholder="?"><span class="unit">%</span><span class="mark"></span>
+    <div class="hint">1.1 + 2.26 + 2.0 = 5.36% (반올림 5.35~5.36). 원래는 5.1%였죠. <strong>0.26%p가 조용히 들어갔습니다.</strong> 위젯 ②번 손잡이에서 확인했듯 이건 적정가치 약 5%입니다 — 지수로 <strong>300포인트</strong>가 넘습니다(6,950 → 6,623).</div>
+  </div>
+
+  <div class="actions"><button class="ghost" data-reveal>정답 보기</button></div>
+</div>
+
+<hr>
+
+<h2>이번에 읽을 것 (하나만)</h2>
+
+<p><strong>1차 자료 —</strong> <a href="https://www.federalreserve.gov/econres/notes/feds-notes/tips-from-tips-update-and-discussions-20190521.html">Don H. Kim, Cait Walsh &amp; Min Wei, “Tips from TIPS: Update and Discussions” (FEDS Notes, 2019)</a></p>
+
+<p>연준 이코노미스트 셋이 브레이크이븐의 정체를 직접 해부한 짧은 노트입니다. 오늘 두 번째 조각의 근거이자 그 조각의 약점이 동시에 여기 있습니다.</p>
+
+<p>읽으면서 들고 갈 질문 하나 — <strong>브레이크이븐이 오르면 그게 기대 인플레이션이 오른 것인가, 아니면 물가 보험료가 비싸진 것인가?</strong> 이 구별이 숙제에서 <span class="num">10-2번</span> 칸을 방어하는 문단이 됩니다. 그리고 이 노트는 다음 주 진도(7회차, TIPS·기대 인플레이션)와도 정확히 겹치므로, 미리 읽어 두면 두 번 이깁니다.</p>
+
+<p class="next-up"><strong>진도 —</strong> 월가아재 글로벌 매크로 지식편 6회차 2강(주가지수의 DCF). 3분해의 두 번째 조각은 7회차에서 더 깊이 다룹니다.</p>
+
+<div class="ask-teacher">
+  <span class="label">막히면 물어보세요</span>
+  오늘 흐릿하게 남기 쉬운 지점은 <em>"왜 <strong>단기</strong> 중립금리에서 출발해 <strong>장기</strong> 금리를 만드는가"</em>입니다. 이게 안 잡히면 3분해가 그냥 외워야 할 세 항목으로 남습니다. 그리고 <em>"기간 프리미엄이 음수가 될 수 있다"</em>는 말이 이상하게 들렸다면 — 좋은 신호입니다, 물어보세요.
+</div>
+
+<div class="footer">
+  <h3>이어지는 곳</h3>
+  <ul>
+    <li><a href="0003-growth-identity.html">← 레슨 0003 — g는 어디서 오는가</a></li>
+    <li><a href="../reference/dcf-core.html">레퍼런스 — §5 장기 무위험수익률 3분해</a></li>
+    <li><a href="../GLOSSARY.md">용어집 — 중립 실질금리 · 기대 인플레이션 · 기간 프리미엄 · 브레이크이븐</a></li>
+    <li>레슨 0005 — ERP: 과거 데이터의 실패, 내재 ERP, 그리고 순환논리 <em>(예정)</em></li>
+  </ul>
+</div>
+
+<script src="../assets/dcf.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+(function () {
+  // 현상 유지 시나리오로 고정된 나머지 칸
+  var FIXED = {
+    eps:        [340.39, 397.87, 446.60],
+    payoutNear: 0.8072,
+    erp:        0.048,
+    g:          0.0375,
+    roe:        0.13,
+    n:          10,
+    glideFrom:  0.1225
+  };
+
+  function valueAt(rf) {
+    var o = {};
+    for (var k in FIXED) o[k] = FIXED[k];
+    o.riskFree = rf;
+    return DCF.indexDCF(o);
+  }
+
+  var BASE = valueAt(0.043).total;   // 10-2번 = 4.30% 기준
+
+  var stackEl   = document.getElementById('stack');
+  var rfEl      = document.getElementById('rf');
+  var rEl       = document.getElementById('r');
+  var valEl     = document.getElementById('val');
+  var deltaEl   = document.getElementById('delta');
+  var verdictEl = document.getElementById('verdict');
+
+  var rrEl = document.getElementById('rr');
+  var piEl = document.getElementById('pi');
+  var tpEl = document.getElementById('tp');
+
+  function render() {
+    var rr = parseFloat(rrEl.value) / 100;
+    var pi = parseFloat(piEl.value) / 100;
+    var tp = parseFloat(tpEl.value) / 100;
+    var rf = rr + pi + tp;
+
+    var m = valueAt(rf);
+    var d = m.total / BASE - 1;
+
+    rfEl.textContent    = DCF.pct(rf, 2);
+    rEl.textContent     = DCF.pct(m.r, 2);
+    valEl.textContent   = DCF.fmt(m.total, 0);
+    deltaEl.textContent = (d >= 0 ? '+' : '') + (d * 100).toFixed(1) + '%';
+
+    // 기간 프리미엄이 음수면 누적 막대로 그릴 수 없다 — 숫자로만 보여 준다
+    if (tp < 0) {
+      stackEl.innerHTML = '<p class="caption" style="margin:0.8rem 0 0">' +
+        '기간 프리미엄이 <strong>음수</strong>(' + DCF.pct(tp, 2) + ')입니다 — 중립 단기 명목금리 ' +
+        DCF.pct(rr + pi, 2) + '에서 <em>깎여</em> ' + DCF.pct(rf, 2) + '가 됩니다. ' +
+        '장기채를 들고 있으려는 수요가 그만큼 강한 상태입니다.</p>';
+    } else {
+      DCF.drawSplitBar(stackEl, [
+        { value: rr, label: '중립 실질금리',   cls: 'near'   },
+        { value: pi, label: '기대 인플레이션', cls: 'retain' },
+        { value: tp, label: '기간 프리미엄',   cls: 'tv'     }
+      ]);
+    }
+
+    var msg, cls;
+    if (m.r <= FIXED.g) {
+      cls = 'bad';
+      msg = '<b>식이 깨졌습니다.</b> r이 g(3.75%) 이하로 내려갔습니다 — 레슨 0002의 첫 번째 실패입니다.';
+    } else if (Math.abs(pi - 0.0226) < 0.0005) {
+      cls = 'bad';
+      msg = '<b>PCE 보정을 빼먹은 상태입니다.</b> 2.26%는 <em>CPI 기준</em> 브레이크이븐 원값입니다. ' +
+            '①을 PCE로 뽑았으니 여기도 PCE여야 합니다 — 0.26%p를 깎아 2.00%로. ' +
+            '보정한 값 대비 지금 <b>' + ((m.total / valueAt(rr + 0.02 + tp).total - 1) * 100).toFixed(1) +
+            '%</b> 차이가 나 있습니다.';
+    } else if (Math.abs(rf - 0.036) < 0.0005) {
+      cls = 'ok';
+      msg = '<b>골디락스 시나리오의 10-2번(3.6%)입니다.</b> 기준(현상 유지) 대비 +' +
+            (d * 100).toFixed(1) + '%. 기간 프리미엄 0.5% — AI 생산성이 급증해 디플레 압력까지 생기는 세상입니다.';
+    } else if (Math.abs(rf - 0.043) < 0.0005) {
+      cls = 'ok';
+      msg = '<b>현상 유지 시나리오의 10-2번(4.3%)입니다.</b> 기준점입니다. ' +
+            '이 조합이 칼럼의 6,710에 해당하고, 이 계산기는 그것을 +3.6%로 재현합니다.';
+    } else if (Math.abs(rf - 0.051) < 0.0005) {
+      cls = 'ok';
+      msg = '<b>재정 지배 시나리오의 10-2번(5.1%)입니다.</b> 기준 대비 ' +
+            (d * 100).toFixed(1) + '%. 세 조각 중 <em>기간 프리미엄만</em> 2.0%로 바꾼 결과입니다.';
+    } else {
+      cls = '';
+      msg = '<b>10-2번 = ' + DCF.pct(rf, 2) + '</b> — 기준(4.30%) 대비 적정가치 ' +
+            (d >= 0 ? '+' : '') + (d * 100).toFixed(1) + '%. ' +
+            '종료가치가 전체의 ' + DCF.pct(m.tvShare, 0) + '를 차지하므로, ' +
+            '이 칸의 움직임은 거의 그대로 종료가치의 움직임입니다.';
+    }
+    verdictEl.className = 'verdict ' + cls;
+    verdictEl.innerHTML = msg;
+  }
+
+  DCF.bindRange('#rr', function (v) { return v.toFixed(2) + '%'; }, render);
+  DCF.bindRange('#pi', function (v) { return v.toFixed(2) + '%'; }, render);
+  DCF.bindRange('#tp', function (v) { return v.toFixed(2) + '%'; }, render);
+})();
+</script>
+
+</body>
+</html>

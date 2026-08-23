@@ -9,6 +9,11 @@
   2008년 9월부터 **매월 초** S&P 500 내재 ERP를 갱신해 첫 페이지에 게시. 2026년 7월 1일 기준 S&P 7,499.36에서 내재 ERP 4.42% (Aa1 디폴트 스프레드 0.22% 차감 시 성숙시장 프리미엄 4.20%). → **숙제 실행 시점의 최신 내재 ERP를 뽑을 때 여기가 1순위.**
 - [Damodaran, "The Price of Risk: An Equity Risk Premium Monologue!" (2026-03)](https://aswathdamodaran.blogspot.com/2026/03/the-price-of-risk-equity-risk-premium.html)
   ERP를 왜 과거 데이터로 추정하면 안 되는지, 내재 ERP가 무엇인지 본인이 직접 설명한 글. → **숙제 2번(과거 ERP의 문제점 + 내재 ERP 설명)의 근거로 인용하기 좋음.**
+  → 검증된 요약 + verbatim 인용문: `raw/damodaran-2026-03-price-of-risk-요약.md` (2026-08-06). 확인된 수치: 과거방식 범위 5.5~14.5%(2026년 초), 내재 ERP 4.23%, 2008-09-12 4.2%. 주의 — **"내재 ERP의 순환논리"는 이 글에 없는 논점**이다. 원문 논리에서 유도해야 하며 다모다란 인용으로 쓰면 안 된다.
+- [Damodaran, "Myth 5.5: The Terminal Value ate my DCF!" (2016-11)](https://aswathdamodaran.blogspot.com/2016/11/myth-55-terminal-value-ate-my-dcf.html)
+  종료가치가 전체 가치의 대부분을 차지하는 것이 왜 결함이 아닌지 (주식 수익의 67~85%가 배당이 아닌 가격 상승에서 오므로), 그리고 "TV가 지배하니 근미래 가정은 덜 중요하다"가 왜 **위험한 논리적 비약(dangerous leap of logic)**인지. TV 비중이 고성장 기간의 길이·성장률에 따라 크게 달라진다는 표도 있다. → **숙제 리포트에서 종료가치 가정을 방어할 때, 스터디 라운지에서 "TV가 87%면 못 믿는 것 아니냐"는 반론에 답할 때.** L0002의 1차 자료.
+- [Damodaran, "Myth 5.3: Growth is good, more growth is better!" (2016-11)](https://aswathdamodaran.blogspot.com/2016/11/myth-53-growth-is-good-more-growth-is.html)
+  성장은 공짜가 아니며 재투자로 값을 치러야 한다(`g = 유보율 × ROE`)는 것, 그리고 **가치를 만드는 것은 성장률 자체가 아니라 초과수익(ROE − 요구수익률)**이라는 것. 검증된 인용: *"Growth is not free and it has to be paid for with reinvestment and in the terminal value equation, this effectively means that you cannot leave cash flows fixed and change the growth rate."* → **숙제에서 10-1번(g)과 10-4번(ROE) 조합을 방어할 때.** L0003의 1차 자료.
 - [Damodaran, Valuation 강의 패킷 1 (Spring 2026, PDF)](https://pages.stern.nyu.edu/~adamodar/pdfiles/eqnotes/valpacket1spr26.pdf)
   DCF의 정석 교재. 할인율, 종료가치, 성장률의 내부 일관성(g = ROE × 유보율)이 전부 여기 있다. → **어떤 공식의 "정통" 근거가 필요할 때.**
 
@@ -23,6 +28,8 @@
   점도표와 함께 나오는 **longer-run** 연방기금금리·PCE 전망. `중립 실질금리 = longer-run FFR − longer-run PCE`. 칼럼에서는 3.1% − 2.0% = 1.1%. → **장기 무위험수익률 3분해의 첫 항.**
 - FRED: `T10YIE` (10년 기대인플레이션 = 10년물 명목 − 10년물 TIPS)
   시장이 보는 기대 인플레이션. 단 **CPI 기준**이므로 PCE 기준으로 쓰려면 (CPI − PCE) 갭만큼 보정 필요. → **3분해의 두 번째 항.**
+- [Kim, Walsh & Wei, "Tips from TIPS: Update and Discussions" (FEDS Notes, 2019-05-21)](https://www.federalreserve.gov/econres/notes/feds-notes/tips-from-tips-update-and-discussions-20190521.html)
+  연준 이코노미스트 셋이 브레이크이븐을 분해한 짧은 노트. 검증된 인용(2026-08-22 fetch): *"TIPS IC = expected inflation + inflation risk premium – TIPS liquidity premium."* / *"policymakers and market participants are also cognizant that this spread is an imperfect measure, as it contains other components that can drive a wedge between inflation compensation and market participants' true inflation expectations."* 유동성 프리미엄은 *"believed to have been positive and sizeable in the 1970s and 1980s… but appears to have declined in recent decades to lower or even negative levels."* 주의 — **이 노트는 크기를 정량적으로 제시하지 않는다.** → **3분해의 두 번째 항을 방어할 때, "브레이크이븐을 그대로 기대 인플레로 썼다"는 반론에 답할 때.** L0004의 1차 자료.
 - FRED: `THREEFYTP10` (ACM 10년물 기간 프리미엄)
   뉴욕 연은 ACM 모형의 기간 프리미엄 추정치. 칼럼은 시나리오별로 0.5 / 1.2 / 2.0%를 자의적으로 부여했는데, 그 값이 역사적으로 어느 수준인지 대조할 때 유용. → **3분해의 세 번째 항.**
 
@@ -49,7 +56,8 @@
 > 사용자에게 커뮤니티 참여 의향을 아직 확인하지 않음. 원치 않으면 이 섹션은 정리한다.
 
 ## Gaps
+- **`g = ROE × 유보율`의 한계에 대한 1차 자료 미확보.** 평균 ROE ≠ 한계 ROE(신규 투자 수익률), 부채·M&A·마진개선 경로 누락, 장부 자기자본이 투입자본의 나쁜 대리변수라는 점, 자사주 매입이 ROE를 부풀리는 점 — 이 논점들은 **다모다란 Myth 5.3에 없다**(2026-08-07 확인). 숙제에 쓰려면 별도 출처가 필요하다. 다음 후보: Valuation 강의 패킷 1의 성장률 챕터, Damodaran의 ROIC/excess return 관련 글.
 - **ERP 레짐별 평균 6개 (3.3 / 5.2 / 3.3 / 3.8 / 5.4 / 4.8%)** — 다모다란이 발표한 값이 아니라 **월가아재가 시계열을 임의 구간으로 잘라 계산한 값**이다. 구간 경계도 그의 판단. 숙제에 근거로 쓰려면 histimpl 엑셀을 받아 직접 검산할 것. 미검산 상태.
-- **Valley AI Index DCF의 정확한 계산 규약** — 연도별 할인율을 쓰는지, 종료가치를 n년으로 할인하는지, 주당(per-share) 기준을 어떻게 처리하는지 문서화된 자료를 못 찾음. 칼럼의 결과값(9,513 / 6,710 / 5,407)으로 역검증 필요.
+- ~~**Valley AI Index DCF의 정확한 계산 규약**~~ → **해결 (2026-08-22).** 역검증으로 규약을 확정, ±3.6% 재현. [LR0004](./learning-records/0004-valley-ai-calculation-convention-back-verified.md). 남은 미확인은 **n=4~10 EPS 수렴 경로**뿐이며, 칼럼 산문과 재현 조건이 어긋난다.
 - **CPI − PCE 갭의 공식 시계열** — 칼럼은 "현재 서베이상 0.18%, 장기평균 0.30%, 절충 0.26%"라고 하는데 출처 미확인. BEA/BLS 원자료로 직접 계산하는 절차가 필요.
 - **S&P 500 장기 ROE 시계열** — 칼럼이 인용한 "1950년대 이후 10~14% → 95년 이후 13~18% → 21~25년 18~21%" 밴드의 원출처 미확인.

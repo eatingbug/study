@@ -233,6 +233,56 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
 .bars .bar .fill.solid { opacity: 0.75; }
 .bars .bar .lbl { flex: 0 0 1rem; font-size: 0.62rem; color: var(--ink-faint); text-align: center; font-family: var(--mono); }
 
+/* horizontal stacked bar — 두 덩어리의 비중 (DCF.drawSplitBar) */
+.splitbar {
+  display: flex;
+  height: 2.6rem;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  margin: 1.2rem 0 0.7rem;
+}
+.splitbar .seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  transition: width 0.12s;
+  min-width: 0;
+}
+.splitbar .seg.near { background: var(--accent); }
+.splitbar .seg.tv   { background: var(--good); }
+/* 이익 100을 어떻게 쪼개나 — 주주환원 vs 사내유보 */
+.splitbar .seg.payout { background: #6a5acd; }
+.splitbar .seg.retain { background: #c98a2e; }
+
+.splitlegend { display: flex; flex-wrap: wrap; gap: 1.2rem; font-size: 0.82rem; color: var(--ink-soft); }
+.splitlegend .key { display: flex; align-items: center; gap: 0.4rem; }
+.splitlegend .key b { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--ink); }
+.splitlegend .key i { width: 0.7rem; height: 0.7rem; border-radius: 2px; display: inline-block; }
+.splitlegend .key i.near { background: var(--accent); }
+.splitlegend .key i.tv   { background: var(--good); }
+.splitlegend .key i.payout { background: #6a5acd; }
+.splitlegend .key i.retain { background: #c98a2e; }
+
+/* 검산 판정 — 그럴듯한가? (L0003 이후 일관성 점검에 재사용) */
+.verdict {
+  margin: 1rem 0 0;
+  padding: 0.7rem 0.9rem;
+  border-radius: 4px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  border-left: 3px solid var(--ink-faint);
+  background: var(--note-bg);
+  color: var(--ink-soft);
+}
+.verdict.ok  { border-left-color: var(--good); background: var(--good-bg); color: var(--good); }
+.verdict.bad { border-left-color: var(--bad);  background: var(--bad-bg);  color: var(--bad); }
+.verdict b { color: inherit; }
+
 /* ---------- quiz ---------- */
 
 .quiz { border: 1px solid var(--rule); border-radius: 6px; background: #fff; padding: 1.4rem 1.5rem; margin: 2rem 0; }
@@ -358,6 +408,18 @@ button.ghost:hover { border-color: var(--ink-faint); color: var(--ink); }
   .quiz .why, .drill .row .hint { display: block !important; }
   .ask-teacher { display: none; }
   h2 { break-after: avoid; }
+}
+
+/* 반쪽 화면 — 사용자는 레슨과 레퍼런스(그리고 Valley AI)를 나란히 띄워 놓고 읽는다.
+   46rem 측정폭을 유지할 수 없는 폭에서, 여백을 먼저 줄이고 위젯을 좁힌다. */
+@media (max-width: 46rem) {
+  body { padding: 3rem 1.5rem 6rem; }
+  .widget, .quiz, .drill { padding: 1.1rem 1.15rem; }
+  .readout { gap: 1rem; }
+  .readout .metric { flex: 1 1 6rem; }
+  .readout .metric .v { font-size: 1.15rem; }
+  .formula { font-size: 0.92rem; padding: 0.9rem 0.75rem; }
+  .drill .row .ask { flex: 1 1 100%; }
 }
 
 @media (max-width: 34rem) {

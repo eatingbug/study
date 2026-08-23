@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레슨 0002 — 2단 구조: 종료가치가 지배한다</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">Lesson 0002 · Week 9 · Index DCF</p>
+  <h1>2단 구조 — 종료가치가 지배한다</h1>
+  <p class="standfirst">레슨 0001에서 한 해씩 할인하는 법을 배웠습니다. 그런데 S&amp;P 500은 <strong>영원히</strong> 존속합니다. 100년치를 한 해씩 추정할 수는 없으니, 실무는 계산을 둘로 쪼갭니다.</p>
+</header>
+
+<div class="note mission">
+  <span class="label">이번 레슨의 한 가지 win</span>
+  <p>숙제 화면의 <span class="num">1~9번</span>과 <span class="num">10번</span>이 왜 <em>따로</em> 있는지, 그리고 왜 월가아재가 <span class="num">10-1 ~ 10-4</span>번 네 칸에 칼럼의 대부분을 쓰는지를 <strong>비중의 문제</strong>로 이해합니다.</p>
+  <p>끝나면 이렇게 말할 수 있습니다 — <em>"내 적정가치의 87%는 종료가치에서 나온다. 그리고 그 87%라는 숫자 자체가 내가 n을 몇으로 잡았느냐에 달려 있다."</em></p>
+</div>
+
+<h2>0. 시작 전 — 지난주 것 꺼내 보기</h2>
+
+<p class="next-up">다시 읽지 말고 <em>떠올려서</em> 답하세요. 이 두 문항이 오늘 배울 것의 재료입니다.</p>
+
+<div class="quiz" data-quiz>
+  <h3>워밍업 2문항</h3>
+
+  <div class="q" data-answer="0">
+    <p class="stem">할인율 = 무위험수익률 + 리스크 프리미엄. 이 식을 리스크 프리미엄 기준으로 다시 쓰면?</p>
+    <div class="opts">
+      <button class="opt">총 요구수익률 − 무위험수익률</button>
+      <button class="opt">총 요구수익률 + 무위험수익률</button>
+      <button class="opt">총 요구수익률 × 무위험수익률</button>
+    </div>
+    <div class="why">할인율은 <strong>총 요구수익률</strong>의 다른 이름이었죠. 그래서 양변에서 무위험수익률을 빼면 리스크 프리미엄이 나옵니다. 이 뒤집기가 레슨 0005의 <em>내재 ERP</em>로 곧장 이어집니다.</div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">먼 미래의 현금흐름일수록 현재가치가 급격히 작아집니다. t가 어디에 있어서일까요?</p>
+    <div class="opts">
+      <button class="opt">지수 자리에 있어서</button>
+      <button class="opt">분자 자리에 있어서</button>
+      <button class="opt">계수 자리에 있어서</button>
+    </div>
+    <div class="why">분모가 <span class="num">(1+r)<sup>t</sup></span>이므로 t는 지수 자리입니다. 산술이 아니라 기하급수적으로 줄어듭니다. <strong>오늘의 역설은 여기서 시작합니다</strong> — 한 해 한 해는 그렇게 작아지는데, 그 작아지는 항들을 무한히 더한 덩어리가 어떻게 전체의 80%를 넘게 되는가?</div>
+  </div>
+
+  <div class="score"></div>
+</div>
+
+<h2>1. n을 몇으로 둘 것인가</h2>
+
+<p>레슨 0001의 식은 이랬습니다.</p>
+
+<div class="formula">
+  V₀ = CF₁/(1+r)<sup>1</sup> + CF₂/(1+r)<sup>2</sup> + … + CF<sub>n</sub>/(1+r)<sup>n</sup>
+</div>
+
+<p>실전에서 n은 몇일까요? 상장기업을 5년 뒤 폐업한다고 가정할 수는 없습니다. 그래서 실무에서는 <strong>영구히 존속한다</strong>고 둡니다. 그런데 100년치 EPS를 한 해씩 추정하는 건 불가능하죠.</p>
+
+<p>그래서 계산을 <strong>둘로 쪼갭니다</strong>.</p>
+
+<div class="formula">
+  V₀ = <span style="color:var(--accent)">Σ<sub>t=1..n</sub> CF<sub>t</sub>/(1+r)<sup>t</sup></span> &nbsp;+&nbsp; <span style="color:var(--good)">TV<sub>n</sub> ÷ (1+r)<sup>n</sup></span>
+</div>
+
+<ul>
+  <li><strong style="color:var(--accent)">근미래 파트</strong> — 1년차부터 n년차까지. 애널리스트 컨센서스를 쓰든 사이클을 감안하든, 한 해씩 <em>구체적으로</em> 추정합니다. 숙제 화면의 <span class="num">1~9번</span>이 이 파트입니다.</li>
+  <li><strong style="color:var(--good)">종료가치 파트</strong> — n+1년차부터 <em>영원까지</em>. 여기서는 포기하고 단순하게 갑니다. "n년차 현금흐름에서 출발해 매년 g%씩 영구히 성장한다." 숙제 화면의 <span class="num">10번</span>이 이 파트입니다.</li>
+</ul>
+
+<h2>2. 종료가치 공식과 두 개의 함정</h2>
+
+<p>n+1년차부터 영원까지, 매년 g%씩 커지는 현금흐름을 전부 더하면 — 무한히 더하는데도 값이 발산하지 않고 한 줄로 정리됩니다. 레슨 0001 마지막 드릴에서 <span class="num">100 ÷ 0.10 = 1,000원</span>을 계산했던 그 무한등비급수입니다. 거기에 성장률 g가 붙은 버전이 이겁니다.</p>
+
+<div class="formula">
+  <span class="lead">종료가치</span> TV<sub>n</sub> = CF<sub>n+1</sub> ÷ (r − g)<br>
+  <span class="lead">여기서</span> CF<sub>n+1</sub> = CF<sub>n</sub> × (1 + g)
+</div>
+
+<p>여기 <strong>g</strong>가 <strong>영구성장률(terminal growth)</strong>입니다. 오늘은 "종료가치 공식에 들어가는 성장률" 정도로만 알아 두세요. 이 숫자를 <em>무엇으로 정해야 하는가</em>는 레슨 0003의 본론입니다.</p>
+
+<p>이 두 줄짜리 공식에 초보자가 반드시 걸리는 함정이 둘 있습니다.</p>
+
+<div class="note">
+  <span class="label">함정 ① — TV는 현재가치가 아니다</span>
+  <p><span class="num">CF<sub>n+1</sub> ÷ (r − g)</span>로 나온 값은 <strong>n년차 시점에 서서 본</strong> 값입니다. 지금 시점의 값이 아닙니다. 그래서 <span class="num">(1+r)<sup>n</sup></span>으로 <em>한 번 더</em> 할인해서 현재까지 끌고 와야 합니다. 위 식에서 <span style="color:var(--good)">TV<sub>n</sub> ÷ (1+r)<sup>n</sup></span>의 나눗셈이 그것입니다. 칼럼에서 <span class="num">1/(1+r)<sup>5</sup></span> 항을 두고 "첫번째 항이 5년차 시점에서 정리된 항이라서"라고 설명한 부분이 정확히 이 이야기입니다.</p>
+</div>
+
+<div class="note">
+  <span class="label">함정 ② — g는 r보다 작아야 한다</span>
+  <p>분모가 <span class="num">r − g</span>입니다. g가 r에 가까워질수록 분모는 0으로 가고, 종료가치는 무한대로 폭발합니다. <strong>g ≥ r이면 모형 자체가 깨집니다.</strong> "영원히 할인율보다 빠르게 성장하는 자산"은 값이 무한대라는 뜻이니까요. 아래 슬라이더로 직접 폭발시켜 보세요.</p>
+</div>
+
+<h2>3. 직접 움직여 보기</h2>
+
+<p>이제 오늘의 핵심입니다. <strong>두 파트의 비중이 얼마나 되는가.</strong></p>
+
+<div class="widget">
+  <h3>2단 구조 계산기</h3>
+  <p class="caption">할인율 r은 <span class="num">9.10%</span>로 고정했습니다 (칼럼의 <em>현상 유지</em> 시나리오: 무위험수익률 4.3% + ERP 4.8%). 1년차 현금흐름을 100으로 두고, 3년차까지는 컨센서스대로 연 <span class="num">12%</span> 성장, 그 뒤로는 영구성장률 g까지 <strong>선형으로 수렴</strong>시킵니다 — 월가아재가 "n = 4~10에 걸쳐 영구성장률에 수렴하도록 한다"고 한 그 경로입니다.</p>
+
+  <div class="control">
+    <label for="n"><span>근미래 파트 길이 n</span><span class="val" data-for="n">3년</span></label>
+    <input type="range" id="n" min="3" max="10" step="1" value="3">
+  </div>
+
+  <div class="control">
+    <label for="g"><span>영구성장률 g</span><span class="val" data-for="g">3.75%</span></label>
+    <input type="range" id="g" min="1" max="10" step="0.05" value="3.75">
+  </div>
+
+  <p class="caption" style="margin:0.4rem 0 0">근미래 현금흐름 경로 (한 칸이 1년, 마지막 칸이 n년차)</p>
+  <div class="bars" id="path" style="height:5.5rem"></div>
+
+  <div id="split"></div>
+
+  <div class="readout">
+    <div class="metric"><span class="k">종료가치 비중</span><span class="v hl" id="share">—</span></div>
+    <div class="metric"><span class="k">근미래 PV</span><span class="v" id="near">—</span></div>
+    <div class="metric"><span class="k">총 적정가치</span><span class="v" id="total">—</span></div>
+  </div>
+
+  <p class="caption" style="margin:1rem 0 0">※ 구조를 보여 주는 예시 모델입니다. Valley AI의 Index DCF를 재현한 것이 아니고, 칼럼의 9,513 / 6,710 / 5,407을 여기서 얻으려 하지 마세요. 여기서 가져갈 것은 <strong>숫자가 아니라 비중의 거동</strong>입니다.</p>
+</div>
+
+<h3>손잡이 하나씩 확인해 볼 것</h3>
+
+<ol>
+  <li><strong>기본값(n=3, g=3.75%)에서 종료가치 비중을 보세요.</strong> 약 <span class="num">87%</span>입니다. 3년치를 아무리 정성껏 추정해도 그건 전체의 13%입니다.</li>
+  <li><strong>g를 3.75%에서 4.75%로 올려 보세요.</strong> 1%p 올렸을 뿐인데 총 가치가 크게 뜁니다. 분모 <span class="num">r − g</span>가 5.35에서 4.35로 <em>19% 줄어들기</em> 때문입니다. g가 한 칸 움직일 때의 파괴력이 EPS 추정치 한 칸과 비교가 안 됩니다.</li>
+  <li><strong>g를 계속 올려 9.1%를 넘겨 보세요.</strong> r = 9.1%에 닿는 순간 분모가 0 이하가 되고 값이 <span class="num">∞</span>로 터집니다. 함정 ②의 실물입니다. 넘기기 직전 8~9% 구간에서 값이 어떻게 폭주하는지도 함께 보세요.</li>
+  <li><strong>g를 3.75%로 돌려놓고, 이번엔 n을 3에서 10으로 끌어 보세요.</strong> 종료가치 비중이 <span class="num">87%</span>에서 <span class="num">64%</span> 근처까지 <em>내려갑니다</em>. 그리고 총 가치는 <em>올라갑니다</em>.</li>
+</ol>
+
+<p>네 번째가 오늘의 진짜 발견입니다. 다음 절에서 정면으로 봅니다.</p>
+
+<h2>4. "80~90%"는 상수가 아니다</h2>
+
+<p>칼럼에는 이런 문장이 있습니다.</p>
+
+<blockquote>
+  <p>생각보다 근미래 3~5년의 무위험수익률 수치들이 S&amp;P 500의 적정가치에 미치는 영향은 적습니다. … 많아야 전체 추정치에서 10~20% 정도를 차지하는 수준입니다.</p>
+</blockquote>
+
+<p>맞는 말입니다. 하지만 문장 안에 조건이 숨어 있습니다 — <strong>"근미래 3~5년"</strong>. 저 10~20%는 <em>n을 3~5로 잡았을 때</em>의 숫자입니다. 위 계산기에서 n을 10으로 늘리면 근미래 파트는 30%대까지 올라옵니다. <strong>비중은 모형의 성질이 아니라 내가 고른 n의 함수입니다.</strong></p>
+
+<p>그리고 월가아재 본인이 칼럼 뒷부분에서 n을 늘립니다. 왜냐면 n=3이면 이런 일이 벌어지거든요.</p>
+
+<blockquote>
+  <p>n=3, 즉 26, 27, 28년도까지만 근미래 파트로 추정을 해 두었습니다. 그 말인즉슨, S&amp;P 500이 4년차부터는 영구성장률 3.75%의 체제로 진입한다는 가정을 하는 것인데, 25~28년까지 두자릿수 EPS 성장을 가정하고서, 29년부터 그 이후는 3.75%씩 성장하는 게 너무 급격한 가정이겠죠.</p>
+</blockquote>
+
+<p>두 자릿수 성장에서 다음 해 갑자기 3.75%로 절벽처럼 떨어지는 경로는 현실적이지 않습니다. 그래서 그는 <strong>n을 10으로 늘려</strong> 4~10년차에 걸쳐 영구성장률로 <em>수렴하는 경로</em>를 직접 그립니다. 그리고 그 수렴 속도를 시나리오별로 다르게 둡니다 — 골디락스는 7년에 걸쳐 천천히, 재정 지배는 4년차부터 거의 바로.</p>
+
+<div class="note">
+  <span class="label">그러니까 n은 "기간 설정"이 아니라 "가정"이다</span>
+  <p>n을 고르는 것은 캘린더를 고르는 일이 아니라, <strong>"이 지수가 언제쯤 평범해지는가"</strong>에 대한 뷰를 표명하는 일입니다. n=3은 "내후년이면 끝난다", n=10은 "10년에 걸쳐 서서히 식는다"는 뜻입니다. 시나리오 설계(레슨 0006)에서 이 손잡이가 다시 나옵니다.</p>
+</div>
+
+<h2>5. 다모다란의 경고 — 방향을 거꾸로 읽지 말 것</h2>
+
+<p>여기서 초보자가 거의 반드시 저지르는 추론이 있습니다.</p>
+
+<p><em>"종료가치가 87%를 차지한다 → 그러니 근미래 파트는 대충 해도 된다."</em></p>
+
+<p>다모다란은 이것을 <strong>위험한 논리적 비약(a dangerous leap of logic)</strong>이라고 부릅니다. 이유는 계산기를 다시 보면 바로 보입니다. 종료가치 공식의 출발점은 <span class="num">CF<sub>n</sub></span>, 즉 <strong>근미래 파트의 마지막 해 현금흐름</strong>입니다. 근미래 경로를 대충 그리면 그 오차가 그대로 종료가치에 <em>곱해져서</em> 들어갑니다. 종료가치가 클수록, 그것을 떠받치는 근미래 가정의 무게도 같이 커집니다.</p>
+
+<p>그리고 다모다란은 종료가치 비중이 큰 것 자체는 결함이 아니라고 못박습니다.</p>
+
+<blockquote>
+  <p>“You should not be surprised to see the terminal value in your DCF account for a high percentage of value... this is not a flaw in your valuation but a reflection of how investors make money.”</p>
+  <p class="caption" style="margin:0.3rem 0 0">— Aswath Damodaran, <em>Myth 5.5: The Terminal Value ate my DCF!</em></p>
+</blockquote>
+
+<p>주식 수익의 대부분은 배당이 아니라 <em>가격 상승</em>에서 옵니다. 그러니 가치의 대부분이 먼 미래에 들어 있는 것은 당연한 일이지, 모형이 고장난 신호가 아닙니다.</p>
+
+<hr>
+
+<h2>6. 확인 — 기억에서 꺼내기</h2>
+
+<div class="quiz" data-quiz>
+  <h3>개념 4문항</h3>
+
+  <div class="q" data-answer="0">
+    <p class="stem">TV<sub>n</sub> = CF<sub>n+1</sub> ÷ (r − g)로 계산한 값은 어느 시점 기준의 값인가?</p>
+    <div class="opts">
+      <button class="opt">n년차 시점의 값</button>
+      <button class="opt">0년차 시점의 값</button>
+      <button class="opt">1년차 시점의 값</button>
+    </div>
+    <div class="why">함정 ①. 이 공식은 <em>n년차에 서서</em> 그 이후의 무한한 현금흐름을 정리한 값입니다. 현재가치로 쓰려면 <span class="num">(1+r)<sup>n</sup></span>으로 한 번 더 할인해야 합니다. 이 단계를 빼먹으면 n이 클수록 적정가치가 터무니없이 커집니다.</div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">영구성장률 g를 할인율 r보다 크게 넣으면 어떻게 되는가?</p>
+    <div class="opts">
+      <button class="opt">식이 성립하지 않는다</button>
+      <button class="opt">값이 정확하게 나온다</button>
+      <button class="opt">값이 0으로 수렴한다</button>
+    </div>
+    <div class="why">함정 ②. 분모 <span class="num">r − g</span>가 0 또는 음수가 됩니다. 경제적으로 읽으면 "영원히 요구수익률보다 빠르게 성장하는 자산"이고, 그건 값이 무한대라는 뜻입니다. 그래서 g에는 <strong>경제의 명목 성장률</strong>이라는 상한이 붙습니다 — 레슨 0003의 출발점입니다.</div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">다른 조건이 같을 때, 근미래 파트를 n=3에서 n=10으로 늘리면 종료가치가 전체에서 차지하는 비중은?</p>
+    <div class="opts">
+      <button class="opt">낮아진다</button>
+      <button class="opt">높아진다</button>
+      <button class="opt">유지된다</button>
+    </div>
+    <div class="why">한 해씩 구체적으로 추정하는 구간이 길어질수록 그 구간이 담는 가치가 커지고, 종료가치의 몫은 줄어듭니다. 그래서 "종료가치가 80~90%"는 <strong>상수가 아니라 n의 함수</strong>입니다. 칼럼의 "10~20%"는 n=3~5를 전제로 한 수치입니다.</div>
+  </div>
+
+  <div class="q" data-answer="1">
+    <p class="stem">"종료가치가 전체의 87%를 차지한다"는 사실로부터 다모다란이 끌어내는 결론은?</p>
+    <div class="opts">
+      <button class="opt">근미래 가정은 덜 중요하다</button>
+      <button class="opt">근미래 가정은 더 중요하다</button>
+      <button class="opt">근미래 가정은 늘 중요하다</button>
+    </div>
+    <div class="why">종료가치는 <span class="num">CF<sub>n</sub></span>에서 출발합니다. 근미래 경로의 오차가 그대로 종료가치에 곱해져 증폭되므로, 종료가치 비중이 클수록 근미래 가정을 <em>더</em> 조여야 합니다. 반대로 읽는 것이 다모다란이 말하는 "위험한 논리적 비약"입니다.</div>
+  </div>
+
+  <div class="score"></div>
+</div>
+
+<div class="drill" data-drill>
+  <h3>계산 5문항 — 종료가치 한 바퀴</h3>
+  <p class="caption">한 사슬입니다. 위에서 나온 답을 아래에서 씁니다. r = 9.1%, g = 3.75%, n = 3, CF₃ = 125.</p>
+
+  <div class="row" data-answer="129.69" data-tol="0.05">
+    <span class="ask">① CF₃ = 125, g = 3.75%. CF₄는?</span>
+    <input type="text" placeholder="?"><span class="unit"></span><span class="mark"></span>
+    <div class="hint">125 × 1.0375 = 129.69. 종료가치 공식의 분자는 CF<sub>n</sub>이 아니라 <strong>한 해 더 성장시킨 CF<sub>n+1</sub></strong>입니다.</div>
+  </div>
+
+  <div class="row" data-answer="2424.1" data-tol="1.5">
+    <span class="ask">② 그 CF₄로 종료가치 TV₃를 구하면? (r − g = 5.35%)</span>
+    <input type="text" placeholder="?"><span class="unit"></span><span class="mark"></span>
+    <div class="hint">129.69 ÷ 0.0535 = 2,424.1. 3년차 현금흐름 125의 <strong>19배</strong>가 넘는 덩어리가 한 줄에서 튀어나옵니다.</div>
+  </div>
+
+  <div class="row" data-answer="1866.7" data-tol="2">
+    <span class="ask">③ 그 TV₃를 현재가치로 끌고 오면? (1.091³ = 1.2986)</span>
+    <input type="text" placeholder="?"><span class="unit"></span><span class="mark"></span>
+    <div class="hint">2,424.1 ÷ 1.2986 = 1,866.7. 함정 ① — 이 한 번의 나눗셈을 빼먹는 것이 초보자의 가장 흔한 실수입니다.</div>
+  </div>
+
+  <div class="row" data-answer="86.9" data-tol="0.3">
+    <span class="ask">④ 근미래 3년의 PV 합계가 282.4였다. 종료가치 비중은?</span>
+    <input type="text" placeholder="?"><span class="unit">%</span><span class="mark"></span>
+    <div class="hint">1,866.7 ÷ (282.4 + 1,866.7) = 86.9%. 3년치를 아무리 정밀하게 다듬어도 움직일 수 있는 건 나머지 13.1%입니다.</div>
+  </div>
+
+  <div class="row" data-answer="3010" data-tol="5">
+    <span class="ask">⑤ ①로 돌아가 g만 4.75%로 올리면 TV₃는? (CF₄ = 130.94, r − g = 4.35%)</span>
+    <input type="text" placeholder="?"><span class="unit"></span><span class="mark"></span>
+    <div class="hint">130.94 ÷ 0.0435 = 3,010. g를 <strong>1%p</strong> 올렸는데 종료가치가 <strong>24% 커졌습니다</strong>. 숙제에서 10-1번 칸에 3.5를 쓸지 3.75를 쓸지가 왜 그렇게 중요한지, 이 한 줄이 답입니다.</div>
+  </div>
+
+  <div class="actions"><button class="ghost" data-reveal>정답 보기</button></div>
+</div>
+
+<hr>
+
+<h2>이번에 읽을 것 (하나만)</h2>
+
+<p><strong>1차 자료 —</strong> <a href="https://aswathdamodaran.blogspot.com/2016/11/myth-55-terminal-value-ate-my-dcf.html">Aswath Damodaran, “Myth 5.5: The Terminal Value ate my DCF!”</a></p>
+
+<p>약 2,000단어. 오늘 레슨 5절의 원문입니다. <strong>읽을 때의 질문 하나만 들고 가세요</strong> — "종료가치가 크다"는 사실이 왜 결함이 아닌가? 다모다란은 주식 수익의 <span class="num">67~85%</span>가 배당이 아니라 가격 상승에서 온다는 데이터로 답합니다. 이 논거는 그대로 <strong>숙제 리포트에서 당신의 종료가치 가정을 방어하는 문단</strong>이 됩니다. 스터디 라운지에서 "종료가치가 87%면 이 모형 못 믿는 거 아니냐"는 반론이 나올 때 쓸 수 있는 답이기도 하고요.</p>
+
+<p class="next-up"><strong>진도 —</strong> 월가아재 글로벌 매크로 지식편 6회차 2강(주가지수의 DCF).</p>
+
+<div class="ask-teacher">
+  <span class="label">막히면 물어보세요</span>
+  저는 이 워크스페이스의 선생입니다. 오늘 레슨에서 특히 흐릿하게 남기 쉬운 지점이 둘 있습니다 — <em>왜 TV를 (1+r)<sup>n</sup>으로 한 번 더 나누는가</em>, 그리고 <em>왜 n을 바꾸면 비중이 바뀌는가</em>. 둘 중 하나라도 "아 그렇구나"가 아니라 "그렇다더라"로 남았다면 그냥 물어보세요. 레슨 0003의 g와 ROE 이야기가 전부 이 위에 얹힙니다.
+</div>
+
+<div class="footer">
+  <h3>이어지는 곳</h3>
+  <ul>
+    <li><a href="0001-discount-rate.html">← 레슨 0001 — 할인율: DCF의 심장</a></li>
+    <li><a href="../reference/dcf-core.html">레퍼런스 — Index DCF 핵심 공식 카드</a> (§2가 오늘 내용입니다)</li>
+    <li>레슨 0003 — g는 어디서 오는가: g = ROE × 유보율, 그리고 주주환원율이 <em>도출되는</em> 값인 이유 <em>(예정)</em></li>
+    <li>워크스페이스 루트의 <code>MISSION.md</code> · <code>RESOURCES.md</code> · <code>GLOSSARY.md</code></li>
+  </ul>
+</div>
+
+<script src="../assets/dcf.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+(function () {
+  var R = 0.091, CF1 = 100, G_START = 0.12, HOLD = 3;
+
+  var pathEl  = document.getElementById('path');
+  var splitEl = document.getElementById('split');
+  var shareEl = document.getElementById('share');
+  var nearEl  = document.getElementById('near');
+  var totalEl = document.getElementById('total');
+
+  var nEl = document.getElementById('n');
+  var gEl = document.getElementById('g');
+
+  function render() {
+    var n = parseInt(nEl.value, 10);
+    var g = parseFloat(gEl.value) / 100;
+
+    var cfs = DCF.convergePath(CF1, G_START, g, n, HOLD);
+    var res = DCF.twoPart(cfs, R, g);
+
+    // n을 바꿔도 막대의 세로 축이 흔들리지 않도록, n=10 경로의 최대값으로 고정한다.
+    // 그래야 n을 늘렸을 때 '뒤에 더 큰 현금흐름이 붙는다'는 것이 보인다.
+    var full = DCF.convergePath(CF1, G_START, g, 10, HOLD);
+    var axisMax = full[full.length - 1];
+
+    DCF.drawBars(pathEl, cfs, cfs.map(function (_, i) { return String(i + 1); }),
+                 { solid: true, max: axisMax });
+
+    if (!isFinite(res.total)) {
+      splitEl.innerHTML = '<p class="caption" style="margin:1.2rem 0 0.7rem;color:var(--bad)">' +
+        'g가 r(9.10%) 이상입니다 — 분모 r − g 가 0 이하가 되어 종료가치가 무한대로 발산합니다. 모형이 깨지는 지점입니다.</p>';
+      shareEl.textContent = '∞';
+      nearEl.textContent  = DCF.fmt(res.near, 0);
+      totalEl.textContent = '∞';
+      return;
+    }
+
+    DCF.drawSplitBar(splitEl, [
+      { value: res.near,  label: '근미래 파트',  cls: 'near' },
+      { value: res.tvPV,  label: '종료가치 파트', cls: 'tv' }
+    ]);
+
+    shareEl.textContent = (res.tvShare * 100).toFixed(1) + '%';
+    nearEl.textContent  = DCF.fmt(res.near, 0);
+    totalEl.textContent = DCF.fmt(res.total, 0);
+  }
+
+  DCF.bindRange('#n', function (v) { return v.toFixed(0) + '년'; }, render);
+  DCF.bindRange('#g', function (v) { return v.toFixed(2) + '%'; }, render);
+})();
+</script>
+
+</body>
+</html>
