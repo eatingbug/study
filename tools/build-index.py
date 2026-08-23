@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""목록 페이지 생성기.
+"""목록 페이지 생성기 겸 사이트 빌더.
 
 lessons/ · reference/ 의 HTML 문서를 훑어서 목록 페이지를 만든다:
 
@@ -13,31 +13,131 @@ lessons/ · reference/ 의 HTML 문서를 훑어서 목록 페이지를 만든�
 문서에서 목록 표시를 조정하려면 <head> 에 메타 태그를 넣는다:
 
     <meta name="index-gloss" content="목록에 쓸 한 줄 설명">
-    <meta name="index-order" content="20">   숫자 작을수록 먼저. 기본값은 파일명 순
-    <meta name="index-hidden" content="true">  목록에서 제외
+    <meta name="index-order" content="-10">    기본값 0. 음수는 앞으로, 양수는 뒤로.
+                                               같은 값끼리는 파일명 순.
+    <meta name="index-hidden" content="true">  목록에서 빼고 배포도 하지 않는다
 
 워크스페이스 정보는 <topic>/workspace.json 에서 읽는다.
 
-    python3 tools/build-index.py          생성
-    python3 tools/build-index.py --check  생성 결과가 커밋된 것과 같은지만 확인
+    python3 tools/build-index.py              목록 생성
+    python3 tools/build-index.py --check      생성 결과가 커밋된 것과 같은지만 확인
+    python3 tools/build-index.py --stage DIR  배포할 파일만 DIR 로 모은다
 """
 
+import argparse
 import html
 import json
 import re
+import shutil
 import sys
+from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 REPO_URL = "https://github.com/eatingbug/study"
 GLOSS_TARGET = 70  # 이 길이를 넘기 전까지 문장 단위로 채운다 (한국어 기준 한두 문장)
 
+# 배포하는 것 — HTML 문서와 그것이 참조하는 정적 파일. allow-list 다.
+# 여기에 없는 확장자는 새로 생겨도 사이트에 올라가지 않는다.
+ASSET_SUFFIXES = {
+    ".css", ".js", ".mjs", ".png", ".jpg", ".jpeg", ".gif", ".svg", ".webp",
+    ".avif", ".ico", ".woff", ".woff2", ".ttf", ".otf", ".pdf",
+}
+SECTIONS = ("lessons", "reference")
+
+# 텍스트를 뽑을 때 닫는 태그가 없는 요소들 — 깊이를 세면 안 된다.
+VOID_TAGS = {
+    "area", "base", "br", "col", "embed", "hr", "img", "input", "link",
+    "meta", "param", "source", "track", "wbr",
+}
+
 
 # ── 문서에서 메타데이터 뽑기 ──────────────────────────────────────
 
-def strip_tags(fragment: str) -> str:
-    text = re.sub(r"<[^>]+>", "", fragment)
-    return re.sub(r"\s+", " ", html.unescape(text)).strip()
+class FirstElementText(HTMLParser):
+    """태그 이름 또는 class 토큰으로 찾은 첫 요소의 텍스트.
+
+    정규식으로 하면 (1) class="page-subtitle" 이 subtitle 로 잡히고
+    (2) 안에 같은 이름의 태그가 중첩되면 첫 닫는 태그에서 잘린다.
+    그래서 실제 파서로 깊이를 세며 읽는다.
+    """
+
+    def __init__(self, tag: str | None = None, css_class: str | None = None):
+        super().__init__(convert_charrefs=True)
+        self.tag = tag
+        self.css_class = css_class
+        self.depth = 0
+        self.parts: list[str] = []
+        self.done = False
+
+    def _matches(self, tag: str, attrs: list[tuple[str, str | None]]) -> bool:
+        if self.tag is not None:
+            return tag == self.tag
+        classes = (dict(attrs).get("class") or "").split()
+        return self.css_class in classes
+
+    def handle_starttag(self, tag, attrs):
+        if self.done:
+            return
+        if tag in VOID_TAGS:
+            if self.depth:
+                self.parts.append(" ")  # <br> 를 문장 사이 공백으로
+            return
+        if self.depth:
+            self.depth += 1
+        elif self._matches(tag, attrs):
+            self.depth = 1
+
+    def handle_startendtag(self, tag, attrs):
+        pass  # <br/> 같은 자기완결 태그는 깊이에 영향이 없다
+
+    def handle_endtag(self, tag):
+        if self.depth and not self.done:
+            self.depth -= 1
+            if self.depth == 0:
+                self.done = True
+
+    def handle_data(self, data):
+        if self.depth and not self.done:
+            self.parts.append(data)
+
+    @property
+    def text(self) -> str:
+        return re.sub(r"\s+", " ", "".join(self.parts)).strip()
+
+
+class MetaTags(HTMLParser):
+    """<meta name=... content=...> 전부. 속성 순서·인용 부호에 의존하지 않는다."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.values: dict[str, str] = {}
+
+    def handle_starttag(self, tag, attrs):
+        if tag != "meta":
+            return
+        attr = dict(attrs)
+        name, content = attr.get("name"), attr.get("content")
+        if name and content is not None and name not in self.values:
+            self.values[name.strip()] = content.strip()
+
+    handle_startendtag = handle_starttag
+
+
+def element_text(source: str, *, tag: str | None = None,
+                 css_class: str | None = None) -> str:
+    parser = FirstElementText(tag=tag, css_class=css_class)
+    parser.feed(source)
+    return parser.text
+
+
+def by_class(source: str, *candidates: str) -> str:
+    """주어진 class 를 순서대로 찾아 처음 걸리는 것의 텍스트."""
+    for name in candidates:
+        text = element_text(source, css_class=name)
+        if text:
+            return text
+    return ""
 
 
 def first_sentences(text: str, target: int = GLOSS_TARGET) -> str:
@@ -51,57 +151,36 @@ def first_sentences(text: str, target: int = GLOSS_TARGET) -> str:
     return out.strip() or text
 
 
-def meta(source: str, name: str) -> str | None:
-    m = re.search(
-        r'<meta\s+name="%s"\s+content="([^"]*)"' % re.escape(name), source
-    )
-    return html.unescape(m.group(1)).strip() if m else None
-
-
-def tagged(source: str, *classes: str) -> str:
-    """주어진 class 중 먼저 나오는 요소의 텍스트."""
-    for cls in classes:
-        m = re.search(
-            r'<(\w+)[^>]*\bclass="[^"]*\b%s\b[^"]*"[^>]*>(.*?)</\1>' % cls,
-            source,
-            re.S,
-        )
-        if m:
-            return strip_tags(m.group(2))
-    return ""
-
-
 def trim_kicker(kicker: str) -> str:
-    """워크스페이스 목록용. 앞머리의 'Lesson 0001 ·' 같은 조각은 번호와 중복이다."""
-    head, sep, rest = kicker.partition("·")
-    if sep and re.match(r"^(Lesson|Reference|레슨|참조)\b", head.strip()):
-        return rest.strip()
-    return kicker
+    """워크스페이스 목록용. 'Lesson 0001' 같은 앞머리는 목록 번호와 중복이다."""
+    label = r"(?:Lesson|Reference|레슨|참조)\s*[\w.-]*"
+    if re.fullmatch(label, kicker.strip()):
+        return ""
+    return re.sub(r"^%s\s*·\s*" % label, "", kicker.strip())
 
 
-def read_doc(path: Path, index: int) -> dict | None:
+def read_doc(path: Path, index: int) -> dict:
     source = path.read_text(encoding="utf-8")
-    if (meta(source, "index-hidden") or "").lower() in ("true", "1", "yes"):
-        return None
+    meta = MetaTags()
+    meta.feed(source)
+    tags = meta.values
 
-    h1 = re.search(r"<h1[^>]*>(.*?)</h1>", source, re.S)
-    title_tag = re.search(r"<title>(.*?)</title>", source, re.S)
-    title = strip_tags(h1.group(1)) if h1 else (
-        strip_tags(title_tag.group(1)) if title_tag else path.stem
-    )
+    title = (element_text(source, tag="h1")
+             or element_text(source, tag="title")
+             or path.stem)
 
-    gloss = meta(source, "index-gloss")
+    gloss = tags.get("index-gloss")
     if gloss is None:
-        gloss = first_sentences(tagged(source, "subtitle", "standfirst"))
+        gloss = first_sentences(by_class(source, "subtitle", "standfirst"))
 
-    order = meta(source, "index-order")
+    order = tags.get("index-order", "")
     return {
-        "href": path.relative_to(path.parent.parent.parent).as_posix(),
-        "file": path.name,
+        "path": path,
         "title": title,
-        "kicker": tagged(source, "kicker", "eyebrow"),
+        "kicker": by_class(source, "kicker", "eyebrow"),
         "gloss": gloss,
-        "sort": (int(order) if order and order.lstrip("-").isdigit() else 0,
+        "hidden": tags.get("index-hidden", "").lower() in ("true", "1", "yes"),
+        "sort": (int(order) if re.fullmatch(r"-?\d+", order) else 0,
                  index, path.name),
     }
 
@@ -110,13 +189,9 @@ def collect(topic: Path, section: str) -> list[dict]:
     directory = topic / section
     if not directory.is_dir():
         return []
-    docs = []
-    for i, path in enumerate(sorted(directory.glob("*.html"))):
-        if path.name == "index.html":
-            continue
-        doc = read_doc(path, i)
-        if doc:
-            docs.append(doc)
+    docs = [read_doc(p, i)
+            for i, p in enumerate(sorted(directory.glob("*.html")))
+            if p.name != "index.html"]
     return sorted(docs, key=lambda d: d["sort"])
 
 
@@ -125,13 +200,15 @@ def workspaces() -> list[dict]:
     for config in sorted(ROOT.glob("*/workspace.json")):
         topic = config.parent
         info = json.loads(config.read_text(encoding="utf-8"))
+        docs = {s: collect(topic, s) for s in SECTIONS}
         found.append({
             "dir": topic.name,
+            "path": topic,
             "title": info.get("title", topic.name),
             "blurb": info.get("blurb", ""),
             "order": info.get("order", 0),
-            "lessons": collect(topic, "lessons"),
-            "reference": collect(topic, "reference"),
+            "docs": docs,
+            "listed": {s: [d for d in docs[s] if not d["hidden"]] for s in SECTIONS},
             "styles": [p.name for p in sorted((topic / "assets").glob("*.css"))],
         })
     return sorted(found, key=lambda w: (w["order"], w["dir"]))
@@ -146,9 +223,10 @@ BANNER = "<!-- 이 파일은 tools/build-index.py 가 생성한다. 직접 고�
 def root_page(all_workspaces: list[dict]) -> str:
     sections = []
     for w in all_workspaces:
-        chip = "레슨 %d · 참조 %d" % (len(w["lessons"]), len(w["reference"]))
+        lessons, reference = w["listed"]["lessons"], w["listed"]["reference"]
+        chip = "레슨 %d · 참조 %d" % (len(lessons), len(reference))
         blocks = []
-        for label, docs in (("Lessons", w["lessons"]), ("Reference", w["reference"])):
+        for label, docs in (("Lessons", lessons), ("Reference", reference)):
             if not docs:
                 continue
             items = "\n".join(
@@ -157,18 +235,19 @@ def root_page(all_workspaces: list[dict]) -> str:
       <span class="title">{title}</span>
       <span class="gloss">{gloss}</span>
     </a></li>'''.format(
-                    href=E(d["href"]), kicker=E(d["kicker"]),
-                    title=E(d["title"]), gloss=E(d["gloss"]),
+                    href=E(d["path"].relative_to(ROOT).as_posix()),
+                    kicker=E(d["kicker"]), title=E(d["title"]),
+                    gloss=E(d["gloss"]),
                 )
                 for d in docs
             )
             blocks.append(
-                "  <h3>%s</h3>\n  <ul class=\"docs\">\n%s\n  </ul>" % (label, items)
+                '  <h3>%s</h3>\n  <ul class="docs">\n%s\n  </ul>' % (label, items)
             )
         sections.append(
             '''<section class="topic">
   <div class="topic-head">
-    <h2><a href="./{dir}/">{title}</a></h2>
+    <h2><a href="./{dir}/index.html">{title}</a></h2>
     <span class="status">{chip}</span>
   </div>
   <p class="topic-why">{blurb}</p>
@@ -268,8 +347,10 @@ def root_page(all_workspaces: list[dict]) -> str:
     font: 0.72rem/1 var(--font-sans); letter-spacing: 0.08em;
     color: var(--ink-faint); display: block; margin-bottom: 0.25rem;
   }
+  ul.docs .num:empty { display: none; }
   ul.docs .title { font-weight: 600; color: var(--accent); }
   ul.docs .gloss { display: block; font-size: 0.92rem; color: var(--ink-soft); margin-top: 0.15rem; }
+  ul.docs .gloss:empty { display: none; }
 
   footer {
     border-top: 1px solid var(--rule);
@@ -311,23 +392,23 @@ def topic_page(w: dict) -> str:
     )
 
     def listing(docs: list[dict], tag: str) -> str:
-        items = "\n".join(
-            '  <li><a href="{href}">{title}</a> — {gloss}{kicker}</li>'.format(
-                href=E(d["href"].split("/", 1)[1]),
-                title=E(d["title"]),
-                gloss=E(d["gloss"]),
-                kicker=(" <em>%s</em>" % E(trim_kicker(d["kicker"])))
-                if trim_kicker(d["kicker"]) else "",
-            )
-            for d in docs
-        )
-        return "<%s>\n%s\n</%s>" % (tag, items, tag)
+        items = []
+        for d in docs:
+            href = d["path"].relative_to(w["path"]).as_posix()
+            line = '  <li><a href="%s">%s</a>' % (E(href), E(d["title"]))
+            if d["gloss"]:
+                line += " — %s" % E(d["gloss"])
+            kicker = trim_kicker(d["kicker"])
+            if kicker:
+                line += " <em>%s</em>" % E(kicker)
+            items.append(line + "</li>")
+        return "<%s>\n%s\n</%s>" % (tag, "\n".join(items), tag)
 
     blocks = []
-    if w["lessons"]:
-        blocks.append("<h2>레슨</h2>\n" + listing(w["lessons"], "ol"))
-    if w["reference"]:
-        blocks.append("<h2>참조 문서</h2>\n" + listing(w["reference"], "ul"))
+    if w["listed"]["lessons"]:
+        blocks.append("<h2>레슨</h2>\n" + listing(w["listed"]["lessons"], "ol"))
+    if w["listed"]["reference"]:
+        blocks.append("<h2>참조 문서</h2>\n" + listing(w["listed"]["reference"], "ul"))
 
     return """<!DOCTYPE html>
 <html lang="ko">
@@ -348,7 +429,7 @@ def topic_page(w: dict) -> str:
 
 %(blocks)s
 
-<p><a href="../">← 전체 워크스페이스</a></p>
+<p><a href="../index.html">← 전체 워크스페이스</a></p>
 
 </body>
 </html>
@@ -359,10 +440,62 @@ def topic_page(w: dict) -> str:
     }
 
 
+# ── 배포본 모으기 ────────────────────────────────────────────────
+
+def stage(all_workspaces: list[dict], target: Path) -> list[Path]:
+    """배포할 파일만 target 으로 복사한다.
+
+    allow-list 다 — 여기서 고른 것만 사이트에 올라간다. 새 마크다운·메모·
+    노트북·실습 산출물이 저장소에 생겨도 자동으로 공개되지 않는다.
+    index-hidden 을 붙인 문서는 목록에서 빠지는 것으로 끝나지 않고
+    파일 자체가 배포되지 않는다.
+    """
+    if target.exists():
+        shutil.rmtree(target)
+    target.mkdir(parents=True)
+
+    copied = []
+
+    def copy(source: Path) -> None:
+        destination = target / source.relative_to(ROOT)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, destination)
+        copied.append(destination.relative_to(target))
+
+    for name in (".nojekyll", "index.html"):
+        if (ROOT / name).exists():
+            copy(ROOT / name)
+
+    for w in all_workspaces:
+        if (w["path"] / "index.html").exists():
+            copy(w["path"] / "index.html")
+        for section in SECTIONS:
+            for doc in w["docs"][section]:
+                if doc["hidden"]:
+                    print("배포 제외 (index-hidden): %s"
+                          % doc["path"].relative_to(ROOT))
+                    continue
+                copy(doc["path"])
+        for directory in (w["path"] / "assets", *(w["path"] / s for s in SECTIONS)):
+            if not directory.is_dir():
+                continue
+            for path in sorted(directory.rglob("*")):
+                if path.is_file() and path.suffix.lower() in ASSET_SUFFIXES:
+                    copy(path)
+
+    return sorted(copied)
+
+
 # ── 실행 ─────────────────────────────────────────────────────────
 
 def main() -> int:
-    check = "--check" in sys.argv[1:]
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--check", action="store_true",
+                        help="생성 결과가 커밋된 것과 같은지만 확인한다")
+    parser.add_argument("--stage", metavar="DIR",
+                        help="배포할 파일만 DIR 로 모은다")
+    args = parser.parse_args()
+
     all_workspaces = workspaces()
     if not all_workspaces:
         print("workspace.json 이 있는 디렉터리를 찾지 못했다.", file=sys.stderr)
@@ -375,23 +508,32 @@ def main() -> int:
     stale = []
     for path, content in pages.items():
         rel = path.relative_to(ROOT)
-        current = path.read_text(encoding="utf-8") if path.exists() else None
-        if current == content:
+        if path.exists() and path.read_text(encoding="utf-8") == content:
             print("변화 없음: %s" % rel)
             continue
         stale.append(str(rel))
-        if not check:
+        if not args.check:
             path.write_text(content, encoding="utf-8")
             print("생성: %s" % rel)
 
     for w in all_workspaces:
-        print("  %s — 레슨 %d, 참조 %d"
-              % (w["dir"], len(w["lessons"]), len(w["reference"])))
+        hidden = sum(d["hidden"] for s in SECTIONS for d in w["docs"][s])
+        print("  %s — 레슨 %d, 참조 %d%s"
+              % (w["dir"], len(w["listed"]["lessons"]),
+                 len(w["listed"]["reference"]),
+                 ", 숨김 %d" % hidden if hidden else ""))
 
-    if check and stale:
+    if args.check and stale:
         print("\n목록이 문서와 어긋난다: %s" % ", ".join(stale), file=sys.stderr)
         print("python3 tools/build-index.py 를 돌리고 커밋할 것.", file=sys.stderr)
         return 1
+
+    if args.stage:
+        copied = stage(all_workspaces, Path(args.stage).resolve())
+        print("\n---- 배포 대상 (%d) ----" % len(copied))
+        for path in copied:
+            print(path)
+
     return 0
 
 
