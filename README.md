@@ -14,8 +14,9 @@
 [GitHub Actions 워크플로](./.github/workflows/pages.yml)가 목록을 다시 만들고
 정적 사이트로 배포한다 (Jekyll 빌드 없음 — 루트의 `.nojekyll` 참조).
 
-> **처음 한 번만:** 저장소 Settings → Pages → **Source** 를 `GitHub Actions` 로 바꿔야
-> 워크플로가 배포 권한을 얻는다. 그 뒤로는 푸시할 때마다 자동으로 갱신된다.
+저장소에 Pages 가 꺼져 있으면 워크플로가 직접 켠다 (`configure-pages` 의
+`enablement: true`). 손으로 설정할 것은 없다. 다만 조직 정책 등으로 이게 막히면
+Settings → Pages → **Source** 를 `GitHub Actions` 로 바꾸고 워크플로를 다시 돌리면 된다.
 
 사이트 구조는 디렉터리 구조 그대로다 — 루트에 전체 목록,
 `/llmops/` 와 `/valley/` 에 워크스페이스별 목록.

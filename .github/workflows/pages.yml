@@ -25,7 +25,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # enablement: 저장소에 Pages 가 아직 꺼져 있으면 워크플로가 직접 켠다.
+      # 이게 없으면 Settings → Pages → Source 를 손으로 GitHub Actions 로
+      # 바꿔줄 때까지 "Get Pages site failed ... Not Found" 로 떨어진다.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       # 목록 페이지를 lessons/ · reference/ 의 문서에서 다시 만들고,
       # 배포할 파일만 _site/ 로 모은다 (allow-list — HTML·에셋만).
