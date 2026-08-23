@@ -62,7 +62,8 @@
 <ul>
   <li>TV의 <span class="num">÷ (r − g)</span>는 무한등비급수의 합. <strong>g &lt; r 이 아니면 식이 깨진다.</strong></li>
   <li>TV<sub>n</sub>은 <em>n년차 시점</em>의 값 → 다시 <span class="num">(1+r)<sup>n</sup></span>으로 현재까지 끌고 와야 한다.</li>
-  <li><strong>비중 감각:</strong> 근미래 파트는 전체의 10~20% 수준. 나머지 80~90%가 종료가치. 그래서 10-1 ~ 10-4 칸이 승부처다.</li>
+  <li><strong>비중 감각 — 단, n의 함수다.</strong> 칼럼의 "근미래 파트는 10~20%"는 <em>n = 3~5</em>를 전제로 한 수치다. 예시 모델(r 9.1%, g 3.75%, 3년간 12% 성장 후 수렴) 기준: <span class="num">n=3 → 종료가치 86.9%</span>, <span class="num">n=5 → 79.5%</span>, <span class="num">n=10 → 64.4%</span>. n을 늘릴수록 종료가치의 몫은 줄고 <em>총 가치는 커진다</em>. 어느 쪽이든 10-1 ~ 10-4 칸이 승부처인 것은 변함없다.</li>
+  <li><strong>방향 주의:</strong> "종료가치가 지배한다 → 근미래는 대충" 은 다모다란이 말하는 <em>위험한 논리적 비약</em>이다. TV의 분자가 CF<sub>n</sub>이므로 근미래 오차는 종료가치에 곱해져 증폭된다. <a href="https://aswathdamodaran.blogspot.com/2016/11/myth-55-terminal-value-ate-my-dcf.html">Myth 5.5: The Terminal Value ate my DCF!</a></li>
   <li>n을 3으로 두면 4년차부터 곧바로 영구성장 체제로 점프한다 → 두 자릿수 성장에서 3.75%로 급락하는 비현실적 가정. 그래서 n을 10까지 늘려 <strong>수렴 경로</strong>를 그린다.</li>
 </ul>
 
@@ -81,7 +82,27 @@
   <li>직관: 번 돈을 다 나눠 주면(유보율 0) 재투자할 돈이 없으니 g = 0. 덜 나눠 주거나 ROE가 높아야 성장한다.</li>
   <li><strong>일관성 체크:</strong> 주주환원율 80.72%를 유지하면서 g = 3.75%를 원한다면 ROE는 <span class="num">3.75 ÷ 0.1928 = 19.45%</span>가 나와야 한다. 장기 ROE로는 무리한 가정 → g를 낮추거나 환원율을 낮춰야 앞뒤가 맞는다.</li>
   <li>근미래 파트의 주주환원율은 반대로 <em>직접 입력</em>한다. 과거 25년 평균이 무난 (배당성향 33.72% + 바이백 47% = <strong>80.72%</strong>, 평균회귀가 안정적).</li>
+  <li><strong>메커니즘:</strong> 유보한 돈은 <em>자기자본에 더해지고</em>, 불어난 자기자본이 같은 ROE로 굴러가며 이익을 키운다. 자기자본 100 → 순이익 15(ROE 15%) → 유보 4.5(유보율 30%) → 자기자본 104.5 → 순이익 15.675 = <span class="num">+4.5% = 15% × 30%</span>.</li>
 </ul>
+
+<p><strong>g를 3.75%로 고정했을 때 시나리오별로 도출되는 종료 주주환원율</strong> — 어느 칸에도 타이핑하지 않았지만 모형이 깔고 있는 가정이다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>시나리오</th><th class="n">장기 ROE</th><th class="n">→ 환원율</th><th class="n">80.72% 대비</th><th class="n">환원율을 지킬 때의 g</th></tr></thead>
+  <tbody>
+    <tr><td>골디락스</td><td class="n">16.5%</td><td class="n">77.3%</td><td class="n">−3.4%p</td><td class="n">3.18%</td></tr>
+    <tr><td>현상 유지</td><td class="n">13.0%</td><td class="n">71.2%</td><td class="n">−9.6%p</td><td class="n">2.51%</td></tr>
+    <tr><td>재정 지배</td><td class="n">11.5%</td><td class="n">67.4%</td><td class="n">−13.3%p</td><td class="n">2.22%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note">
+  <span class="label">두 종류의 실패를 구별할 것</span>
+  <p><strong>① 식이 깨진다</strong> — <span class="num">g ≥ r</span>이면 종료가치가 ∞ 또는 음수. 화면이 대신 소리쳐 준다.</p>
+  <p><strong>② 식은 멀쩡한데 말이 안 된다</strong> — 도출된 환원율이 67.4%든 −13%든 화면은 담담하게 회색 숫자를 보여 준다. 음수 환원율은 "기업들이 영원히 주주에게서 자본을 걷는다"는 <em>일관되지만 터무니없는</em> 진술이다. <strong>도출값은 매번 소리 내어 읽을 것.</strong></p>
+</div>
 
 <h2>4. 영구성장률 g <span class="tag">L0003</span></h2>
 
@@ -95,6 +116,8 @@
 <h2>5. 장기 무위험수익률 3분해 <span class="tag">L0004</span></h2>
 
 <p>논리상 30년물이 맞지만 수급 왜곡·지정학 노이즈가 커서 그대로 못 쓴다. 10년물 정보로 조립한다.</p>
+
+<p><strong>읽는 법 — 세 조각이 아니라 두 덩어리다.</strong> 앞의 두 항(중립 실질금리 + 기대 인플레이션)이 <em>중립 <strong>단기</strong> 명목금리</em>를 만들고, 세 번째 항(기간 프리미엄)이 그것을 <em><strong>장기</strong></em>로 옮기는 다리다. 식에 "(단기)"라고 적혀 있는 것이 그 힌트. 그리고 <strong>세 조각 중 기간 프리미엄만이 본인의 뷰</strong>다 — 앞의 둘은 받아 오는 값이고, 시나리오별로 갈라지는 것도 세 번째뿐이다.</p>
 
 <div class="formula">
   장기 무위험수익률 = 중립 실질금리(단기) + 기대 인플레이션 + 기간 프리미엄
@@ -126,6 +149,36 @@
 <div class="note">
   <span class="label">일관성 원칙</span>
   <p>중립 실질금리를 <strong>PCE</strong>로 뽑았으면 기대 인플레이션도 <strong>PCE</strong>여야 한다. TIPS 브레이크이븐은 CPI 기준이므로 그냥 쓰면 단위가 어긋난다. 밸류에이션에서 가장 흔하고 가장 조용한 오류가 이런 단위 불일치다.</p>
+</div>
+
+<div class="note">
+  <span class="label">이 식이 틀리는 지점 <span class="tag">L0004</span></span>
+  <ul>
+    <li><strong>중립 실질금리는 관측 불가능하다.</strong> SEP의 longer-run 값은 위원 전망의 중앙값이고 해마다 바뀐다. 영구히 쓸 값을 현재의 추정치에서 가져오는 셈.</li>
+    <li><strong>브레이크이븐 ≠ 기대 인플레이션.</strong> 연준 연구진의 분해는 <code>TIPS IC = 기대 인플레이션 + 인플레 리스크 프리미엄 − TIPS 유동성 프리미엄</code>이다. 두 프리미엄이 상쇄되지 않는 한 브레이크이븐은 기대 인플레이션이 아니다. 검증된 인용 — <em>“this spread is an imperfect measure, as it contains other components that can drive a wedge between inflation compensation and market participants' true inflation expectations.”</em> (Kim, Walsh &amp; Wei, <a href="https://www.federalreserve.gov/econres/notes/feds-notes/tips-from-tips-update-and-discussions-20190521.html">FEDS Notes, 2019</a>)</li>
+    <li><strong>기간 프리미엄 0.5 / 1.2 / 2.0은 근거 없는 자의적 값</strong>이다(월가아재 본인 명시). 뉴욕 연은 ACM 추정치(FRED <code>THREEFYTP10</code>)와 대조할 것.</li>
+    <li><strong>(CPI − PCE) 갭 0.18 / 0.30 / 0.26%의 출처 미확인.</strong> 월가아재의 값으로 귀속하고, 숙제 시점에 BEA·BLS로 직접 확인.</li>
+  </ul>
+  <p><strong>그럼에도 쓰는 이유:</strong> 30년물 시장 금리를 통째로 받아 적으면 오늘의 수급·지정학 노이즈를 영원에 못 박는다. 3분해는 어긋날 때 <em>어느 조각이</em> 어긋났는지 짚을 수 있다.</p>
+</div>
+
+<div class="note">
+  <span class="label">민감도 — 10-2번 한 칸의 무게</span>
+  <p>현상 유지 기준(ERP 4.8%, ROE 13%, g 3.75%, <strong>n = 10, EPS 수렴 경로 12.25% → g 7년 선형</strong>)에서 <strong>10-2번만</strong> 움직였을 때. 구조 재현 모델(<code>DCF.indexDCF</code>) 기준이며 칼럼의 세 결과를 ±3.6%로 재현한다 — <strong>절대값보다 변화폭</strong>을 볼 것.</p>
+  <div class="scroll-x">
+  <table>
+    <thead><tr><th>10-2번</th><th class="n">적정가치</th><th class="n">기준 대비</th></tr></thead>
+    <tbody>
+      <tr><td>3.60% (골디락스)</td><td class="n">8,011</td><td class="n">+15.3%</td></tr>
+      <tr><td><strong>4.30% (현상 유지)</strong></td><td class="n"><strong>6,950</strong></td><td class="n">기준</td></tr>
+      <tr><td>4.56% (PCE 보정 누락)</td><td class="n">6,623</td><td class="n">−4.7%</td></tr>
+      <tr><td>4.80% (+0.5%p)</td><td class="n">6,347</td><td class="n">−8.7%</td></tr>
+      <tr><td>5.10% (재정 지배)</td><td class="n">6,033</td><td class="n">−13.2%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><strong>무위험수익률 +0.5%p ≈ 지수 −8.7%</strong>. 기간 프리미엄만 0.5% → 2.0%로 바꾸면 <span class="num">−24.7%</span>다.</p>
+<p><strong>이 민감도는 수렴 경로 가정에 둔감하다.</strong> n을 8~13, 수렴 시작 성장률을 9~15%로 바꿔도 +0.5%p의 효과는 −8.5 ~ −8.9% 안에 머문다 — 같은 범위에서 <em>절대값</em>은 6,459 ~ 7,654까지 움직인다. <strong>레벨은 약하고 민감도는 강하다</strong>는 것이 이 모형을 쓰는 방식을 규정한다.</p>
 </div>
 
 <p><strong>근미래(n=1~3) 무위험수익률</strong>은 필라델피아 연은 <a href="https://www.philadelphiafed.org/surveys-and-data/real-time-data-research/survey-of-professional-forecasters">SPF</a>(분기별, 2·5·8·11월 중순 발표)의 10년물 전망을 쓴다. 영향력은 작으므로 과하게 고민하지 않아도 된다.</p>

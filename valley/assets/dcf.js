@@ -1,12 +1,10 @@
 /* ============================================================
    dcf.js — the arithmetic of discounting, shared across lessons.
 
-   Deliberately primitives-only for now. The full two-part Index
-   DCF (near-term path + terminal value with 주주환원율 = 1 − g/ROE)
-   goes in here once it has been back-checked against the column's
-   own results (9,513 / 6,710 / 5,407). Until then, guessing at
-   Valley AI's exact convention would teach the wrong thing.
-   See NOTES.md → "미결 / 확인 필요".
+   The full two-part Index DCF now lives here as DCF.indexDCF, with
+   the calculation convention back-checked against the column's own
+   three results (9,513 / 6,710 / 5,407) — all three reproduce within
+   3.6% under one common EPS glide. See learning-records/0004.
    ============================================================ */
 
 (function (global) {
@@ -56,6 +54,58 @@
     return cfNext / (r - g);
   };
 
+  /**
+   * 2단 DCF — 교과서 그대로의 구조. 근미래 n년 + 종료가치.
+   *
+   * NOTE: 이것은 *예시용 구조 모델*이지 Valley AI의 Index DCF 재현이 아니다.
+   * Valley AI의 정확한 계산 규약(연도별 할인율 처리, 주당 기준 등)은 아직
+   * 미확인이므로 (NOTES.md → 미결), 칼럼의 9,513 / 6,710 / 5,407 을 이 함수로
+   * 재현하려 들지 말 것. 여기서 가르치는 것은 '비중의 구조'다.
+   *
+   *   cfs  — 1년차부터 n년차까지의 현금흐름 배열
+   *   r, g — 소수 (0.091 = 9.1%)
+   * 반환: { near, tv, tvPV, total, tvShare }
+   */
+  DCF.twoPart = function (cfs, r, g) {
+    var n = cfs.length;
+    var near = DCF.pvSeries(cfs, r);
+    var tv = DCF.gordon(cfs[n - 1] * (1 + g), r, g);   // n년차 시점의 값
+    var tvPV = tv * DCF.df(r, n);                       // 현재까지 끌고 온 값
+    var total = near + tvPV;
+    return {
+      near: near,
+      tv: tv,
+      tvPV: tvPV,
+      total: total,
+      tvShare: total > 0 ? tvPV / total : NaN
+    };
+  };
+
+  /**
+   * 근미래 EPS 경로 만들기 — 앞의 `hold`년은 컨센서스 성장률을 유지하고,
+   * 그 뒤로 영구성장률 g까지 선형으로 수렴시킨다.
+   * 월가아재가 "n = 4~10에 걸쳐 영구성장률에 수렴시킨다"고 한 그 경로.
+   */
+  DCF.convergePath = function (cf1, gStart, g, n, hold) {
+    var h = hold === undefined ? 3 : hold;
+    var cfs = [cf1];
+    for (var t = 2; t <= n; t++) {
+      var gt;
+      if (t <= h) {
+        gt = gStart;
+      } else if (n <= h) {
+        gt = gStart;
+      } else {
+        // h+1년차부터 한 칸씩 내려온다. 분모를 (n−h+1)로 두어 마지막 해가
+        // g에 '거의' 닿게 하고, 마지막 한 칸의 하락은 종료가치 공식이 받는다.
+        // (n−h)로 두면 n=4일 때 12% → g 로 한 번에 떨어지는 절벽이 생긴다.
+        gt = gStart + (g - gStart) * ((t - h) / (n - h + 1));
+      }
+      cfs.push(cfs[cfs.length - 1] * (1 + gt));
+    }
+    return cfs;
+  };
+
   /** 할인율 = 무위험수익률 + 리스크 프리미엄. All decimals. */
   DCF.discountRate = function (riskFree, erp) {
     return riskFree + erp;
@@ -69,6 +119,57 @@
   /** g = ROE × 유보율 = ROE × (1 − 주주환원율) */
   DCF.growthFromPayout = function (roe, payout) {
     return roe * (1 - payout);
+  };
+
+  /**
+   * 지수 DCF 한 판 — 칼럼/Valley AI의 계산 규약을 재현한 것.
+   *
+   *   opts = {
+   *     eps:        [340.39, 397.87, 446.60],  // 컨센서스 구간 (1번 칸)
+   *     payoutNear: 0.8072,                    // 근미래 주주환원율 (2·3번)
+   *     riskFree:   0.043,                     // 장기 무위험수익률 (10-2번)
+   *     erp:        0.048,                     // 위험 프리미엄 (10-3번)
+   *     g:          0.0375,                    // 영구성장률 (10-1번)
+   *     roe:        0.13,                      // 장기 ROE (10-4번)
+   *     n:          10,                        // 근미래 파트의 마지막 해
+   *     glideFrom:  0.1225                     // 수렴 시작 성장률 (28년 EPS 성장률)
+   *   }
+   *
+   * 규약: 근미래는 EPS × 주주환원율을 1~n년 할인, 종료가치는
+   * (n+1)년차 현금흐름 ÷ (r − g)를 n년 복리로 재할인. 종료가치의
+   * 주주환원율은 1 − g/ROE로 도출한다. r은 전 구간 동일.
+   *
+   * 검증: 칼럼의 세 시나리오를 ±3.6% 안에서 재현한다. 남은 오차는
+   * n=4~10 EPS 경로(관측 불가)에서 온다. 절대값보다 '변화폭'을 볼 것.
+   */
+  DCF.indexDCF = function (opts) {
+    var eps        = opts.eps;
+    var payoutNear = opts.payoutNear;
+    var g          = opts.g;
+    var roe        = opts.roe;
+    var n          = opts.n === undefined ? 10 : opts.n;
+    var r          = DCF.discountRate(opts.riskFree, opts.erp);
+    var payoutTV   = DCF.payoutFromGrowth(g, roe);
+
+    // EPS 경로: 컨센서스 구간 뒤로 g까지 선형 수렴
+    var path = eps.slice();
+    var glide = n - eps.length;
+    for (var k = 1; k <= glide; k++) {
+      var gt = opts.glideFrom + (g - opts.glideFrom) * (k / glide);
+      path.push(path[path.length - 1] * (1 + gt));
+    }
+
+    var cfs  = path.map(function (e) { return e * payoutNear; });
+    var near = DCF.pvSeries(cfs, r);
+    var tv   = DCF.gordon(path[n - 1] * (1 + g) * payoutTV, r, g);
+    var tvPV = tv * DCF.df(r, n);
+    var total = near + tvPV;
+
+    return {
+      r: r, payoutTV: payoutTV, epsPath: path,
+      near: near, tv: tv, tvPV: tvPV, total: total,
+      tvShare: total > 0 ? tvPV / total : NaN
+    };
   };
 
   /* ---------- formatting ---------- */
@@ -130,6 +231,42 @@
       bar.appendChild(lbl);
       container.appendChild(bar);
     });
+  };
+
+  /**
+   * 가로 누적 막대 — 두 덩어리의 '비중'을 보여 주는 용도.
+   *   DCF.drawSplitBar(el, [{ value: 943, label: '근미래', cls: 'near' },
+   *                          { value: 1663, label: '종료가치', cls: 'tv' }]);
+   * 세그먼트가 좁으면 라벨은 막대 아래 범례로만 나온다.
+   */
+  DCF.drawSplitBar = function (container, segments) {
+    var total = segments.reduce(function (a, s) { return a + (isFinite(s.value) ? s.value : 0); }, 0);
+    container.innerHTML = '';
+
+    var bar = document.createElement('div');
+    bar.className = 'splitbar';
+
+    var legend = document.createElement('div');
+    legend.className = 'splitlegend';
+
+    segments.forEach(function (s) {
+      var share = total > 0 ? s.value / total : 0;
+
+      var seg = document.createElement('div');
+      seg.className = 'seg ' + (s.cls || '');
+      seg.style.width = (share * 100) + '%';
+      if (share > 0.14) seg.textContent = (share * 100).toFixed(1) + '%';
+      bar.appendChild(seg);
+
+      var key = document.createElement('span');
+      key.className = 'key';
+      key.innerHTML = '<i class="' + (s.cls || '') + '"></i>' + s.label +
+        ' <b>' + (share * 100).toFixed(1) + '%</b>';
+      legend.appendChild(key);
+    });
+
+    container.appendChild(bar);
+    container.appendChild(legend);
   };
 
   global.DCF = DCF;

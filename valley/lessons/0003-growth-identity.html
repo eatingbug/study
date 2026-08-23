@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레슨 0003 — g는 어디서 오는가: 성장의 값을 치르는 법</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">Lesson 0003 · Week 9 · Index DCF</p>
+  <h1>g는 어디서 오는가</h1>
+  <p class="standfirst">레슨 0002에서 g를 "종료가치 공식에 들어가는 성장률"로만 두고 넘어갔습니다. 이제 그 값을 정할 차례입니다. 그런데 g는 <strong>혼자 정해지지 않습니다</strong>.</p>
+</header>
+
+<div class="note mission">
+  <span class="label">이번 레슨의 한 가지 win</span>
+  <p>Valley AI의 <strong>종료가치 탭</strong>을 열어 보세요. <span class="num">10-1번(영구성장률)</span>과 <span class="num">10-4번(장기 ROE)</span>은 <em>입력칸</em>인데, 그 아래 <strong>주주환원율은 입력칸이 아닙니다</strong>. 회색으로 자동 계산되어 있죠.</p>
+  <p>오늘 끝나면 그 회색 숫자가 <strong>내 가정의 검산기</strong>라는 걸 알게 됩니다 — 내가 넣은 g와 ROE가 서로 말이 되는 조합인지, 저 칸이 대신 채점해 줍니다.</p>
+</div>
+
+<h2>0. 시작 전 — 꺼내 보기</h2>
+
+<div class="quiz" data-quiz>
+  <h3>워밍업 2문항</h3>
+
+  <div class="q" data-answer="0">
+    <p class="stem">할인율 r은 두 부품으로 이루어집니다. 어떻게 합쳐지나요?</p>
+    <div class="opts">
+      <button class="opt">무위험수익률 + 리스크 프리미엄</button>
+      <button class="opt">무위험수익률 × 리스크 프리미엄</button>
+      <button class="opt">무위험수익률 ÷ 리스크 프리미엄</button>
+    </div>
+    <div class="why">그냥 <strong>더합니다</strong>. 칼럼의 <em>현상 유지</em> 시나리오라면 4.3% + 4.8% = <span class="num">9.1%</span>. 숙제 화면의 <span class="num">6번</span>과 <span class="num">7번</span>이 이 둘이고, <span class="num">10-2번</span>과 <span class="num">10-3번</span>이 종료가치용 장기 버전입니다.</div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">TV<sub>n</sub>을 구한 뒤 (1+r)<sup>n</sup>으로 한 번 더 나누는 이유는?</p>
+    <div class="opts">
+      <button class="opt">n년차 기준의 값이라서</button>
+      <button class="opt">0년차 기준의 값이라서</button>
+      <button class="opt">1년차 기준의 값이라서</button>
+    </div>
+    <div class="why">고든 공식의 분모 <span class="num">(r − g)</span>에 이미 한 해치 할인이 들어 있어서, 나온 값은 <strong>n년차에 서서 본</strong> 금액입니다. 다른 n년차 현금흐름과 똑같이 n년 복리로 끌고 와야 합니다.</div>
+  </div>
+
+  <div class="score"></div>
+</div>
+
+<h2>1. 성장은 공짜가 아니다</h2>
+
+<p>질문 하나. 어떤 회사가 번 돈을 <strong>전부</strong> 배당과 자사주 매입으로 주주에게 돌려줍니다. 이 회사는 내년에 얼마나 성장할까요?</p>
+
+<p><strong>0%입니다.</strong> 재투자할 돈이 한 푼도 안 남았으니까요. 성장하려면 번 돈의 일부를 회사 안에 남겨야 합니다.</p>
+
+<p>여기서 두 단어가 나옵니다. 번 돈 중 주주에게 돌려주는 몫이 <strong>주주환원율(payout ratio)</strong>, 회사에 남기는 몫이 <strong>유보율(retention ratio)</strong>입니다. 둘을 더하면 100%죠.</p>
+
+<div class="note">
+  <span class="label">주주환원율 = 배당 + 자사주 매입</span>
+  <p>한국에서는 "배당성향"이라는 말을 더 많이 쓰지만, 미국 기업은 <strong>자사주 매입(buyback)</strong>으로 돌려주는 몫이 배당보다 큽니다. 숙제 화면 <span class="num">2번(배당성향)</span>과 <span class="num">3번(바이백성향)</span>이 따로 있고, 과거 25년 평균이 <span class="num">33.72% + 47% = 80.72%</span>인 이유입니다. 둘을 합쳐 <strong>주주환원율</strong>이라 부릅니다.</p>
+</div>
+
+<h3>남긴 돈이 어떻게 성장이 되는가</h3>
+
+<p>숫자로 한 바퀴 돌려 보겠습니다. 회계가 약해도 괜찮습니다 — 필요한 건 아래 다섯 줄이 전부입니다.</p>
+
+<p><strong>ROE(자기자본이익률, Return on Equity)</strong>는 <em>회사에 들어 있는 자본 대비 얼마를 버는가</em>입니다. 자기자본 100으로 15를 벌면 ROE는 15%죠.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>단계</th><th class="n">금액</th><th>계산</th></tr></thead>
+  <tbody>
+    <tr><td>올해 자기자본</td><td class="n">100</td><td>출발점</td></tr>
+    <tr><td>올해 순이익</td><td class="n">15</td><td>100 × ROE 15%</td></tr>
+    <tr><td>주주에게 환원 (70%)</td><td class="n">10.5</td><td>15 × 0.70 — 회사를 떠남</td></tr>
+    <tr><td><strong>회사에 유보 (30%)</strong></td><td class="n"><strong>4.5</strong></td><td>15 × 0.30 — <strong>자기자본에 더해짐</strong></td></tr>
+    <tr><td>내년 자기자본</td><td class="n">104.5</td><td>100 + 4.5 &nbsp;→ <span class="num">+4.5%</span></td></tr>
+    <tr><td>내년 순이익</td><td class="n">15.675</td><td>104.5 × ROE 15%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>순이익이 <span class="num">15 → 15.675</span>, 즉 <strong>4.5% 늘었습니다</strong>. 그리고 그 4.5%는 <span class="num">ROE 15% × 유보율 30%</span>와 정확히 같습니다.</p>
+
+<p>이게 전부입니다. <strong>유보한 돈은 자기자본에 쌓이고, 그 불어난 자기자본이 같은 ROE로 굴러가면서 이익을 그만큼 키웁니다.</strong> 그래서 이 항등식이 나옵니다.</p>
+
+<div class="formula">
+  <span class="lead">성장률</span> g = ROE × 유보율
+</div>
+
+<h2>2. 식을 뒤집으면 검산기가 된다</h2>
+
+<p>유보율은 <span class="num">1 − 주주환원율</span>이죠. 대입하고 사칙연산만 하면 됩니다.</p>
+
+<div class="formula">
+  <span class="lead">출발</span> g = ROE × (1 − 주주환원율)<br>
+  <span class="lead">÷ ROE</span> g ÷ ROE = 1 − 주주환원율<br>
+  <span class="lead">정리</span> <strong>주주환원율 = 1 − g ÷ ROE</strong><br>
+  <span class="lead">또는</span> ROE = g ÷ (1 − 주주환원율)
+</div>
+
+<p>세 개의 숫자가 한 줄로 묶여 있습니다. <strong>둘을 정하면 나머지 하나는 선택의 여지가 없습니다.</strong></p>
+
+<p>그래서 Valley AI의 종료가치 탭에서 주주환원율이 회색인 겁니다. 당신이 <span class="num">10-1번</span>에 g를, <span class="num">10-4번</span>에 ROE를 넣는 순간 — 주주환원율은 <em>이미 결정되어 있습니다</em>. 그걸 입력칸으로 두면 서로 모순되는 세 숫자를 넣을 수 있게 되니까요.</p>
+
+<h2>3. 직접 움직여 보기</h2>
+
+<div class="widget">
+  <h3>종료가치 일관성 검산기</h3>
+  <p class="caption">Valley AI 종료가치 탭과 같은 방식입니다 — g와 ROE만 움직이고, 주주환원율은 <strong>도출</strong>됩니다. 옆에 띄워 놓은 화면의 <span class="num">10-1번</span>·<span class="num">10-4번</span>과 같은 값을 넣어 보세요.</p>
+
+  <div class="control">
+    <label for="g"><span>10-1번 · 영구성장률 g</span><span class="val" data-for="g">3.75%</span></label>
+    <input type="range" id="g" min="0.5" max="5" step="0.05" value="3.75">
+  </div>
+
+  <div class="control">
+    <label for="roe"><span>10-4번 · 장기 ROE <em style="color:var(--ink-faint);font-size:0.85em">(장기 밴드 13~18%)</em></span><span class="val" data-for="roe">16.50%</span></label>
+    <input type="range" id="roe" min="2" max="25" step="0.1" value="16.5">
+  </div>
+
+  <p class="caption" style="margin:1.2rem 0 0">번 돈 100을 어떻게 쪼개게 되는가</p>
+  <div id="split"></div>
+
+  <div class="readout">
+    <div class="metric"><span class="k">도출된 주주환원율</span><span class="v hl" id="payout">—</span></div>
+    <div class="metric"><span class="k">과거 25년 평균</span><span class="v" style="color:var(--ink-faint)">80.72%</span></div>
+    <div class="metric"><span class="k">차이</span><span class="v" id="gap">—</span></div>
+  </div>
+
+  <div class="verdict" id="verdict">—</div>
+</div>
+
+<h3>손잡이 하나씩 확인해 볼 것</h3>
+
+<ol>
+  <li><strong>주주환원율을 80.72%에 맞춰 보세요.</strong> g를 3.75%에 둔 채 ROE를 올리면 됩니다. <span class="num">19.45%</span>에서 딱 맞습니다 — 장기 밴드 13~18%를 한참 넘어선 값이죠.</li>
+  <li><strong>ROE를 밴드 안(16.5%)으로 되돌려 보세요.</strong> 주주환원율이 <span class="num">77.3%</span>로 떨어집니다. g를 3.75%로 유지하는 값이 여기서 청구됩니다.</li>
+  <li><strong>ROE를 11.5%까지 더 내려 보세요.</strong> <span class="num">67.4%</span>. 과거 평균보다 13%p 넘게 낮습니다.</li>
+  <li><strong>ROE를 g 아래로 끌어내려 보세요</strong> (예: g 3.75%, ROE 3% — 밴드를 한참 벗어난 극단값입니다). 주주환원율이 <strong>음수</strong>로 갑니다. 5절에서 다룹니다.</li>
+</ol>
+
+<h2>4. 월가아재가 여기서 가정을 되돌린다</h2>
+
+<p>칼럼에서 그는 정확히 위 ①번을 해 봅니다. g = 3.75%에 과거 평균 주주환원율 80.72%를 그대로 유지한다면?</p>
+
+<blockquote>
+  <p>그럼 ROE는 19.45%가 나옵니다. … 비록 COVID 이후 S&amp;P 500의 ROE가 18~21%대가 나오고 있긴 하지만, '장기 ROE'로 잡기에는 살짝 무리한 가정인듯 합니다.</p>
+</blockquote>
+
+<p>그래서 그는 최근 ROE가 높은 이유를 하나씩 뜯어봅니다 — 낮아진 실효 법인세율, 자사주 소각에 따른 자기자본 축소, R&amp;D·소프트웨어 개발비의 비용처리로 인한 장부상 자기자본 과소계상. 대부분 <em>영구히 계속된다고 보기 어려운</em> 요인들이죠. 결론은 장기 ROE를 <strong>13~18% 밴드</strong>에서 잡자는 것입니다. (자세한 내역은 <a href="../reference/dcf-core.html">레퍼런스 §7</a>에 있습니다.)</p>
+
+<p>여기서 <strong>중요한 일이 조용히 벌어집니다.</strong> 그는 ROE를 낮췄지만 g는 3.75%로 그대로 뒀습니다. 그러면 항등식이 나머지 하나를 자동으로 밀어냅니다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>시나리오</th><th class="n">장기 ROE</th><th class="n">g</th><th class="n">→ 도출되는 주주환원율</th><th class="n">과거 평균 대비</th></tr></thead>
+  <tbody>
+    <tr><td>골디락스</td><td class="n">16.5%</td><td class="n">3.75%</td><td class="n">77.3%</td><td class="n">−3.4%p</td></tr>
+    <tr><td>현상 유지</td><td class="n">13.0%</td><td class="n">3.75%</td><td class="n">71.2%</td><td class="n">−9.6%p</td></tr>
+    <tr><td>재정 지배</td><td class="n">11.5%</td><td class="n">3.75%</td><td class="n">67.4%</td><td class="n">−13.3%p</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note">
+  <span class="label">숙제에서 방어해야 할 지점</span>
+  <p>이 모형은 <em>"미래의 S&amp;P 500 기업들이 지금보다 주주환원을 훨씬 덜 하고, 그 돈을 재투자로 돌린다"</em>고 가정하고 있습니다. 그런데 이건 <strong>당신이 어느 칸에도 타이핑하지 않은 가정</strong>입니다. g를 상한 근처에 놓는 선택이 자동으로 사 온 것이죠.</p>
+  <p>반대편도 봅시다. 주주환원율 80.72%를 <em>지키겠다면</em> g는 시나리오별로 <span class="num">3.18% / 2.51% / 2.22%</span>가 됩니다. 3.75%가 아니라요. <strong>둘 다 가질 수는 없습니다.</strong></p>
+  <p>스터디 라운지에 리포트를 올리면 누군가 여기를 짚을 수 있습니다. 준비된 답은 둘 중 하나입니다 — "환원율이 내려가는 걸 받아들인다, 왜냐하면 ⋯" 또는 "g를 낮춰서 환원율을 지킨다, 왜냐하면 ⋯". <strong>어느 쪽이든 의식적으로 골랐다는 것 자체가 방어입니다.</strong></p>
+</div>
+
+<h2>5. 두 종류의 실패 — 구별해야 한다</h2>
+
+<p>레슨 0002에서 <span class="num">g ≥ r</span>이면 모형이 터진다고 배웠습니다. 오늘은 다른 종류의 실패가 나옵니다. 헷갈리면 안 됩니다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th></th><th>g ≥ r <span style="font-weight:400">(L0002)</span></th><th>주주환원율 음수 <span style="font-weight:400">(L0003)</span></th></tr></thead>
+  <tbody>
+    <tr><td>무슨 일이</td><td>분모가 0 이하 → 값이 ∞ 또는 음수</td><td>1 − g/ROE &lt; 0</td></tr>
+    <tr><td>실패의 종류</td><td><strong>식이 깨진다</strong></td><td><strong>식은 멀쩡한데 말이 안 된다</strong></td></tr>
+    <tr><td>어떻게 알아채나</td><td>화면에 이상한 숫자가 뜬다</td><td>숫자는 멀쩡해 보인다. <em>읽어야</em> 안다</td></tr>
+    <tr><td>읽으면</td><td>"영원히 요구수익률보다 빠르게 성장"</td><td>"기업들이 영원히 주주에게서 자본을 걷는다"</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>주주환원율 <span class="num">−13%</span>는 계산 오류가 아닙니다. <em>"S&amp;P 500 기업들이 매년 주주에게서 순이익의 13%만큼 돈을 더 걷어 간다"</em>는 완벽하게 일관된 진술입니다 — 성숙한 지수에 대해 터무니없을 뿐이죠.</p>
+
+<p><strong>두 번째 종류가 훨씬 위험합니다.</strong> 첫 번째는 화면이 대신 소리쳐 주지만, 두 번째는 조용합니다. 71.2%든 67.4%든 −13%든 화면은 똑같이 담담하게 회색 숫자를 보여 줍니다. 그래서 <strong>도출된 값을 매번 소리 내어 읽어 보는 습관</strong>이 필요합니다. 그게 이 칸의 존재 이유입니다.</p>
+
+<h2>6. 심화 — 12.25%와 3.75%를 나란히 놓지 말 것 <span style="font-size:0.8em;color:var(--ink-faint)">(건너뛰어도 됨)</span></h2>
+
+<p>칼럼의 각주 하나. 숙제 <span class="num">1번</span> 칸의 EPS 성장률은 <strong>주당(per-share)</strong> 개념이라 자사주 소각으로 주식 수가 줄어드는 효과가 섞여 있는 반면, <span class="num">10-1번</span>의 g는 <strong>총액</strong> 개념입니다. 단위가 다릅니다. 그래서 "28년 EPS 성장률 12.25% vs 영구성장률 3.75%"를 나이브하게 비교하면 안 되고, 3.75%를 <span class="num">4.75~5%</span> 정도로 환산해서 봐야 격차가 제대로 보입니다.</p>
+
+<hr>
+
+<h2>7. 확인 — 기억에서 꺼내기</h2>
+
+<div class="quiz" data-quiz>
+  <h3>개념 4문항</h3>
+
+  <div class="q" data-answer="0">
+    <p class="stem">Valley AI 종료가치 탭에서 <strong>주주환원율</strong>은 어떤 성격의 숫자인가?</p>
+    <div class="opts">
+      <button class="opt">도출되는 값이다</button>
+      <button class="opt">입력하는 값이다</button>
+      <button class="opt">고정되는 값이다</button>
+    </div>
+    <div class="why">g와 ROE를 정하면 <span class="num">1 − g/ROE</span>로 자동 결정됩니다. 입력칸으로 두면 서로 모순되는 세 숫자를 넣을 수 있게 되죠. 단, <strong>근미래 파트의 주주환원율(2·3번 칸)은 반대로 직접 입력</strong>합니다 — 과거 25년 평균 80.72%가 무난합니다.</div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">어떤 회사가 번 돈을 100% 주주환원한다면 g = ROE × 유보율에 따라 성장률은?</p>
+    <div class="opts">
+      <button class="opt">0%가 된다</button>
+      <button class="opt">5%가 된다</button>
+      <button class="opt">9%가 된다</button>
+    </div>
+    <div class="why">유보율이 0이므로 g = ROE × 0 = 0. 재투자할 자본이 남지 않으니 자기자본이 안 늘고, 같은 ROE로는 이익도 안 늡니다. <strong>성장은 공짜가 아니고 유보로 값을 치릅니다.</strong></div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">g를 3.75%로 유지한 채 장기 ROE만 16.5%에서 13%로 낮추면, 도출되는 주주환원율은?</p>
+    <div class="opts">
+      <button class="opt">낮아진다</button>
+      <button class="opt">높아진다</button>
+      <button class="opt">유지된다</button>
+    </div>
+    <div class="why"><span class="num">77.3% → 71.2%</span>. 자본을 덜 효율적으로 굴리는 세상에서 같은 성장률을 내려면 <strong>더 많이 유보해야</strong> 하고, 유보를 늘리는 만큼 주주에게 갈 몫이 줄어듭니다. 성장의 청구서는 누군가 내야 합니다.</div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">도출된 주주환원율이 음수로 나왔습니다. 이 모형이 말하고 있는 내용은?</p>
+    <div class="opts">
+      <button class="opt">주주에게서 자본을 걷는다</button>
+      <button class="opt">주주에게로 자본이 흐른다</button>
+      <button class="opt">주주에게는 자본이 남는다</button>
+    </div>
+    <div class="why">g가 ROE를 넘으면 벌어들인 이익 전부를 유보해도 모자라서, 외부에서 자본을 더 조달해야 합니다. <strong>계산이 틀린 게 아니라 가정이 말이 안 되는 것</strong>입니다 — 화면은 아무 경고도 주지 않으니 직접 읽어야 합니다.</div>
+  </div>
+
+  <div class="score"></div>
+</div>
+
+<div class="drill" data-drill>
+  <h3>계산 6문항 — 유보가 성장이 되는 한 바퀴</h3>
+  <p class="caption">①~⑤는 한 사슬입니다. 자기자본 100, ROE 15%, 유보율 30%에서 출발합니다.</p>
+
+  <div class="row" data-answer="15" data-tol="0.05">
+    <span class="ask">① 올해 순이익은? (자기자본 100 × ROE 15%)</span>
+    <input type="text" placeholder="?"><span class="unit"></span><span class="mark"></span>
+    <div class="hint">100 × 0.15 = 15. ROE는 <em>자기자본 대비</em> 이익률입니다.</div>
+  </div>
+
+  <div class="row" data-answer="4.5" data-tol="0.02">
+    <span class="ask">② 그중 회사에 유보되는 금액은? (유보율 30%)</span>
+    <input type="text" placeholder="?"><span class="unit"></span><span class="mark"></span>
+    <div class="hint">15 × 0.30 = 4.5. 나머지 10.5는 배당·자사주로 회사를 떠납니다.</div>
+  </div>
+
+  <div class="row" data-answer="104.5" data-tol="0.05">
+    <span class="ask">③ 내년 자기자본은?</span>
+    <input type="text" placeholder="?"><span class="unit"></span><span class="mark"></span>
+    <div class="hint">100 + 4.5 = 104.5. <strong>여기가 핵심입니다</strong> — 유보한 돈은 사라지지 않고 자기자본에 쌓입니다.</div>
+  </div>
+
+  <div class="row" data-answer="15.675" data-tol="0.02">
+    <span class="ask">④ 내년 순이익은? (ROE 15% 유지)</span>
+    <input type="text" placeholder="?"><span class="unit"></span><span class="mark"></span>
+    <div class="hint">104.5 × 0.15 = 15.675. 불어난 자기자본이 같은 효율로 굴러갑니다.</div>
+  </div>
+
+  <div class="row" data-answer="4.5" data-tol="0.05">
+    <span class="ask">⑤ 그래서 순이익 성장률은?</span>
+    <input type="text" placeholder="?"><span class="unit">%</span><span class="mark"></span>
+    <div class="hint">15.675 ÷ 15 − 1 = 4.5%. 그리고 <span class="num">ROE 15% × 유보율 30% = 4.5%</span>. 항등식이 우연이 아니라는 걸 방금 손으로 확인하셨습니다.</div>
+  </div>
+
+  <div class="row" data-answer="71.2" data-tol="0.3">
+    <span class="ask">⑥ 이제 종료가치 칸. g = 3.75%, 장기 ROE = 13%. 도출되는 주주환원율은?</span>
+    <input type="text" placeholder="?"><span class="unit">%</span><span class="mark"></span>
+    <div class="hint">1 − 3.75/13 = 1 − 0.2885 = <strong>71.2%</strong>. 과거 25년 평균 80.72%보다 9.6%p 낮습니다. 이 숫자를 소리 내어 읽으면 — <em>"미래의 S&amp;P 500은 지금보다 주주환원을 덜 하고 더 재투자한다"</em>. 받아들일 수 있다면 그대로 가고, 아니라면 g를 낮춰야 합니다.</div>
+  </div>
+
+  <div class="actions"><button class="ghost" data-reveal>정답 보기</button></div>
+</div>
+
+<hr>
+
+<h2>이번에 읽을 것 (하나만)</h2>
+
+<p><strong>1차 자료 —</strong> <a href="https://aswathdamodaran.blogspot.com/2016/11/myth-53-growth-is-good-more-growth-is.html">Aswath Damodaran, “Myth 5.3: Growth is good, more growth is better!”</a></p>
+
+<p>약 2,200단어. 오늘 레슨 전체의 원문이고, 한 문장으로 요약됩니다.</p>
+
+<blockquote>
+  <p>“Growth is not free and it has to be paid for with reinvestment and in the terminal value equation, this effectively means that you cannot leave cash flows fixed and change the growth rate.”</p>
+</blockquote>
+
+<p>읽으면서 들고 갈 질문 하나 — <strong>g를 올리는 것이 왜 그 자체로는 가치를 만들지 못하는가?</strong> 다모다란의 답은 "성장률이 아니라 <em>초과수익(ROE − 요구수익률)</em>이 가치를 만든다"입니다. 이 논거가 숙제 리포트에서 <span class="num">10-1번</span> 칸을 방어하는 문단이 됩니다. 그리고 레슨 0002의 계산기에서 <em>g만</em> 올렸을 때 가치가 치솟았던 건 사실 <strong>반칙</strong>이었다는 것도 여기서 밝혀집니다 — 성장의 청구서를 안 내고 성장만 가져간 셈이니까요.</p>
+
+<p class="next-up"><strong>진도 —</strong> 월가아재 글로벌 매크로 지식편 6회차 2강(주가지수의 DCF).</p>
+
+<div class="ask-teacher">
+  <span class="label">막히면 물어보세요</span>
+  오늘 흐릿하게 남기 쉬운 지점은 <em>"유보한 돈이 왜 자기자본에 더해지는가"</em>입니다. 회계 쪽이라 그냥 넘어가기 쉬운데, 여기가 막히면 항등식 전체가 외워야 할 공식으로 남습니다. 드릴 ③번이 이해가 아니라 계산으로만 풀렸다면 물어보세요.
+</div>
+
+<div class="footer">
+  <h3>이어지는 곳</h3>
+  <ul>
+    <li><a href="0002-two-part-structure.html">← 레슨 0002 — 2단 구조: 종료가치가 지배한다</a></li>
+    <li><a href="../reference/dcf-core.html">레퍼런스 — §3 성장의 내부 일관성, §4 영구성장률, §7 장기 ROE</a></li>
+    <li><a href="0004-long-run-riskfree.html">레슨 0004 — 장기 무위험수익률 조립하기: 중립 실질금리 + 기대 인플레 + 기간 프리미엄 →</a></li>
+  </ul>
+</div>
+
+<script src="../assets/dcf.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+(function () {
+  var HIST = 0.8072;   // 과거 25년 평균 주주환원율
+  var BAND = [0.13, 0.18];
+
+  var splitEl   = document.getElementById('split');
+  var payoutEl  = document.getElementById('payout');
+  var gapEl     = document.getElementById('gap');
+  var verdictEl = document.getElementById('verdict');
+
+  var gEl = document.getElementById('g');
+  var rEl = document.getElementById('roe');
+
+  function render() {
+    var g   = parseFloat(gEl.value) / 100;
+    var roe = parseFloat(rEl.value) / 100;
+    var p   = DCF.payoutFromGrowth(g, roe);   // 1 − g/ROE
+
+    payoutEl.textContent = DCF.pct(p, 1);
+    gapEl.textContent    = ((p - HIST) * 100 >= 0 ? '+' : '') +
+                           ((p - HIST) * 100).toFixed(1) + '%p';
+
+    if (p < 0) {
+      splitEl.innerHTML = '<p class="caption" style="margin:0.8rem 0 0;color:var(--bad)">' +
+        'g가 ROE를 넘었습니다 — 이익을 전부 유보해도 모자라서 쪼갤 수 있는 100이 없습니다.</p>';
+    } else {
+      DCF.drawSplitBar(splitEl, [
+        { value: p,     label: '주주환원 (배당+바이백)', cls: 'payout' },
+        { value: 1 - p, label: '사내유보 → 재투자',       cls: 'retain' }
+      ]);
+    }
+
+    var msg, cls;
+    if (p < 0) {
+      cls = 'bad';
+      msg = '<b>말이 안 됩니다.</b> 주주환원율이 음수 — 기업들이 영원히 주주에게서 자본을 <em>걷어 간다</em>는 뜻입니다. ' +
+            '식이 깨진 게 아니라 가정이 말이 안 되는 경우입니다 (5절).';
+    } else if (roe < BAND[0] || roe > BAND[1]) {
+      cls = 'bad';
+      msg = '<b>ROE가 장기 밴드(13~18%) 밖입니다.</b> 현재 ' + DCF.pct(roe, 1) +
+            '. 최근 실적치가 18~21%로 높은 건 낮은 법인세율·자사주 소각·무형자산 비용처리 때문이고, ' +
+            '<em>영구히</em> 계속된다고 보기 어렵습니다 (레퍼런스 §7).';
+    } else if (Math.abs(p - HIST) <= 0.02) {
+      cls = 'ok';
+      msg = '<b>과거 평균과 거의 일치합니다.</b> 주주환원 패턴이 지금과 비슷하게 유지된다는 뜻이니, ' +
+            '추가로 방어할 게 가장 적은 조합입니다.';
+    } else if (p < HIST) {
+      cls = '';
+      msg = '<b>읽어 보세요 —</b> "미래의 S&amp;P 500은 지금(80.7%)보다 주주환원을 ' +
+            ((HIST - p) * 100).toFixed(1) + '%p <em>덜</em> 하고, 그만큼 더 재투자한다." ' +
+            '받아들일 수 있으면 그대로 가고, 아니면 g를 낮추세요.';
+    } else {
+      cls = '';
+      msg = '<b>읽어 보세요 —</b> "미래의 S&amp;P 500은 지금(80.7%)보다 주주환원을 ' +
+            ((p - HIST) * 100).toFixed(1) + '%p <em>더</em> 한다." ' +
+            '환원을 늘리면서 이 성장률을 내려면 자본 효율(ROE)이 그만큼 높아야 합니다.';
+    }
+    verdictEl.className = 'verdict ' + cls;
+    verdictEl.innerHTML = msg;
+  }
+
+  DCF.bindRange('#g',   function (v) { return v.toFixed(2) + '%'; }, render);
+  DCF.bindRange('#roe', function (v) { return v.toFixed(2) + '%'; }, render);
+})();
+</script>
+
+</body>
+</html>
