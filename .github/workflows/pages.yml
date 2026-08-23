@@ -1,0 +1,43 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Pages 배포에 필요한 최소 권한
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 배포는 한 번에 하나만. 진행 중인 배포는 취소하지 않는다.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+
+      # 목록 페이지를 lessons/ · reference/ 의 문서에서 다시 만들고,
+      # 배포할 파일만 _site/ 로 모은다 (allow-list — HTML·에셋만).
+      # 새 레슨을 추가하고 푸시하면 목록에 자동으로 들어온다.
+      # 마크다운 문서·learning-records/ 는 여기서 걸러진다.
+      - name: 사이트 빌드
+        run: python3 tools/build-index.py --stage _site
+
+      # Jekyll 빌드 없이 정적 파일 그대로 (_site/.nojekyll 참조)
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
