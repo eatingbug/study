@@ -27,10 +27,27 @@ jobs:
 
       - uses: actions/configure-pages@v5
 
-      # 정적 파일 그대로 올린다 (Jekyll 빌드 없음 — .nojekyll 참조)
+      # 사이트에 올릴 것은 레슨·참조 문서(HTML)와 그 에셋뿐이다.
+      # 마크다운 문서(MISSION·NOTES·RESOURCES·GLOSSARY)와 learning-records/ 는
+      # 웹에 노출하지 않는다 — 저장소에서 GitHub 렌더링으로 읽는다.
+      - name: 배포할 파일만 모은다
+        run: |
+          mkdir -p _site
+          tar -cf - \
+            --exclude=./.git \
+            --exclude=./.github \
+            --exclude=./_site \
+            --exclude=./.gitignore \
+            --exclude='*.md' \
+            --exclude=learning-records \
+            . | tar -xf - -C _site
+          echo "---- 배포 대상 ----"
+          find _site -type f | sort
+
+      # Jekyll 빌드 없이 정적 파일 그대로 (_site/.nojekyll 참조)
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
 
       - id: deployment
         uses: actions/deploy-pages@v4
