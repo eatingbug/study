@@ -5,6 +5,7 @@
    the calculation convention back-checked against the column's own
    three results (9,513 / 6,710 / 5,407) — all three reproduce within
    3.6% under one common EPS glide. See learning-records/0004.
+   DCF.solveERP runs the same model backwards — market price in, ERP out.
    ============================================================ */
 
 (function (global) {
@@ -170,6 +171,38 @@
       near: near, tv: tv, tvPV: tvPV, total: total,
       tvShare: total > 0 ? tvPV / total : NaN
     };
+  };
+
+  /**
+   * 내재 ERP 역산 — 모형을 거꾸로 돌린다.
+   *
+   * 적정가치 자리에 *현재 시장가격*을 놓고, 그 값을 만들어 내는 ERP를 찾는다.
+   * indexDCF는 erp에 대해 단조감소이므로 이분법으로 안전하게 수렴한다.
+   *
+   *   DCF.solveERP({ ...indexDCF의 opts..., }, 7411)  →  0.04472
+   *
+   * 주의 — 여기서 실제로 시장가격이 결정하는 것은 **r 하나**다. ERP는
+   * r에서 당신이 고른 무위험수익률을 뺀 *잔차*일 뿐이므로, opts.riskFree를
+   * 바꾸면 반환값이 그만큼 반대로 움직인다(r은 그대로다). 이 성질이
+   * L0005의 핵심이다 — learning-records/0005 참조.
+   */
+  DCF.solveERP = function (opts, targetIndex) {
+    var lo = 0.0001, hi = 0.50;   // 50%면 어떤 현실적 지수보다도 낮은 값이 나온다
+    var o = {}, k;
+    for (k in opts) o[k] = opts[k];
+
+    function valueAt(e) {
+      o.erp = e;
+      return DCF.indexDCF(o).total;
+    }
+    // 구간 검사 — 목표가 도달 불가면 NaN을 준다 (조용히 틀린 값을 주지 않는다)
+    if (valueAt(lo) < targetIndex || valueAt(hi) > targetIndex) return NaN;
+
+    for (var i = 0; i < 100; i++) {
+      var mid = (lo + hi) / 2;
+      if (valueAt(mid) > targetIndex) lo = mid; else hi = mid;
+    }
+    return (lo + hi) / 2;
   };
 
   /* ---------- formatting ---------- */

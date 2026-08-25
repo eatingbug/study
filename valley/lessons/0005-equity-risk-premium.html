@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레슨 0005 — 10-3번: 시장가격에서 ERP를 역산하기</title>
+<meta name="index-gloss" content="과거 평균은 왜 못 쓰는가, 내재 ERP는 어떻게 역산하는가, 그리고 그 값을 그대로 넣으면 왜 답이 사라지는가.">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">Lesson 0005 · Week 9 · Index DCF</p>
+  <h1>ERP — 역산했더니 답이 사라졌다</h1>
+  <p class="standfirst">레슨 0004에서 <span class="num">10-2번</span>을 세 조각으로 조립했습니다. 그 옆칸 <span class="num">10-3번(위험 프리미엄)</span>이 마지막 할인율 부품입니다. 이 칸에는 <strong>정답이 없습니다</strong> — 그리고 그게 왜 결함이 아닌지가 오늘의 내용입니다.</p>
+</header>
+
+<div class="note mission">
+  <span class="label">이번 레슨의 한 가지 win</span>
+  <p>ERP를 <em>정의</em>로 배우지 않습니다. <strong>시장가격에서 직접 역산</strong>해 봅니다. 그게 내재 ERP(implied ERP)이고, 실무에서 쓰는 유일한 방식입니다.</p>
+  <p>그리고 역산한 값을 <span class="num">10-3번</span>에 그대로 넣으면 무슨 일이 벌어지는지 보게 됩니다. 그 순간이 오늘의 win입니다 — 숙제 리포트에서 이 칸을 방어하는 문단이 거기서 나옵니다.</p>
+</div>
+
+<h2>0. 시작 전 — 꺼내 보기</h2>
+
+<div class="quiz" data-quiz>
+  <h3>워밍업 2문항</h3>
+
+  <div class="q" data-answer="0">
+    <p class="stem">브레이크이븐 인플레이션을 기대 인플레이션으로 그냥 쓰면 안 되는 이유는?</p>
+    <div class="opts">
+      <button class="opt">물가 보험료가 섞여 있다</button>
+      <button class="opt">만기가 서로 다른 값이다</button>
+      <button class="opt">발표 시점이 한참 뒤늦다</button>
+    </div>
+    <div class="why">브레이크이븐 = 기대 인플레이션 <strong>+ 인플레 리스크 프리미엄 − TIPS 유동성 프리미엄</strong>. 물가 위험을 넘기는 값의 <em>보험료</em>가 섞여 있습니다 (<a href="https://www.federalreserve.gov/econres/notes/feds-notes/tips-from-tips-update-and-discussions-20190521.html">Kim·Walsh·Wei 2019</a>). 만기는 둘 다 10년물이라 문제가 아니고, 발표는 매일 나옵니다.</div>
+  </div>
+
+  <div class="q" data-answer="2">
+    <p class="stem">장기 무위험수익률 3분해에서, 본인의 뷰가 들어가는 조각은?</p>
+    <div class="opts">
+      <button class="opt">중립 실질금리 그 하나</button>
+      <button class="opt">기대 인플레이션 두 개</button>
+      <button class="opt">기간 프리미엄 한 조각</button>
+    </div>
+    <div class="why">중립 실질금리는 SEP에서 <strong>받아 오고</strong>, 기대 인플레이션은 시장 가격에서 <strong>읽어 옵니다</strong>. 판단이 들어가는 자리는 기간 프리미엄 하나입니다. 오늘 배우는 <span class="num">10-3번</span>은 <strong>두 번째로 뷰가 들어가는 칸</strong>입니다.</div>
+  </div>
+
+  <div class="score"></div>
+</div>
+
+<h2>1. 방법 A — 과거 평균. 왜 안 쓰는가</h2>
+
+<p>가장 자연스러운 접근입니다. 주식이 국채를 얼마나 이겨 왔는지 오래 재서 평균을 내면 되지 않을까? 1928년부터 2022년까지 <strong>94년</strong>을 재면, 10년물 국채 대비 주식의 초과수익 산술평균은 <span class="num">6.64%</span>입니다.</p>
+
+<p>94년치 데이터입니다. 충분해 보입니다. 그런데 <strong>이 추정치의 표준오차가 2.15%p</strong>입니다.</p>
+
+<div class="formula">
+  <span class="lead">95% 신뢰구간</span> 6.64% ± 2 × 2.15% &nbsp;=&nbsp; <strong>2.34% ~ 10.94%</strong>
+</div>
+
+<p>이게 무슨 뜻인지 숫자로 보는 게 빠릅니다. 저 구간의 양 끝을 <span class="num">10-3번</span> 칸에 넣어 보세요 — 나머지 칸은 레슨 0004의 현상 유지 시나리오 그대로 두고.</p>
+
+<div class="drill" data-drill>
+  <h3>신뢰구간을 지수로 옮겨 보기</h3>
+  <p class="caption">칸에 답을 넣으면 바로 채점됩니다. 계산은 아래 표를 읽으면 됩니다 — 요점은 산수가 아니라 <strong>폭</strong>입니다.</p>
+
+  <div class="row" data-answer="8.6" data-tol="0.15">
+    <span class="ask">신뢰구간의 <strong>폭</strong>은 몇 %p인가? (10.94 − 2.34)</span>
+    <input type="text" inputmode="decimal">
+    <span class="unit">%p</span>
+    <span class="mark"></span>
+    <div class="hint">8.6%p. 참고로 <strong>ERP 자체의 추정치가 6.64%</strong>입니다 — 오차의 폭이 추정치보다 큽니다.</div>
+  </div>
+
+  <div class="row" data-answer="4.08" data-tol="0.15">
+    <span class="ask">신뢰구간 상·하한을 모형에 넣으면 적정가치는 3,173 ~ 12,939. 상한이 하한의 <strong>몇 배</strong>인가?</span>
+    <input type="text" inputmode="decimal">
+    <span class="unit">배</span>
+    <span class="mark"></span>
+    <div class="hint">12,939 ÷ 3,173 = <strong>약 4.08배</strong>. "S&amp;P의 적정가치는 3,200에서 12,900 사이입니다"는 <em>아무 말도 하지 않은 것</em>과 같습니다. 지금 지수(7,411)는 그 안에 편안히 들어 있습니다.</div>
+  </div>
+
+  <div class="actions"><button class="ghost" data-reveal>정답 보기</button></div>
+</div>
+
+<div class="note">
+  <span class="label">가정 → 파열점</span>
+  <p><strong>이 방식이 가정하는 것:</strong> 과거 94년의 평균이 앞으로의 기댓값이다 (즉 위험의 가격은 시간에 대해 안정적이다).</p>
+  <p><strong>어디서 깨지는가:</strong> 주식 수익률의 연간 변동성이 20%를 넘습니다. 평균을 정밀하게 <em>계산</em>할 수는 있어도 정밀하게 <em>추정</em>할 수는 없습니다. 다모다란의 표현대로, 평균을 정확히 계산할 수 있다는 사실이 <em>그 평균이 사실이라는 착각</em>으로 번역되는 것이 문제입니다 — 사실이 아니라 매우 시끄러운 추정치입니다. 게다가 표준오차 2.15%p조차 연간 수익률이 서로 독립이라는 가정에서 나온 값이라 <strong>과소평가</strong>된 것입니다.</p>
+  <p><strong>그럼에도:</strong> 아무도 안 쓰는 게 아닙니다. 기준일·산술/기하평균·단기채/장기채 조합을 바꾸면 같은 데이터에서 <span class="num">5.5%~14.5%</span>가 다 나오고, 실무에서 흔히 인용되는 숫자가 대개 이 중 하나입니다. <strong>그래서 남의 ERP를 받아 쓸 때는 어느 조합인지 물어야 합니다.</strong></p>
+</div>
+
+<h2>2. 방법 B — 모형을 거꾸로 돌리기</h2>
+
+<p>이 모형은 지금까지 <strong>입력 → 적정가치</strong> 방향으로만 돌렸습니다. 그런데 방정식에는 방향이 없습니다.</p>
+
+<div class="formula">
+  <span class="lead">지금까지</span> 입력값들 → <strong>적정가치</strong><br>
+  <span class="lead">이번엔</span> 입력값들 + <strong>현재 지수</strong> → 빈 칸 하나
+</div>
+
+<p>적정가치 자리에 <strong>오늘의 시장가격을 적어 넣고</strong>, <span class="num">10-3번</span>을 비워 둡니다. 그러면 미지수가 하나인 방정식이 되고, 풀 수 있습니다. 그 답이 <strong>내재 ERP(implied ERP)</strong> — "지금 이 가격에 사는 사람들이 요구하고 있는 위험 프리미엄"입니다.</p>
+
+<p>다모다란이 매월 초 게시하는 값이 바로 이것입니다. 배당과 자사주 매입을 현금흐름으로 놓고, <strong>그 현재가치를 지수와 같게 만드는 할인율(IRR)</strong>을 찾아 무위험수익률을 뺍니다 — 채권의 만기수익률과 정확히 같은 논리입니다. 2026년 7월 1일 S&amp;P 7,499.36에서 <span class="num">4.42%</span>, 8월 1일 <span class="num">4.23%</span>(기대수익률 8.97%)였습니다.</p>
+
+<div class="note">
+  <span class="label">교차 검증 — 이 계산기가 다모다란과 만나는 지점</span>
+  <p>아래 위젯은 우리 모형(레슨 0004에서 규약을 역검증한 그것)을 거꾸로 돌립니다. 지수를 <strong>7,499</strong>로, <span class="num">10-2번</span>을 4.3%로 두면 <strong>4.41%</strong>가 나옵니다. 다모다란의 같은 날 값은 <strong>4.42%</strong>입니다.</p>
+  <p>현금흐름 정의도, EPS 경로도 서로 다른 두 구현이 <span class="num">0.01%p</span> 안에서 만났습니다. 우연이 섞여 있을 수 있으니 자릿수 이상을 믿지는 마세요. 하지만 <strong>역산이라는 절차 자체는 이걸로 검증된 것</strong>으로 봐도 됩니다.</p>
+</div>
+
+<div class="widget">
+  <h3>내재 ERP 역산기</h3>
+  <p class="caption">손잡이를 움직이며 <strong>맨 아래 두 줄</strong>을 보세요. 절대값보다 <em>무엇이 움직이고 무엇이 안 움직이는지</em>가 핵심입니다. 나머지 칸은 현상 유지 시나리오 고정 (g 3.75% · ROE 13% · 근미래 환원율 80.72%).</p>
+
+  <div class="control">
+    <label for="idx"><span>현재 지수 <em style="color:var(--ink-faint);font-size:0.85em">(시장가격)</em></span><span class="val" data-for="idx">7,411</span></label>
+    <input type="range" id="idx" min="5500" max="9500" step="1" value="7411">
+  </div>
+
+  <div class="control">
+    <label for="rf2"><span><span class="num">10-2번</span> 장기 무위험수익률 <em style="color:var(--ink-faint);font-size:0.85em">(레슨 0004에서 조립한 값)</em></span><span class="val" data-for="rf2">4.30%</span></label>
+    <input type="range" id="rf2" min="2.5" max="6" step="0.05" value="4.3">
+  </div>
+
+  <div class="control">
+    <label for="nn"><span>n — 근미래 파트의 길이 <em style="color:var(--ink-faint);font-size:0.85em">(내 가정, 시장이 준 값이 아님)</em></span><span class="val" data-for="nn">10년</span></label>
+    <input type="range" id="nn" min="6" max="14" step="1" value="10">
+  </div>
+
+  <div class="readout">
+    <div class="metric"><span class="k">역산된 할인율 r</span><span class="v" id="rr2">—</span></div>
+    <div class="metric"><span class="k">− 10-2번</span><span class="v" style="color:var(--ink-faint)" id="rfout">—</span></div>
+    <div class="metric"><span class="k">= 내재 ERP</span><span class="v hl" id="erp">—</span></div>
+  </div>
+
+  <div class="readout" style="margin-top:0.4rem">
+    <div class="metric"><span class="k">이 ERP를 10-3번에 넣으면</span><span class="v" id="back">—</span></div>
+    <div class="metric"><span class="k">시장가격과의 괴리</span><span class="v hl" id="gap">—</span></div>
+  </div>
+
+  <div class="verdict" id="verdict2">—</div>
+</div>
+
+<h3>손잡이 하나씩 확인해 볼 것</h3>
+
+<ol>
+  <li><strong>① 지수만 움직여 보세요.</strong> 지수가 오르면 내재 ERP가 <em>내려갑니다</em>. 같은 현금흐름에 더 많이 지불한다는 것은 덜 요구한다는 뜻입니다 — <strong>가격과 요구수익률은 같은 것의 앞뒤</strong>입니다.</li>
+  <li><strong>② 이제 <span class="num">10-2번</span>만 움직여 보세요.</strong> 내재 ERP는 움직이지만 <strong>r은 소수점까지 그대로</strong>입니다. 여기서 잠깐 멈추세요 — 오늘의 진짜 내용입니다.</li>
+  <li><strong>③ n을 흔들어 보세요.</strong> 지수도 <span class="num">10-2번</span>도 안 건드렸는데 내재 ERP가 움직입니다. "시장이 준 값"이 내 가정에 따라 변합니다.</li>
+  <li><strong>④ 맨 아래 괴리를 계속 보세요.</strong> 무슨 짓을 해도 <span class="num">0.0%</span>입니다.</li>
+</ol>
+
+<h2>3. 세 개의 함정 — 순서대로</h2>
+
+<h3>함정 ① 시장이 정해 주는 것은 r 하나다</h3>
+
+<p>손잡이 ②에서 본 것입니다. 시장가격이 결정하는 것은 <strong>총 요구수익률 r</strong> 하나이고, ERP는 거기서 <em>내가 고른</em> 무위험수익률을 뺀 <strong>잔차</strong>입니다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>10-2번 (내가 고른 값)</th><th class="n">역산된 r</th><th class="n">내재 ERP</th></tr></thead>
+  <tbody>
+    <tr><td>3.60% — 골디락스</td><td class="n">8.77%</td><td class="n">5.17%</td></tr>
+    <tr><td>4.30% — 현상 유지</td><td class="n">8.77%</td><td class="n">4.47%</td></tr>
+    <tr><td>5.10% — 재정 지배</td><td class="n">8.77%</td><td class="n">3.67%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="caption">S&amp;P 7,411 고정. r은 소수점 둘째 자리까지 같습니다.</p>
+
+<p>그래서 <strong>레슨 0004에서 기간 프리미엄을 어떻게 잡았든, 그 판단은 여기서 반대 방향으로 상쇄됩니다.</strong> 무위험수익률을 0.7%p 높게 잡으면 내재 ERP가 0.7%p 낮게 나올 뿐, r은 그대로입니다.</p>
+
+<div class="note">
+  <span class="label">이 모형에서 10-2번과 10-3번은 구별되지 않는다</span>
+  <p>할인율은 둘의 <em>합</em>으로만 들어갑니다. 그래서 <strong>ERP를 0.5%p 올리는 것과 무위험수익률을 0.5%p 올리는 것은 완전히 같은 결과</strong>를 냅니다 — 둘 다 <span class="num">6,950 → 6,347</span>, 약 <strong>−8.7%</strong>. 레슨 0004에서 본 그 숫자 그대로입니다.</p>
+  <p>그렇다면 왜 칸을 두 개로 나눠 놓았을까요? <strong>근거의 출처가 다르기 때문</strong>입니다. <span class="num">10-2번</span>은 SEP·TIPS·ACM 같은 관측값으로 방어하고, <span class="num">10-3번</span>은 레짐 판단으로 방어합니다. 계산에는 합만 들어가지만, <em>리포트에서 방어해야 하는 것은 두 개</em>입니다.</p>
+</div>
+
+<h3>함정 ② 순환논리 — 넣으면 답이 사라진다</h3>
+
+<p>내재 ERP는 "시장이 매긴 값"이니 가장 객관적으로 들립니다. 그래서 <span class="num">10-3번</span>에 그걸 넣고 싶어집니다. 넣으면 어떻게 되는지는 위젯 맨 아래 줄이 이미 보여 줬습니다 — <strong>괴리 0.0%</strong>.</p>
+
+<div class="formula">
+  내재 ERP는 <strong>"적정가치 = 시장가격"을 풀어서 얻은 값</strong><br>
+  → 그걸 다시 넣으면 &nbsp;<strong>적정가치 = 시장가격</strong>&nbsp; 이 되돌아온다
+</div>
+
+<p>고평가/저평가를 판단하려고 시작했는데, 지금 가격이 정확히 옳다는 답이 나옵니다. 정의상 그렇게 될 수밖에 없습니다.</p>
+
+<p class="caption">※ 이 순환논리는 다모다란이 그의 글에서 한 지적이 <em>아닙니다</em>. 그는 내재 ERP의 전제를 "주식이 총체적으로 올바르게 가격이 매겨져 있다고 가정하면(assuming that stocks are correctly priced in the aggregate)"이라고 명시합니다 — 위 결론은 그 전제에서 따라 나오는 것입니다. 숙제에 쓸 때는 <strong>전제는 인용, 결론은 내 논증</strong>으로 구분해서 쓰세요.</p>
+
+<h3>함정 ③ 시장이 준 값도 아니다</h3>
+
+<p>손잡이 ③입니다. 지수와 무위험수익률을 고정한 채 <em>내 가정</em>만 흔들어도 내재 ERP가 움직입니다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>흔든 것</th><th>낮게</th><th>기준</th><th>높게</th></tr></thead>
+  <tbody>
+    <tr><td>n (근미래 길이)</td><td class="n">8년 → 4.14%</td><td class="n">10년 → 4.47%</td><td class="n">13년 → 4.97%</td></tr>
+    <tr><td>g (영구성장률)</td><td class="n">3.0% → 4.13%</td><td class="n">3.75% → 4.47%</td><td class="n">4.5% → 4.81%</td></tr>
+    <tr><td>수렴 시작 성장률</td><td class="n">9% → 4.11%</td><td class="n">12.25% → 4.47%</td><td class="n">15% → 4.79%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>즉 내재 ERP는 <strong>시장에서 읽어 온 관측값이 아니라, 내 가정 전부를 통과한 뒤 남은 잔차</strong>입니다. 다모다란의 4.42%와 다른 사람의 4.9%는 시장을 다르게 본 것이 아니라 <em>성장 가정을 다르게 넣은 것</em>일 수 있습니다.</p>
+
+<h2>4. 그럼 10-3번에 무엇을 넣는가</h2>
+
+<p>세 함정을 다 알고도 쓸 수 있는 방법이 남습니다. <strong>오늘의 내재 ERP를 쓰지 않고, 내재 ERP의 역사에서 고르는 것</strong>입니다.</p>
+
+<p>다모다란은 1960년부터 매년의 내재 ERP를 <a href="https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/histimpl.html">시계열로 공개</a>합니다. 이건 과거 수익률의 평균이 아니라 <strong>매 시점 시장이 요구했던 프리미엄의 기록</strong>이므로, 방법 A의 표준오차 문제를 겪지 않습니다. 여기서 <strong>레짐(regime)</strong>을 나누고, <em>앞으로의 세상이 어느 레짐을 닮을지</em>로 고릅니다.</p>
+
+<p>구간별 평균과 각 구간의 성격은 <a href="../reference/dcf-core.html">레퍼런스 §6</a>에 표로 있습니다 — 지금 오른쪽 화면에서 열어 보세요. 여기서는 그 선택이 <strong>지수로 얼마인지</strong>만 보겠습니다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>10-3번에 넣는 값</th><th>근거</th><th class="n">적정가치</th><th class="n">7,411 대비</th></tr></thead>
+  <tbody>
+    <tr><td>3.3%</td><td>85~99년 디스인플레·도취 레짐</td><td class="n">9,693</td><td class="n">+30.8%</td></tr>
+    <tr><td>3.8%</td><td>2000~07년 정상화 레짐</td><td class="n">8,569</td><td class="n">+15.6%</td></tr>
+    <tr><td>4.42%</td><td>오늘의 내재 ERP (순환논리)</td><td class="n">≈ 7,411</td><td class="n">0.0%</td></tr>
+    <tr><td>4.8%</td><td>2022~25년 실제 평균</td><td class="n">6,950</td><td class="n">−6.2%</td></tr>
+    <tr><td>5.4%</td><td>2008~21년 위기·QE 레짐</td><td class="n">6,239</td><td class="n">−15.8%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>이 표가 숙제의 형태를 정합니다.</strong> <span class="num">10-3번</span> 한 칸의 선택이 지수 3,400포인트를 가릅니다. 그러니 리포트에서 방어할 것은 "4.8%가 맞다"가 아니라 <strong>"내 시나리오의 세상은 이 레짐을 닮았고, 그래서 이 값을 골랐다"</strong>입니다.</p>
+
+<h2>5. 이 식이 틀리는 지점</h2>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>취약점</th><th>내용</th><th>어떻게 방어하는가</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>레짐 구간이 임의적</td>
+      <td>구간 경계를 1년만 옮겨도 평균이 달라진다. 레퍼런스 §6의 6개 구간은 <strong>월가아재가 직접 자른 것</strong>이고 다모다란이 발표한 구간이 아니다.</td>
+      <td>구간을 인용하지 말고 <strong>엑셀을 직접 받아 내 구간으로 계산</strong>하고, 왜 그 경계인지 한 줄 붙인다.</td>
+    </tr>
+    <tr>
+      <td>레짐은 관측 후에만 보인다</td>
+      <td>"지금이 어느 레짐인가"는 지나고 나서야 알 수 있다. 사후 분류를 사전 예측에 쓰는 것이다.</td>
+      <td>단일 값을 고르지 말고 <strong>시나리오별로 다른 레짐</strong>을 배정한다 (레슨 0006).</td>
+    </tr>
+    <tr>
+      <td>내재 ERP 시계열도 가정의 산물</td>
+      <td>함정 ③. 다모다란의 시계열도 그의 성장률 가정을 통과한 값이다.</td>
+      <td>수준(level)이 아니라 <strong>구간 간 차이</strong>를 쓴다. 가정이 일관되면 차이는 살아남는다.</td>
+    </tr>
+    <tr>
+      <td>ERP와 10-2번이 상쇄된다</td>
+      <td>함정 ①. 둘을 따로 정하면 r을 두 번 움직인 셈이 되기 쉽다.</td>
+      <td>입력 후 <strong>합 r을 반드시 확인</strong>한다. 9.1%가 나왔는데 과거 명목 주식수익률과 동떨어졌다면 둘 중 하나가 이상한 것이다.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>6. 확인 — 기억에서 꺼내기</h2>
+
+<div class="quiz" data-quiz>
+  <h3>개념 4문항</h3>
+
+  <div class="q" data-answer="1">
+    <p class="stem">과거 초과수익 평균으로 ERP를 추정하는 방식의 가장 큰 문제는?</p>
+    <div class="opts">
+      <button class="opt">계산 과정이 지나치게 길다</button>
+      <button class="opt">추정치의 오차가 너무 크다</button>
+      <button class="opt">최신 데이터를 쓸 수 없다</button>
+    </div>
+    <div class="why">94년을 다 써도 95% 신뢰구간이 <strong>2.34% ~ 10.94%</strong>입니다. 이걸 모형에 넣으면 적정가치가 3,173에서 12,939까지 벌어집니다 — 판단에 쓸 수 없는 폭입니다. 계산은 평균 한 번이라 쉽고, 데이터는 매년 갱신됩니다.</div>
+  </div>
+
+  <div class="q" data-answer="1">
+    <p class="stem">시장가격에서 역산할 때, 시장이 실제로 결정해 주는 값은?</p>
+    <div class="opts">
+      <button class="opt">위험 프리미엄 ERP 하나</button>
+      <button class="opt">총 요구수익률 r 그 하나</button>
+      <button class="opt">장기 무위험수익률 그 하나</button>
+    </div>
+    <div class="why">시장은 <strong>r</strong> 하나만 알려 줍니다. ERP는 거기서 내가 고른 무위험수익률을 뺀 <strong>잔차</strong>입니다 — <span class="num">10-2번</span>을 3.6%로 잡으면 5.17%, 5.1%로 잡으면 3.67%가 나오지만 r은 8.77%로 고정입니다.</div>
+  </div>
+
+  <div class="q" data-answer="2">
+    <p class="stem">오늘의 내재 ERP를 10-3번에 그대로 넣으면 무슨 일이 벌어지는가?</p>
+    <div class="opts">
+      <button class="opt">할인율 r이 g 아래로 내려간다</button>
+      <button class="opt">종료가치 비중이 100%가 된다</button>
+      <button class="opt">적정가치가 시장가격과 똑같아진다</button>
+    </div>
+    <div class="why">내재 ERP는 "적정가치 = 시장가격"이라는 식을 풀어서 얻은 값이므로, 다시 넣으면 그 식이 되돌아옵니다. <strong>괴리 0%</strong> — 고평가 판단을 하려던 모형이 아무 말도 하지 않게 됩니다.</div>
+  </div>
+
+  <div class="q" data-answer="1">
+    <p class="stem">n을 10년에서 13년으로 늘렸을 때 내재 ERP가 움직인 이유는?</p>
+    <div class="opts">
+      <button class="opt">시장의 요구수익률이 실제로 변해서</button>
+      <button class="opt">내재 ERP는 내 가정의 잔차라서</button>
+      <button class="opt">지수 수준이 그만큼 올라갔기 때문</button>
+    </div>
+    <div class="why">지수도 <span class="num">10-2번</span>도 그대로였습니다. 내재 ERP는 시장에서 읽어 온 관측값이 아니라, <strong>내 현금흐름 가정 전부를 통과한 뒤 남은 잔차</strong>입니다. 그래서 다른 사람의 내재 ERP와 내 것이 다르면, 시장을 다르게 본 게 아니라 성장 가정이 다른 것일 수 있습니다.</div>
+  </div>
+
+  <div class="score"></div>
+</div>
+
+<div class="drill" data-drill>
+  <h3>계산 5문항</h3>
+  <p class="caption">단위는 %. 소수점 둘째 자리까지.</p>
+
+  <div class="row" data-answer="4.23" data-tol="0.02">
+    <span class="ask">다모다란의 8월 1일 기대수익률이 8.97%, 10년물이 4.74%였다. 내재 ERP는?</span>
+    <input type="text" inputmode="decimal">
+    <span class="unit">%</span>
+    <span class="mark"></span>
+    <div class="hint">8.97 − 4.74 = <strong>4.23%</strong>. 내재 ERP는 언제나 이 뺄셈의 결과입니다 — 그래서 앞의 두 값 중 하나가 흔들리면 같이 흔들립니다.</div>
+  </div>
+
+  <div class="row" data-answer="8.77" data-tol="0.03">
+    <span class="ask">S&amp;P 7,411에서 역산한 내재 ERP가 4.47%, 10-2번이 4.30%였다. 시장이 요구하는 r은?</span>
+    <input type="text" inputmode="decimal">
+    <span class="unit">%</span>
+    <span class="mark"></span>
+    <div class="hint">4.30 + 4.47 = <strong>8.77%</strong>. 이 값이 오늘 시장에 내장된 기대수익률입니다. <span class="num">10-2번</span>을 어떻게 잡든 이 합은 8.77%로 고정입니다.</div>
+  </div>
+
+  <div class="row" data-answer="3.67" data-tol="0.03">
+    <span class="ask">같은 지수에서 10-2번만 재정 지배(5.10%)로 바꾸면 내재 ERP는?</span>
+    <input type="text" inputmode="decimal">
+    <span class="unit">%</span>
+    <span class="mark"></span>
+    <div class="hint">8.77 − 5.10 = <strong>3.67%</strong>. 무위험수익률을 0.8%p 올린 만큼 ERP가 0.8%p 내려갑니다. <strong>내 판단이 상쇄됐습니다.</strong></div>
+  </div>
+
+  <div class="row" data-answer="6.64" data-tol="0.03">
+    <span class="ask">1928~2022년 과거 방식 추정치가 6.64%, 표준오차 2.15%p다. 95% 신뢰구간의 폭(8.6%p)과 추정치 자체를 비교하면 — 추정치는 몇 %인가?</span>
+    <input type="text" inputmode="decimal">
+    <span class="unit">%</span>
+    <span class="mark"></span>
+    <div class="hint">6.64%입니다. 요점은 이것입니다 — <strong>오차의 폭(8.6%p)이 추정하려는 값(6.64%)보다 크다.</strong> 이 한 줄이 방법 A를 기각하는 근거입니다.</div>
+  </div>
+
+  <div class="row" data-answer="9.1" data-tol="0.03">
+    <span class="ask">10-2번 4.30% + 10-3번 4.80%(2022~25 레짐). 리포트에 적어야 할 합 r은?</span>
+    <input type="text" inputmode="decimal">
+    <span class="unit">%</span>
+    <span class="mark"></span>
+    <div class="hint">9.1%. 레슨 0002·0003·0004에서 계속 쓰던 그 값이고, 오늘로 <strong>두 부품 모두 근거가 채워졌습니다.</strong> 오늘의 내재 ERP(4.42%)보다 0.38%p 높게 요구한다는 뜻 — 즉 "시장보다 조금 더 보수적"이라는 뷰가 이 한 칸에 들어 있습니다.</div>
+  </div>
+
+  <div class="actions"><button class="ghost" data-reveal>정답 보기</button></div>
+</div>
+
+<hr>
+
+<h2>이번에 읽을 것 (하나만)</h2>
+
+<p><strong>1차 자료 —</strong> <a href="https://aswathdamodaran.blogspot.com/2026/03/the-price-of-risk-equity-risk-premium.html">Aswath Damodaran, “The Price of Risk: An Equity Risk Premium Monologue!” (2026-03)</a></p>
+
+<p>ERP를 왜 과거 데이터로 추정하면 안 되는지, 내재 ERP가 무엇인지 본인이 직접 설명한 글입니다. 오늘 배운 방법 A와 방법 B가 모두 여기 있습니다.</p>
+
+<p>읽으면서 들고 갈 질문 하나 — <strong>그는 "주식이 총체적으로 올바르게 가격이 매겨져 있다고 가정하면"이라고 씁니다. 그 가정을 받아들이면서도 시장이 틀렸다고 말하는 것이 어떻게 가능한가?</strong> 이 질문의 답이 <span class="num">10-3번</span> 칸을 방어하는 문단입니다. (힌트: 그는 <em>오늘의</em> 값을 예측에 쓰라고 하지 않습니다.)</p>
+
+<p class="next-up"><strong>진도 —</strong> 월가아재 글로벌 매크로 지식편 6회차 2강(주가지수의 DCF). 오늘로 <strong>할인율 쪽 입력값은 전부 끝났습니다</strong> — 남은 것은 이것들을 시나리오로 묶는 일입니다.</p>
+
+<div class="ask-teacher">
+  <span class="label">막히면 물어보세요</span>
+  오늘 가장 흐릿하게 남기 쉬운 지점은 <em>"내재 ERP가 잔차라면, 다모다란이 매월 발표하는 4.42%는 대체 무엇을 알려 주는 값인가"</em>입니다. 쓸모없는 값이 아닙니다 — 무엇에 쓰는 값인지 물어보세요. 그리고 <em>"어차피 합만 들어가는데 왜 칸을 두 개로 나누나"</em>가 여전히 걸린다면, 그것도 좋은 질문입니다.
+</div>
+
+<div class="footer">
+  <h3>이어지는 곳</h3>
+  <ul>
+    <li><a href="0004-long-run-riskfree.html">← 레슨 0004 — 장기 무위험수익률 조립하기</a></li>
+    <li><a href="../reference/dcf-core.html">레퍼런스 — §6 주식시장 위험 프리미엄 ERP</a></li>
+    <li><a href="../index.html">Valley 워크스페이스 목록</a></li>
+    <li><a href="https://github.com/eatingbug/study/blob/main/valley/GLOSSARY.md">용어집 — 내재 ERP · 레짐 · 표준오차</a></li>
+    <li>레슨 0006 — 시나리오 3종 설계와 내부 일관성 점검 <em>(예정)</em></li>
+  </ul>
+</div>
+
+<script src="../assets/dcf.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+(function () {
+  // 현상 유지 시나리오로 고정된 나머지 칸 (레슨 0004와 동일)
+  var FIXED = {
+    eps:        [340.39, 397.87, 446.60],
+    payoutNear: 0.8072,
+    g:          0.0375,
+    roe:        0.13,
+    glideFrom:  0.1225
+  };
+
+  function opts(rf, n) {
+    var o = {};
+    for (var k in FIXED) o[k] = FIXED[k];
+    o.riskFree = rf;
+    o.n = n;
+    return o;
+  }
+
+  var idxEl = document.getElementById('idx');
+  var rfEl  = document.getElementById('rf2');
+  var nEl   = document.getElementById('nn');
+
+  var rEl      = document.getElementById('rr2');
+  var rfOutEl  = document.getElementById('rfout');
+  var erpEl    = document.getElementById('erp');
+  var backEl   = document.getElementById('back');
+  var gapEl    = document.getElementById('gap');
+  var verdictEl = document.getElementById('verdict2');
+
+  // 손잡이를 만졌는지 추적해서, 그 손잡이에 맞는 코멘트를 준다
+  var touched = {};
+  [idxEl, rfEl, nEl].forEach(function (el) {
+    el.addEventListener('input', function () { touched[el.id] = true; });
+  });
+
+  function render() {
+    var index = parseFloat(idxEl.value);
+    var rf    = parseFloat(rfEl.value) / 100;
+    var n     = parseInt(nEl.value, 10);
+
+    var o   = opts(rf, n);
+    var erp = DCF.solveERP(o, index);
+
+    if (!isFinite(erp)) {
+      rEl.textContent = rfOutEl.textContent = erpEl.textContent = '—';
+      backEl.textContent = gapEl.textContent = '—';
+      verdictEl.className = 'verdict bad';
+      verdictEl.innerHTML = '<b>역산이 안 됩니다.</b> 이 가정 조합으로는 어떤 ERP를 넣어도 지수 ' +
+        DCF.fmt(index, 0) + '이 나오지 않습니다 — 현금흐름 가정 자체가 이 가격을 설명하지 못하는 것입니다.';
+      return;
+    }
+
+    // 역산한 ERP를 그대로 다시 넣어 본다 — 순환논리를 눈으로 보여 주는 부분
+    o.erp = erp;
+    var m = DCF.indexDCF(o);
+    var gap = m.total / index - 1;
+    if (Math.abs(gap) < 0.0005) gap = 0;   // 이분법 잔차가 '−0.0%'로 보이지 않게
+
+    rEl.textContent     = DCF.pct(rf + erp, 2);
+    rfOutEl.textContent = DCF.pct(rf, 2);
+    erpEl.textContent   = DCF.pct(erp, 2);
+    backEl.textContent  = DCF.fmt(m.total, 0);
+    gapEl.textContent   = (gap >= 0 ? '+' : '') + (gap * 100).toFixed(1) + '%';
+
+    var msg, cls = '';
+
+    if (touched.nn && n !== 10) {
+      cls = 'bad';
+      msg = '<b>n = ' + n + '년 — 지수도 10-2번도 안 건드렸는데 내재 ERP가 ' + DCF.pct(erp, 2) +
+            '입니다.</b> (n=10이면 ' + DCF.pct(DCF.solveERP(opts(rf, 10), index), 2) + ') ' +
+            '"시장이 매긴 값"이 <em>내 가정</em>에 따라 움직입니다 — 함정 ③입니다.';
+    } else if (touched.rf2 && Math.abs(rf - 0.043) > 0.0001) {
+      cls = 'bad';
+      msg = '<b>r은 여전히 ' + DCF.pct(rf + erp, 2) + '입니다.</b> 10-2번을 ' + DCF.pct(rf, 2) +
+            '로 바꿨더니 내재 ERP가 ' + DCF.pct(erp, 2) + '로 <em>반대 방향</em>으로 움직였을 뿐입니다. ' +
+            '시장이 정해 주는 건 <b>합 r 하나</b>뿐 — 레슨 0004에서의 판단이 여기서 상쇄됩니다.';
+    } else if (Math.abs(index - 7499) < 30) {
+      cls = 'ok';
+      msg = '<b>다모다란의 2026년 7월 1일 지수(7,499.36)입니다.</b> 역산값 ' + DCF.pct(erp, 2) +
+            ' — 그가 게시한 값은 <b>4.42%</b>였습니다. 현금흐름 정의도 EPS 경로도 다른 두 구현이 ' +
+            '0.01%p 안에서 만났습니다.';
+    } else if (touched.idx && index > 7411) {
+      cls = '';
+      msg = '<b>지수가 오르니 내재 ERP가 내려갑니다</b> (' + DCF.pct(erp, 2) + '). ' +
+            '같은 현금흐름에 더 많이 지불한다 = 덜 요구한다. <b>가격과 요구수익률은 같은 것의 앞뒤</b>입니다.';
+    } else if (touched.idx && index < 7411) {
+      cls = '';
+      msg = '<b>지수가 내리니 내재 ERP가 올라갑니다</b> (' + DCF.pct(erp, 2) + '). ' +
+            '폭락장에서 내재 ERP가 치솟는 것이 이것입니다 — 시장이 겁먹으면 요구수익률이 뛴다.';
+    } else {
+      msg = '<b>S&amp;P ' + DCF.fmt(index, 0) + '에 내장된 위험 프리미엄은 ' + DCF.pct(erp, 2) + '입니다.</b> ' +
+            '손잡이 ②(10-2번)를 먼저 움직여 보세요 — 무엇이 안 움직이는지가 오늘의 요점입니다.';
+    }
+
+    msg += '<br><br><span style="font-size:0.92em">↓ 그리고 그 값을 10-3번에 넣으면 적정가치는 <b>' +
+           DCF.fmt(m.total, 0) + '</b>, 괴리 <b>' + (gap * 100).toFixed(1) +
+           '%</b>. 무슨 짓을 해도 0입니다 — <b>순환논리</b>.</span>';
+
+    verdictEl.className = 'verdict ' + cls;
+    verdictEl.innerHTML = msg;
+  }
+
+  DCF.bindRange('#idx', function (v) { return DCF.fmt(v, 0); }, render);
+  DCF.bindRange('#rf2', function (v) { return v.toFixed(2) + '%'; }, render);
+  DCF.bindRange('#nn',  function (v) { return v.toFixed(0) + '년'; }, render);
+})();
+</script>
+
+</body>
+</html>
