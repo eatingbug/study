@@ -73,6 +73,38 @@ python3 tools/build-index.py --stage _site  # 배포될 파일 그대로 모아 
 `<topic>/assets/*.css` 는 자동으로 링크되므로 워크스페이스 목록은 그 주제의 문서와
 같은 스타일로 나온다.
 
+## `/teach` 스킬
+
+레슨을 만드는 것은 [Matt Pocock의 `teach` 스킬](https://github.com/mattpocock/skills)이다.
+스킬 자체를 [`.claude/skills/teach/`](./.claude/skills/teach) 에 **복사해 커밋해 두었다.**
+Claude Code 세션은 어느 환경에서 열든 이 저장소를 클론하므로,
+웹(claude.ai/code) · 모바일 · 데스크탑 앱 · 터미널 CLI 어디서 열어도
+플러그인 설치 없이 `/teach` 가 바로 잡힌다.
+
+```
+/teach                     학습 기록을 읽고 다음에 배울 것을 정한다
+/teach DCF 할인율 계산      배울 것을 직접 지정한다
+```
+
+워크스페이스를 정해서 쓰려면 그 디렉터리에서 세션을 열거나,
+어떤 워크스페이스인지 말해 주면 된다 — 스킬은 현재 디렉터리를
+학습 워크스페이스로 보고 `MISSION.md` · `learning-records/` 를 읽는다.
+
+### 스킬 갱신
+
+[`tools/sync-mattpocock-skills.sh`](./tools/sync-mattpocock-skills.sh) 가 upstream에서
+스킬 파일을 다시 가져온다. 핀으로 고정된 커밋을 쓰므로 돌려도 조용히 바뀌지 않는다.
+
+```sh
+./tools/sync-mattpocock-skills.sh              # 고정된 커밋 그대로 다시 가져오기
+./tools/sync-mattpocock-skills.sh --ref main   # 최신으로 갱신 (스크립트의 REF 도 같이 고친다)
+./tools/sync-mattpocock-skills.sh grill-me     # 다른 스킬을 추가로 가져오기
+```
+
+가져온 뒤 `git diff` 로 무엇이 바뀌었는지 확인하고 커밋한다.
+`.claude/settings.json` 의 `enabledPlugins` 는 로컬 CLI에서 Matt Pocock 스킬 모음
+전체를 플러그인으로 쓸 때를 위해 남겨 둔 것이고, `/teach` 만 쓰는 데는 필요하지 않다.
+
 ## 워크스페이스
 
 | 주제 | 내용 | 상태 |
