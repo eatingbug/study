@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레퍼런스 — 용어와 약자</title>
+<meta name="index-gloss" content="약자 풀어쓰기와 핵심 정의. 막히면 여기서 먼저 찾는다.">
+<meta name="index-order" content="-10">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+  /* 사전이므로 공식 카드보다 더 조밀하게 — 찾는 문서지 읽는 문서가 아니다 */
+  body { max-width: 52rem; }
+  h2 { margin-top: 2.6rem; font-size: 1.25rem; }
+  h2 .tag {
+    font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-faint);
+    border: 1px solid var(--rule); border-radius: 3px;
+    padding: 0.15rem 0.4rem; margin-left: 0.6rem; vertical-align: 0.22em;
+  }
+  table { font-size: 0.88rem; }
+  /* 약자표 — 약자 열은 고정폭으로 눈에 걸리게 */
+  .abbr td:first-child {
+    font-family: var(--sans); font-weight: 600; white-space: nowrap;
+    font-size: 0.9rem; letter-spacing: 0.02em;
+  }
+  .abbr td:nth-child(2) { color: var(--ink-soft); font-style: italic; }
+  .cell {
+    display: inline-block; font-family: var(--sans); font-size: 0.7rem;
+    font-weight: 600; letter-spacing: 0.03em;
+    background: var(--accent-bg); color: var(--accent);
+    border-radius: 3px; padding: 0.1rem 0.35rem; margin-right: 0.35rem;
+    vertical-align: 0.1em; white-space: nowrap;
+  }
+  dl { margin: 1.2rem 0; }
+  dt { font-weight: 600; margin-top: 1.3rem; }
+  dd { margin: 0.35rem 0 0; color: var(--ink-soft); }
+  dd + dd { margin-top: 0.3rem; }
+  dd.avoid { font-size: 0.85rem; color: var(--ink-faint); }
+  dd.avoid b { font-weight: 600; color: var(--ink-faint); }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">Reference · 상시</p>
+  <h1>용어와 약자</h1>
+  <p class="standfirst">막히면 여기서 먼저 찾으세요. 약자가 맨 앞에 있고, 그 다음은 <strong>숙제 화면의 칸 번호 순서</strong>입니다 — Valley AI를 띄워 놓고 위에서 아래로 따라 내려갈 수 있게.</p>
+</header>
+
+<div class="note">
+  <span class="label">표기 원칙</span>
+  <p>표기는 <strong>월가아재 강의·칼럼의 용어</strong>를 따르고 영어 원어를 병기합니다. 같은 것을 가리키는 다른 말이 여럿일 때는 하나를 골라 <em>끝까지 그것만</em> 씁니다 — 각 항목의 <b>쓰지 않는 말</b>이 그 목록입니다. 강의·스터디 라운지와 어휘가 어긋나지 않는 것이 목적입니다.</p>
+</div>
+
+<h2>1. 약자 풀어쓰기</h2>
+
+<p>영문 약자는 뜻을 모른 채로도 문장이 읽히기 때문에, 모르는 상태가 오래 유지됩니다. 그래서 맨 앞에 둡니다.</p>
+
+<div class="scroll-x">
+<table class="abbr">
+  <thead><tr><th>약자</th><th>풀어쓰면</th><th>우리말</th><th>한 줄</th></tr></thead>
+  <tbody>
+    <tr><td>DCF</td><td>Discounted Cash Flow</td><td>현금흐름할인모형</td><td>미래에 벌 현금을 위험만큼 깎아 지금 값으로 더한다</td></tr>
+    <tr><td>ERP</td><td>Equity Risk Premium</td><td>주식시장 위험 프리미엄</td><td>주식의 위험을 지는 대가로 국채보다 더 요구하는 몫</td></tr>
+    <tr><td>CF</td><td>Cash Flow</td><td>현금흐름</td><td>그 해에 주주에게 돌아오는 돈</td></tr>
+    <tr><td>PV</td><td>Present Value</td><td>현재가치</td><td>할인해서 지금 시점으로 끌어온 값</td></tr>
+    <tr><td>TV</td><td>Terminal Value</td><td>종료가치</td><td>n+1년차부터 영원까지를 한 줄로 정리한 값</td></tr>
+    <tr><td>EPS</td><td>Earnings Per Share</td><td>주당순이익</td><td><span class="cell">1번</span>에 넣는 값. <strong>주당</strong> 개념이라 자사주 소각이 반영된다</td></tr>
+    <tr><td>ROE</td><td>Return on Equity</td><td>자기자본이익률</td><td><span class="cell">10-4번</span>. 자기자본 100으로 15 벌면 15%</td></tr>
+    <tr><td>IRR</td><td>Internal Rate of Return</td><td>내부수익률</td><td>현재가치를 가격과 같게 만드는 할인율. 내재 ERP를 역산하는 방법</td></tr>
+    <tr><td>TIPS</td><td>Treasury Inflation-Protected Securities</td><td>물가연동국채</td><td>원금이 CPI에 연동돼 표시금리가 <strong>실질</strong>금리가 된다</td></tr>
+    <tr><td>CPI</td><td>Consumer Price Index</td><td>소비자물가지수</td><td>TIPS가 연동되는 기준</td></tr>
+    <tr><td>PCE</td><td>Personal Consumption Expenditures</td><td>개인소비지출 물가지수</td><td>연준의 목표 기준. <strong>우리 모형의 물가 단위</strong></td></tr>
+    <tr><td>FOMC</td><td>Federal Open Market Committee</td><td>연방공개시장위원회</td><td>미국 기준금리를 정하는 회의체</td></tr>
+    <tr><td>SEP</td><td>Summary of Economic Projections</td><td>경제전망요약</td><td>FOMC가 점도표와 함께 내는 자료. 중립 실질금리를 여기서 뽑는다</td></tr>
+    <tr><td>SPF</td><td>Survey of Professional Forecasters</td><td>전문 예측가 서베이</td><td>필라델피아 연은. <span class="cell">6번</span>의 근거</td></tr>
+    <tr><td>ACM</td><td>Adrian, Crump &amp; Moench</td><td>—(저자 3인의 이름)</td><td>뉴욕 연은의 기간 프리미엄 추정 모형. FRED <code>THREEFYTP10</code></td></tr>
+    <tr><td>FRED</td><td>Federal Reserve Economic Data</td><td>—</td><td>세인트루이스 연은의 경제 데이터베이스</td></tr>
+    <tr><td>QE</td><td>Quantitative Easing</td><td>양적완화</td><td>중앙은행이 자산을 사서 장기금리를 누르는 정책</td></tr>
+    <tr><td>CAPE</td><td>Cyclically Adjusted P/E</td><td>경기조정 주가수익비율</td><td>10년 평균 실적으로 나눈 P/E. Shiller P/E와 같은 것</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="caption" style="font-size:0.85rem;color:var(--ink-faint)">기호로는 <strong>r</strong> = 할인율, <strong>g</strong> = 영구성장률, <strong>n</strong> = 근미래 파트의 마지막 해입니다.</p>
+
+<h2>2. 프레임 — 이 세 개가 전부다</h2>
+
+<dl>
+  <dt>DCF (현금흐름할인모형, Discounted Cash Flow) <span class="tag">L0001</span></dt>
+  <dd>어떤 자산의 가치는, 그 자산이 <strong>앞으로 벌어들일 현금</strong>을 <strong>위험만큼 깎아서</strong> 지금 시점으로 끌어온 값의 <strong>합</strong>이다. 이름에 방법이 다 들어 있다 — 현금흐름(Cash Flow)을 할인(Discounted)한다.</dd>
+  <dd>값만 넣으면 정답이 나오는 도구가 <em>아니다</em>. 내가 이미 가진 막연한 가설을 <strong>숫자로 번역</strong>해 주는 도구다. "AI가 좋을 것 같다"를 "적정가치 9,513"으로 바꿔 준다. 그래서 생각이 엄밀하지 않으면 결과도 엄밀하지 않다.</dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 디씨에프, 현금할인법</dd>
+
+  <dt>Index DCF</dt>
+  <dd>개별기업 DCF의 틀을 <strong>주가지수 전체</strong>(S&amp;P 500)에 그대로 적용한 것. 이 워크스페이스가 다루는 것은 전부 이것이다.</dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 지수 DCF(문서 제목 외), 인덱스 디씨에프</dd>
+
+  <dt>할인율 (discount rate, r) <span class="tag">L0001</span></dt>
+  <dd>미래 현금흐름을 현재가치로 환산할 때 쓰는 연 이율. <strong>총 요구수익률</strong>과 같은 값의 다른 이름이다 — "이 자산에게 연 몇 %를 요구하는가".</dd>
+  <dd><div class="formula" style="margin:0.7rem 0;text-align:left;padding:0.7rem 0.9rem">r = 무위험수익률 + 리스크 프리미엄</div></dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 요구수익률(단독 사용 시 혼동), 기대수익률</dd>
+
+  <dt>두 파트 구조 <span class="tag">L0002</span></dt>
+  <dd>상장기업은 폐업하지 않는다고 가정하므로, 영원을 두 조각으로 나눈다. <strong>경쟁하는 두 답이 아니라 더해야 할 두 조각</strong>이다.</dd>
+  <dd><strong>근미래 파트</strong> — 1~n년차. 한 해씩 구체적으로 추정한다 <span class="cell">1~9번</span></dd>
+  <dd><strong>종료가치 파트</strong> — n+1년차~영원. 매년 g%씩 영구히 성장한다고 한 줄로 정리한다 <span class="cell">10번</span></dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 예측기간, 명시적 예측구간, 잔존가치, 최종가치, 터미널밸류</dd>
+</dl>
+
+<h2>3. 할인의 어휘 <span class="tag">L0001 · L0002</span></h2>
+
+<dl>
+  <dt>할인 (discounting)</dt>
+  <dd>미래에 들어올 돈을 지금 시점의 돈으로 환산하는 것. 깎는 이유가 둘이다 — <strong>시간</strong>(그동안 다른 곳에 넣어 벌 수 있었다)과 <strong>위험</strong>(못 받을 수도 있다).</dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 디스카운트, 깎기</dd>
+
+  <dt>현재가치 (present value, PV)</dt>
+  <dd>미래 현금흐름을 할인해서 얻은, 지금 시점 기준의 값. <code>PV = CF<sub>t</sub> ÷ (1+r)<sup>t</sup></code></dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 현가, 오늘의 가치</dd>
+
+  <dt>종료가치 (terminal value, TV)</dt>
+  <dd>n+1년차부터 영원까지의 현금흐름을, <strong>n년차 시점에 서서</strong> 한 줄로 정리한 값. <code>TV<sub>n</sub> = CF<sub>n+1</sub> ÷ (r − g)</code></dd>
+  <dd>분모의 <code>(r − g)</code>에 이미 한 해치 할인이 들어 있어 <strong>n년차 기준</strong>이 된다. 그래서 현재가치로 쓰려면 <code>(1+r)<sup>n</sup></code>으로 <strong>한 번 더</strong> 할인한다 — 별도의 단계다.</dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 잔존가치, 최종가치, 터미널밸류</dd>
+
+  <dt>무위험이자율 / 무위험수익률 (risk-free rate)</dt>
+  <dd>부도 위험이 없는 자산에서 나오는 수익률. 실무에서는 국채 금리를 쓴다. <span class="cell">6번</span> <span class="cell">10-2번</span></dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 안전금리, 국채금리(맥락에 따라 다름)</dd>
+
+  <dt>리스크 프리미엄 / 위험 프리미엄 (risk premium) → 주식이면 <strong>ERP</strong></dt>
+  <dd>무위험이자율을 넘어 <strong>추가로</strong> 요구하는 수익률. 대상이 주식시장이면 <strong>ERP</strong>(Equity Risk Premium, 주식시장 위험 프리미엄). <span class="cell">7번</span> <span class="cell">10-3번</span></dd>
+  <dd>어디에도 고시되지 않는다 — "사람들이 마음속으로 얼마를 더 요구하는가"라서 관측할 수 없고, 그래서 시장가격에서 역산한다.</dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 위험보상, 프리미엄(단독), Enterprise Resource Planning(전혀 다른 약자)</dd>
+</dl>
+
+<div class="note">
+  <span class="label">이 워크스페이스의 규칙</span>
+  <p><strong>ERP</strong>는 항상 <em>주식시장</em> 위험 프리미엄을 뜻합니다. 채권 스프레드는 ERP라 부르지 않습니다.</p>
+</div>
+
+<h2>4. 현금흐름 쪽 <span class="tag">L0003</span></h2>
+
+<dl>
+  <dt><span class="cell">1번</span> EPS (주당순이익, Earnings Per Share)</dt>
+  <dd>S&amp;P 500의 이익. 애널리스트 컨센서스를 넣는다(26·27·28년 = 340.39 / 397.87 / 446.60).</dd>
+  <dd><strong>주당</strong> 개념이라 자사주 소각분이 반영되어 있다 — 그래서 <strong>총액 개념인 영구성장률 g와 단위가 다르다.</strong> 28년 EPS 성장률 12.25%를 g 3.75%와 나란히 놓고 비교하면 안 되고, 4.75~5% 정도로 환산해서 봐야 한다.</dd>
+
+  <dt><span class="cell">2·3번</span> 주주환원율 (payout ratio)</dt>
+  <dd>순이익 중 주주에게 돌려주는 몫 = <strong>배당성향 + 바이백성향</strong>. 과거 25년 평균 33.72% + 47% = <strong>80.72%</strong>.</dd>
+  <dd>근미래 파트에서는 <strong>직접 입력</strong>하지만, 종료가치 파트에서는 g와 ROE로부터 <strong>도출</strong>된다 — 입력칸이 아니라 <strong>검산기</strong>다.</dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 배당성향(단독 사용 시 바이백이 빠진다), 환원율</dd>
+
+  <dt>유보율 (retention ratio)</dt>
+  <dd>순이익 중 회사에 남겨 재투자하는 몫 = <code>1 − 주주환원율</code>. 유보한 돈은 <strong>자기자본에 더해지고</strong>, 불어난 자기자본이 같은 ROE로 굴러가며 이익을 키운다 — 이것이 <code>g = ROE × 유보율</code>의 메커니즘이다.</dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 사내유보율, 내부유보</dd>
+
+  <dt><span class="cell">10-1번</span> 영구성장률 (terminal growth, g)</dt>
+  <dd>종료가치 파트에서 현금흐름이 영원히 성장한다고 가정하는 연 성장률.</dd>
+  <dd>실패하는 방식이 <strong>둘</strong>이다 — <code>g &lt; r</code>이 아니면 <em>식이 깨지고</em>(무한대), 식은 성립해도 경제의 명목 성장률(미국 ≈ 실질 2% + PCE 목표 2% = 4%)을 넘으면 <em>말이 안 된다</em>(언젠가 기업이 국가보다 커진다).</dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 영구성장율, 터미널 성장률</dd>
+
+  <dt><span class="cell">10-4번</span> ROE (자기자본이익률, Return on Equity)</dt>
+  <dd>자기자본 대비 순이익률. 자기자본 100으로 15를 벌면 15%.</dd>
+  <dd>최근 실적치 18~21%는 낮은 실효 법인세율·자사주 소각·무형자산 비용처리가 밀어올린 부분이 크다. 그래서 <strong>장기 ROE는 13~18% 밴드</strong>로 잡는다.</dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 자본이익률, 자기자본수익률</dd>
+</dl>
+
+<h2>5. 금리 쪽 <span class="tag">L0004</span></h2>
+
+<p><span class="cell">10-2번</span>은 어디서도 받아 적을 수 없고 <strong>세 조각으로 조립</strong>한다. 정확히는 "세 조각"이 아니라 <strong>단기 금리 + 장기로 옮기는 다리</strong>다.</p>
+
+<div class="formula">
+  장기 무위험수익률 = 중립 실질금리(단기) + 기대 인플레이션 + 기간 프리미엄
+</div>
+
+<dl>
+  <dt>중립 실질금리 (neutral real rate)</dt>
+  <dd>경제가 완전고용이고 인플레이션이 목표 수준일 때의 실질 <strong>단기</strong> 금리. FOMC SEP의 longer-run 연방기금금리 − longer-run PCE (2026-06 기준 3.1% − 2.0% = <strong>1.1%</strong>). <strong>관측할 수 없는 추정치</strong>이고 해마다 바뀐다.</dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 자연이자율(r*은 맥락이 다름), 균형금리</dd>
+
+  <dt>기대 인플레이션 (expected inflation)</dt>
+  <dd>장기적으로 예상되는 평균 물가 상승률. 브레이크이븐에서 (CPI − PCE) 갭을 보정해 얻는다 (2.26% − 0.26% = <strong>2.00%</strong>).</dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 인플레 기대치, 물가 전망</dd>
+
+  <dt>브레이크이븐 인플레이션 (TIPS breakeven)</dt>
+  <dd><code>10년물 명목금리 − 10년물 TIPS 금리</code>. 시장이 값을 매긴 물가 상승률.</dd>
+  <dd><strong>기대 인플레이션과 같지 않다.</strong> 연준 분해에 따르면 <code>= 기대 인플레이션 + 인플레 리스크 프리미엄 − TIPS 유동성 프리미엄</code> (<a href="https://www.federalreserve.gov/econres/notes/feds-notes/tips-from-tips-update-and-discussions-20190521.html">Kim·Walsh·Wei, FEDS Notes 2019</a>). 물가 위험을 넘기는 <em>보험료</em>가 섞여 있다.</dd>
+  <dd>그리고 TIPS는 <strong>CPI 연동</strong>이므로, PCE 기준 모형에 넣으려면 갭 보정이 필요하다.</dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> BEI, 손익분기 인플레이션</dd>
+
+  <dt>기간 프리미엄 (term premium)</dt>
+  <dd>장기채를 계속 보유하는 것 대비 단기채를 계속 롤오버하는 것의 기대수익률 차. 3분해에서 <strong>단기 금리를 장기로 옮기는 다리</strong>다.</dd>
+  <dd><strong>세 조각 중 유일하게 본인의 뷰가 들어가는 자리</strong>이고, <strong>음수도 가능</strong>하다(장기채를 들고 있으려는 수요가 강할 때). 대조 기준은 뉴욕 연은 ACM 추정치(FRED <code>THREEFYTP10</code>).</dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 텀 프리미엄, 만기 프리미엄</dd>
+</dl>
+
+<h2>6. 위험 프리미엄 쪽 <span class="tag">L0005</span></h2>
+
+<dl>
+  <dt>내재 위험 프리미엄 (implied ERP)</dt>
+  <dd>적정가치 자리에 <strong>현재 시장가격</strong>을 놓고 역산해 얻은 ERP. 배당+자사주 매입의 현재가치를 지수와 같게 만드는 할인율(IRR)에서 무위험수익률을 뺀다. 다모다란이 <a href="https://pages.stern.nyu.edu/~adamodar/New_Home_Page/home.htm">매월 초 게시</a>한다 (2026-07-01 기준 4.42%, S&amp;P 7,499.36).</dd>
+  <dd><strong>관측값이 아니라 잔차다.</strong> 시장가격이 정하는 것은 총 요구수익률 r 하나뿐이고, ERP는 거기서 <em>내가 고른</em> 무위험수익률을 뺀 나머지다. 게다가 n·g·수렴경로 같은 내 가정에도 오염된다.</dd>
+  <dd>그대로 <span class="cell">10-3번</span>에 넣으면 적정가치 = 시장가격이 되돌아온다 — <strong>순환논리</strong>.</dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 시장 내재 프리미엄, implied premium(단독)</dd>
+
+  <dt>레짐 (regime)</dt>
+  <dd>내재 ERP 시계열을 성격이 비슷한 구간으로 자른 것. 오늘의 내재 ERP를 쓸 수 없으므로(순환논리) <strong>"앞으로의 세상이 어느 레짐을 닮을지"</strong>로 <span class="cell">10-3번</span>을 고른다.</dd>
+  <dd>ERP가 높아지는 길은 <strong>둘</strong>뿐이다 — 총 요구수익률이 오르거나(인플레 공포), 무위험수익률이 눌리거나(QE). 이 두 갈래로 시나리오를 읽으면 배정이 따라 나온다.</dd>
+  <dd>약점: 구간 경계는 판단이고, 레짐은 <strong>지나고 나서야</strong> 분류된다.</dd>
+  <dd class="avoid"><b>쓰지 않는 말:</b> 국면(맥락에 따라 다름), 사이클</dd>
+</dl>
+
+<h2>7. 단순 밸류에이션 지표 <span class="tag">참조용</span></h2>
+
+<p>구체적인 매수·매도 판단에는 쓰지 않는다. <strong>"왜 이 수치가 이렇게 됐나"를 자문하는 사고의 재료</strong>로 쓴다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>지표</th><th>계산</th><th>무엇을 묻는가</th></tr></thead>
+  <tbody>
+    <tr><td>버핏지수</td><td>주식시장 시가총액 ÷ GDP</td><td>경제 규모 대비 주가가 적정한가. 장기 우상향 추세가 있어 <strong>추세선 대비</strong>로 봐야 한다 (현재 약 234%)</td></tr>
+    <tr><td>Brock Value</td><td>GDP ÷ (2 × AAA 회사채 수익률)</td><td>경제 규모 <em>와 이자율</em>을 함께 보면 적정한가. 분모의 2는 레벨 맞추기용 상수</td></tr>
+    <tr><td>Shiller P/E (CAPE)</td><td>주가 ÷ 10년 평균 실적</td><td>사이클의 실적 등락을 상쇄하면 얼마인가</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>8. 통계 <span class="tag">L0005</span></h2>
+
+<dl>
+  <dt>표준편차 (standard deviation)</dt>
+  <dd>데이터가 평균을 중심으로 얼마나 넓게 퍼져 있는지.</dd>
+
+  <dt>표준오차 (standard error)</dt>
+  <dd><strong>추정치</strong>가 참값과 얼마나 차이 날 수 있는지. 데이터 개수가 늘면 수학적으로 줄어들지만, 데이터의 일관성이 깨지면 정밀도만 높아 보이고 신뢰도는 떨어진다.</dd>
+  <dd>과거 ERP 추정에서 이것이 결정적이다 — 94년을 다 써도 <code>6.64% ± 2×2.15%</code>, 즉 <strong>2.34% ~ 10.94%</strong>. <strong>오차의 폭이 추정하려는 값보다 크다.</strong></dd>
+</dl>
+
+<div class="ask-teacher">
+  <span class="label">여기에 없는 말이 나왔다면</span>
+  물어보세요. 그리고 그건 제 쪽의 누락이니, 물어봐 주시면 이 문서에 추가합니다. 약자는 특히 그렇습니다 — 뜻을 몰라도 문장이 읽혀서 모르는 상태가 오래 갑니다.
+</div>
+
+<div class="footer">
+  <h3>이어지는 곳</h3>
+  <ul>
+    <li><a href="dcf-core.html">레퍼런스 — Index DCF 핵심 공식 카드</a> (공식·입력칸 체크리스트·시나리오 표)</li>
+    <li><a href="../index.html">Valley 워크스페이스 목록</a> — 레슨 0001~0005</li>
+    <li><a href="https://github.com/eatingbug/study/blob/main/valley/GLOSSARY.md">용어집 원본 (GitHub)</a> — 용어별 이해 근거와 승격 상태까지 기록된 판</li>
+  </ul>
+</div>
+
+</body>
+</html>
