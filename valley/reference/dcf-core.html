@@ -296,6 +296,67 @@
   <li>따라서 '장기 ROE'는 18~21%가 아니라 <strong>13~18% 밴드</strong>에서 시나리오별로 잡는 게 안전하다.</li>
 </ul>
 
+<h2>7-1. 시나리오 내부 일관성 3칙 <span class="tag">L0006</span></h2>
+
+<p><strong>한 시나리오는 하나의 세상이다.</strong> 칸을 독립적으로 채우면 반드시 어긋난다 — 세 가닥의 배선이 칸들을 묶고 있기 때문이다. 시나리오 하나를 만들 때마다 아래 셋을 통과시킨다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th></th><th>규칙</th><th>어겼을 때</th><th>어떻게 처리하나</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>①</strong></td>
+      <td><strong>방향</strong> — <span class="num">10-2번</span>과 <span class="num">10-3번</span>이 같은 세계관을 가리키는가</td>
+      <td>국채에는 더 요구하면서 주식에는 덜 요구하는 세상이 된다. 계산은 불평하지 않고 그럴듯한 값을 낸다</td>
+      <td><strong>고친다.</strong> 설명으로 넘어가지 않는 위반</td>
+    </tr>
+    <tr>
+      <td><strong>②</strong></td>
+      <td><strong>검산</strong> — <code>1 − g ÷ ROE</code>로 도출된 환원율이 말이 되는가</td>
+      <td>ROE ≤ g면 식이 깨진다. 55% 미만·92% 초과면 식은 살아 있어도 말이 안 된다</td>
+      <td><strong>적는다.</strong> 타이핑하지 않았는데 정해진 가정이라, 안 적으면 아무도 모른다</td>
+    </tr>
+    <tr>
+      <td><strong>③</strong></td>
+      <td><strong>상한</strong> — <code>g ≤ rf</code>인가</td>
+      <td>어떤 자산도 경제보다 영원히 빨리 자랄 수 없다. rf가 명목 성장률의 대리값</td>
+      <td><strong>설명한다.</strong> rf = 명목 성장률 + 기간 프리미엄이므로, 기간 프리미엄이 낮은 국면이면 방어 가능</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>와이어 ① — 인플레이션은 rf와 g를 함께 끈다.</strong> <code>rf = 중립 실질금리 + 기대 인플레 + 기간 프리미엄</code>이고 <code>g = 실질 성장률 + 기대 인플레</code>다. 같은 항이 양쪽에 있으므로, 인플레를 이유로 rf만 올리고 g를 두면 <em>실질 이익 성장이 그만큼 무너지는 세상</em>을 의도 없이 가정한 것이 된다. 배선을 지키면 <code>r − g</code>가 그대로 돌아온다 — 종료가치의 분모는 인플레이션에 중립이다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>재정 지배에 인플레 +1%p를 반영하는 법</th><th class="n">r − g</th><th class="n">적정가치</th></tr></thead>
+  <tbody>
+    <tr><td>기준 (rf 5.1% · g 3.75%)</td><td class="n">6.55%p</td><td class="n">5,494</td></tr>
+    <tr><td>rf에만 (rf 6.1% · g 3.75%)</td><td class="n">7.55%p</td><td class="n">4,763 (−13.3%)</td></tr>
+    <tr><td><strong>양쪽에</strong> (rf 6.1% · g 4.75%)</td><td class="n">6.55%p</td><td class="n">4,911 (−10.6%)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="caption" style="font-size:0.85rem;color:var(--ink-faint)"><strong>칼럼 자체의 긴장.</strong> 세 시나리오에서 갈린 것은 <em>기간 프리미엄만</em>이다 (0.5 / 1.2 / 2.0%) — 중립 실질금리 1.1%와 기대 인플레 2.0%는 셋 다 같다. 그러니 g를 3.75%로 통일한 것은 배선상 일관된다. 그런데 산문은 재정 지배를 "인플레 고착"이라 부른다. <strong>이름은 인플레 이야기인데 숫자는 기간 프리미엄 이야기다.</strong> 어느 쪽으로 읽었는지 한 줄만 밝히면 둘 다 방어된다.</p>
+
+<p><strong>확률은 가장 무거운 입력값이다.</strong> 개별 적정가치를 9,395 / 6,950 / 5,494로 고정하고 <em>확률만</em> 바꿔도 결론의 부호가 뒤집힌다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>확률 (골디락스 / 현상 유지 / 재정 지배)</th><th class="n">가중평균</th><th class="n">7,411은</th></tr></thead>
+  <tbody>
+    <tr><td><strong>35 / 15 / 50</strong> — 칼럼의 뷰</td><td class="n">7,078</td><td class="n">4.7% 고평가</td></tr>
+    <tr><td>33 / 34 / 33 — 아무 뷰도 없음</td><td class="n">7,276</td><td class="n">1.9% 고평가</td></tr>
+    <tr><td>50 / 30 / 20 — 낙관</td><td class="n">7,881</td><td class="n"><strong>6.0% 저평가</strong></td></tr>
+    <tr><td>10 / 20 / 70 — 비관</td><td class="n">6,175</td><td class="n">20.0% 고평가</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="caption" style="font-size:0.85rem;color:var(--ink-faint)">균등 확률은 <em>중립</em>이 아니라 "세 세상이 똑같이 그럴듯하다"는 하나의 주장이다. 시나리오는 <strong>서너 개까지</strong>가 실용 범위이고, 넷째부터는 확률을 정직하게 부여할 수 없어 가중평균이 그냥 평균이 된다.</p>
+
 <h2>8. 입력칸 체크리스트</h2>
 
 <div class="scroll-x">

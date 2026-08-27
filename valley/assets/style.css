@@ -399,6 +399,49 @@ button.ghost:hover { border-color: var(--ink-faint); color: var(--ink); }
 
 /* ---------- print ---------- */
 
+/* ---------- consistency checks (DCF.renderChecks) ----------
+   A list of pass/warn/fail lamps. Used wherever a lesson asks the
+   learner to build something and then tests it against a rule.
+   Each row: a lamp, the rule's name, and why it fired. */
+
+.checks { list-style: none; padding: 0; margin: 1.2rem 0 0; border-top: 1px solid var(--rule); }
+.checks li {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0.7rem 0.1rem;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+.checks li:last-child { border-bottom: 0; }
+.checks .lamp {
+  flex: 0 0 auto;
+  width: 0.7rem; height: 0.7rem;
+  border-radius: 50%;
+  margin-top: 0.45rem;
+  background: var(--ink-faint);
+  box-shadow: 0 0 0 3px var(--note-bg);
+}
+.checks .body { min-width: 0; }
+.checks .rule {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 0.15rem;
+}
+.checks .msg { color: var(--ink-soft); }
+.checks .msg b { color: var(--ink); }
+
+.checks li.ok   .lamp { background: var(--good); box-shadow: 0 0 0 3px var(--good-bg); }
+.checks li.ok   .msg b { color: var(--good); }
+.checks li.warn .lamp { background: #b8791f; box-shadow: 0 0 0 3px #fbf4e6; }
+.checks li.warn .msg b { color: #8a5a14; }
+.checks li.bad  .lamp { background: var(--bad); box-shadow: 0 0 0 3px var(--bad-bg); }
+.checks li.bad  .msg b { color: var(--bad); }
+
 @media print {
   html { font-size: 11.5pt; }
   body { background: #fff; padding: 0; max-width: none; }

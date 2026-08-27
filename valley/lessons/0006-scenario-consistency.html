@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레슨 0006 — 시나리오는 세 개의 세상이다</title>
+<meta name="index-gloss" content="한 시나리오 안에서 칸들은 서로 배선되어 있다. 배선을 세 개의 규칙으로 점검하고, 확률 벡터가 결론의 부호를 뒤집는 것을 본다.">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">Lesson 0006 · Week 9 · Index DCF</p>
+  <h1>시나리오는 세 개의 세상이다</h1>
+  <p class="standfirst">레슨 0001~0005로 칸을 하나씩 채우는 법을 끝냈습니다. 이제 그 칸들을 <strong>세 벌</strong> 만들어야 합니다. 그런데 시나리오는 칸을 세 번 채우는 일이 아닙니다 — <strong>칸들이 서로 묶여 있기 때문</strong>입니다.</p>
+</header>
+
+<div class="note mission">
+  <span class="label">이번 레슨의 한 가지 win</span>
+  <p>한 시나리오 안의 배선을 <strong>세 개의 규칙</strong>으로 점검할 수 있게 됩니다. 내가 만든 시나리오를 점검기에 통과시켜 보고, <em>어느 칸이 어느 칸을 끌고 오는지</em>를 손으로 확인합니다.</p>
+  <p>숙제 3번은 "가정을 방어하라"입니다. 방어의 절반은 근거이고, <strong>나머지 절반이 일관성</strong>입니다 — 근거가 다 좋아도 서로 어긋나면 그 시나리오는 어느 세상도 그리지 못합니다.</p>
+</div>
+
+<h2>0. 시작 전 — 꺼내 보기</h2>
+
+<div class="quiz" data-quiz>
+  <h3>워밍업 3문항</h3>
+
+  <div class="q" data-answer="0">
+    <p class="stem">DCF를 한 문장으로 고르면?</p>
+    <div class="opts">
+      <button class="opt">미래 현금흐름을 각각 할인해 모두 더한다</button>
+      <button class="opt">미래 현금흐름을 가장 낮은 값으로 잡는다</button>
+      <button class="opt">미래 현금흐름의 평균에다 할인율을 곱한다</button>
+    </div>
+    <div class="why">핵심은 <strong>“모두 더한다”</strong>입니다. 근미래 파트와 종료가치는 <em>경쟁하는 두 답</em>이 아니라 <strong>더해야 할 두 조각</strong>입니다 (<a href="0002-two-part-structure.html">레슨 0002</a>). 숙제 1번이 이 정의를 서너 줄로 풀어 쓰는 문제이므로, 이 단어 하나가 채점 대상입니다.</div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">‘고평가’라는 판단은 무엇을 무엇에 대는 것인가?</p>
+    <div class="opts">
+      <button class="opt">시장 가격을 적정 가치에 댄다</button>
+      <button class="opt">적정 가격을 시장 가치에 댄다</button>
+      <button class="opt">시장 가치를 과거 평균에 댄다</button>
+    </div>
+    <div class="why"><strong>가격은 시장이 매기고, 가치는 내가 계산합니다.</strong> 고·저평가는 <em>가격을 가치에 대는</em> 판단입니다. “시장의 가치가 고평가”라고 쓰면 문장이 성립하지 않습니다 — 리포트에서 이 둘이 섞이면 읽는 사람이 무엇을 비교했는지 알 수 없습니다 (<a href="../reference/glossary.html">용어집 §3</a>).</div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">시나리오의 ‘내부 일관성’이란?</p>
+    <div class="opts">
+      <button class="opt">한 시나리오 안의 칸끼리 아귀가 맞는 것</button>
+      <button class="opt">세 시나리오의 값들이 서로 비슷해지는 것</button>
+      <button class="opt">내 값이 시장의 내재 값과 똑같아지는 것</button>
+    </div>
+    <div class="why"><strong>내부 일관성(internal consistency)</strong> — 오늘의 주역 용어입니다. 시나리오 <em>사이</em>가 아니라 시나리오 <em>안</em>의 문제입니다. 세 시나리오는 오히려 서로 <strong>멀어야</strong> 정보가 되고, 내 값이 시장 내재값과 같아지면 그건 순환논리입니다 (<a href="0005-equity-risk-premium.html">레슨 0005</a> 함정 ②).</div>
+  </div>
+
+  <div class="score"></div>
+</div>
+
+<h2>1. 먼저 레슨 0005의 불편함을 치웁니다</h2>
+
+<p>지난 레슨은 이렇게 끝났습니다 — <strong>무위험수익률을 0.7%p 높게 잡으면 내재 ERP가 0.7%p 낮게 나올 뿐, r은 그대로다.</strong> 레슨 0004에서 <span class="num">10-2번</span>을 정성껏 조립했는데 그 판단이 상쇄된다는 뜻이었습니다.</p>
+
+<p>여기서 자연스럽게 나오는 결론은 <em>“그럼 10-2번을 올리면 10-3번은 내려야 하는구나”</em>입니다. <strong>그건 틀렸습니다.</strong> 그리고 왜 틀렸는지가 오늘의 출발점입니다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th></th><th>역산 모드 (레슨 0005)</th><th>뷰 모드 (오늘)</th></tr></thead>
+  <tbody>
+    <tr><td>무엇을 고정하나</td><td><strong>시장가격</strong>을 고정한다</td><td><strong>아무것도</strong> 고정하지 않는다</td></tr>
+    <tr><td>그래서 r은</td><td>가격이 정해 버린다 (8.77%로 못 박힘)</td><td>내가 만든다 (두 칸의 합이 곧 r)</td></tr>
+    <tr><td>10-2번을 올리면</td><td>10-3번이 <strong>내려간다</strong> — 합이 묶여 있으니까</td><td>10-3번은 <strong>내가 정한다</strong> — 묶여 있지 않다</td></tr>
+    <tr><td>무엇을 하는 중인가</td><td><strong>측정</strong> — 시장이 요구하는 값을 읽는다</td><td><strong>판단</strong> — 내가 요구하는 값을 적는다</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>상쇄는 <strong>역산할 때만</strong> 일어나는 현상입니다. 시장가격이라는 못이 r을 붙들고 있기 때문에 두 조각이 시소를 타는 것이지, 두 값이 원래 반대로 움직이는 성질을 가진 게 아닙니다. 못을 빼면 시소도 없습니다.</p>
+
+<p>그러면 뷰 모드에서 두 칸은 어떻게 움직여야 할까요? <strong>같은 방향입니다.</strong> 칼럼의 세 시나리오가 실제로 그렇습니다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>시나리오</th><th class="n">10-2번 rf</th><th class="n">10-3번 ERP</th><th class="n">합 r</th></tr></thead>
+  <tbody>
+    <tr><td>골디락스</td><td class="n">3.60%</td><td class="n">4.35%</td><td class="n"><strong>7.95%</strong></td></tr>
+    <tr><td>현상 유지</td><td class="n">4.30%</td><td class="n">4.80%</td><td class="n"><strong>9.10%</strong></td></tr>
+    <tr><td>재정 지배</td><td class="n">5.10%</td><td class="n">5.20%</td><td class="n"><strong>10.30%</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>둘 다 올라갑니다. 그리고 그래야 정상입니다 — <strong>같은 세계관에서 나온 두 값이기 때문</strong>입니다. 인플레이션이 고착되는 세상이라면 국채도 더 요구받고(<span class="num">10-2번</span>↑) 주식도 더 요구받습니다(<span class="num">10-3번</span>↑). 한쪽만 오르는 세상을 상상하려면 별도의 이야기가 필요하고, 그 이야기가 없으면 그냥 어긋난 것입니다.</p>
+
+<div class="note">
+  <span class="label">이 구별을 한 줄로</span>
+  <p><strong>가격을 고정하면 반대로 가고, 뷰를 적으면 같이 간다.</strong></p>
+  <p>레슨 0005의 함정 ①은 <em>“내 판단이 무의미하다”</em>는 뜻이 아니었습니다. <em>“시장가격을 못으로 박아 둔 채로는 내 판단이 드러나지 않는다”</em>는 뜻이었습니다. 못을 빼는 순간 — 즉 내 뷰로 채우는 순간 — 두 칸의 판단이 전부 살아납니다. 그것이 <a href="0005-equity-risk-premium.html">레슨 0005</a>의 출구 <strong>(B) 출처로 분리한다</strong>였습니다.</p>
+</div>
+
+<h2>2. 배선도 — 무엇이 무엇을 끌고 오는가</h2>
+
+<p>시나리오를 만들 때 칸을 하나씩 독립적으로 채우면 반드시 어긋납니다. 칸들 사이에 <strong>세 가닥의 배선</strong>이 있기 때문입니다.</p>
+
+<h3>와이어 ① 인플레이션은 rf와 g를 <em>함께</em> 끈다</h3>
+
+<p>이게 가장 놓치기 쉬운 배선입니다. 무위험수익률에는 기대 인플레이션이 들어 있습니다 (<a href="0004-long-run-riskfree.html">레슨 0004</a>의 3분해). 그런데 <span class="num">10-1번</span>의 영구성장률 g도 <strong>명목</strong> 값입니다 — 실질 성장 + 인플레이션.</p>
+
+<div class="formula">
+  <span class="lead">rf</span> = 중립 실질금리 + <strong>기대 인플레</strong> + 기간 프리미엄<br>
+  <span class="lead">g</span> = 실질 성장률 + <strong>기대 인플레</strong>
+</div>
+
+<p>같은 항이 양쪽에 들어 있습니다. 그래서 <em>“인플레가 고착되는 세상”</em>이라며 rf만 1%p 올리고 g를 그대로 두면, 나도 모르게 <strong>실질 이익 성장이 1%p 무너지는 세상</strong>을 그린 것이 됩니다. 그건 다른 시나리오입니다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>재정 지배에 인플레 +1%p를 반영하는 법</th><th class="n">r − g</th><th class="n">적정가치</th></tr></thead>
+  <tbody>
+    <tr><td>기준 (rf 5.1% · g 3.75%)</td><td class="n">6.55%p</td><td class="n">5,494</td></tr>
+    <tr><td><strong>rf에만</strong> 넣는다 (rf 6.1% · g 3.75%)</td><td class="n">7.55%p</td><td class="n">4,763 <em>(−13.3%)</em></td></tr>
+    <tr><td><strong>양쪽에</strong> 넣는다 (rf 6.1% · g 4.75%)</td><td class="n">6.55%p</td><td class="n">4,911 <em>(−10.6%)</em></td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="caption">구조 재현 모델 <code>DCF.indexDCF</code> 기준. ERP 5.2%, ROE 11.5% 고정. 절대값보다 <strong>차이</strong>를 보세요.</p>
+
+<p>배선을 지키면 <code>r − g</code>가 <strong>6.55%p 그대로 돌아옵니다.</strong> 종료가치의 분모가 인플레이션에 중립이라는 뜻입니다 — 물가는 분자와 분모를 같이 밀어 올리니까요. 남는 −10.6%는 <em>근미래 파트의 EPS가 아직 옛 물가로 고정되어 있는데 할인만 세게 받는</em> 몫입니다. 배선을 어기면 여기에 −2.7%p가 더 얹히고, 그 −2.7%p는 <strong>내가 의도한 적 없는 가정</strong>입니다.</p>
+
+<div class="note">
+  <span class="label">칼럼 자체에 이 긴장이 있습니다</span>
+  <p>칼럼은 세 시나리오에서 <strong>기간 프리미엄만</strong> 갈랐습니다 (0.5 / 1.2 / 2.0%). 중립 실질금리 1.1%와 기대 인플레 2.0%는 셋 다 같습니다 — 그래서 <code>1.1 + 2.0 + 0.5 = 3.6</code>, <code>… + 1.2 = 4.3</code>, <code>… + 2.0 = 5.1</code>이 정확히 맞아떨어집니다. 즉 기대 인플레가 안 움직였으니 <strong>g를 3.75%로 통일한 것은 배선상 일관됩니다.</strong></p>
+  <p>그런데 산문은 재정 지배를 <em>“재정 부채로 인플레가 고착되는”</em> 세상이라고 부릅니다. <strong>이름은 인플레 이야기인데 숫자는 기간 프리미엄 이야기입니다.</strong> 둘 다 국채 금리를 올리지만 g에 대한 함의가 다릅니다 — 기간 프리미엄이 올라간 것이라면 g는 그대로가 맞고, 인플레가 올라간 것이라면 g도 올라가야 합니다.</p>
+  <p><strong>숙제에서 쓸 수 있는 지점입니다.</strong> 어느 쪽으로 읽었는지 한 줄만 밝히면 됩니다 — “재정 지배를 <em>기간 프리미엄</em> 상승으로 모형화했으므로 g는 유지했다”거나, “<em>인플레</em> 상승으로 보았으므로 rf와 g를 함께 올렸다”거나. 둘 다 방어 가능하고, <strong>아무 말도 안 하는 것만 방어 불가능합니다.</strong></p>
+</div>
+
+<h3>와이어 ② 세계관은 rf와 ERP를 <em>같은 방향</em>으로 끈다</h3>
+
+<p>§1에서 본 것입니다. 레짐 배정 규칙과 그 근거는 <a href="../reference/dcf-core.html">레퍼런스 §6</a>에 표로 있습니다 — 지금 오른쪽 화면에서 열어 두세요.</p>
+
+<p>어겼을 때 무슨 일이 벌어지는지가 중요합니다. 골디락스의 <span class="num">10-2번</span>(3.6%)에 재정 지배의 <span class="num">10-3번</span>(5.2%)을 섞으면 r은 <strong>8.80%</strong>가 됩니다. 이 값은 세 시나리오 사이 어딘가에 얌전히 들어앉아 있고, 적정가치도 <strong>7,766</strong>으로 그럴듯하게 나옵니다. <strong>오류가 눈에 안 보인다는 것이 이 위반의 위험입니다</strong> — 계산은 아무 불평도 하지 않습니다. 다음 절의 점검기가 필요한 이유가 이것입니다.</p>
+
+<h3>와이어 ③ g와 ROE는 환원율을 <em>도출</em>한다</h3>
+
+<p><a href="0003-growth-identity.html">레슨 0003</a>의 항등식입니다. <span class="num">10-1번</span>과 <span class="num">10-4번</span>을 정하는 순간 종료가치의 주주환원율이 따라 나옵니다 — <strong>타이핑하지 않았는데 이미 정해진 가정</strong>입니다.</p>
+
+<div class="formula">
+  <span class="lead">도출 환원율</span> = 1 − g ÷ ROE
+</div>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>시나리오</th><th class="n">g</th><th class="n">장기 ROE</th><th class="n">→ 도출 환원율</th><th class="n">과거 25년(80.72%) 대비</th></tr></thead>
+  <tbody>
+    <tr><td>골디락스</td><td class="n">3.75%</td><td class="n">16.5%</td><td class="n">77.3%</td><td class="n">−3.4%p</td></tr>
+    <tr><td>현상 유지</td><td class="n">3.75%</td><td class="n">13.0%</td><td class="n">71.2%</td><td class="n">−9.6%p</td></tr>
+    <tr><td>재정 지배</td><td class="n">3.75%</td><td class="n">11.5%</td><td class="n">67.4%</td><td class="n">−13.3%p</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>세 시나리오 모두 과거보다 덜 돌려주는 세상을 그리고 있습니다.</strong> 근미래 파트에는 80.72%를 직접 타이핑해 넣었는데, 종료가치 파트에서는 67~77%가 <em>도출</em>됩니다. 모순이 아닙니다 — 성장하려면 재투자해야 하니 성숙기에 유보를 늘리는 것은 자연스럽습니다. 다만 <strong>그렇게 가정했다는 사실을 리포트에 적어야</strong> 합니다. 아무 데도 타이핑하지 않은 가정이라 안 적으면 아무도 모릅니다.</p>
+
+<h2>3. 점검기 — 내 시나리오를 통과시켜 보기</h2>
+
+<div class="widget">
+  <h3>시나리오 일관성 점검기</h3>
+  <p class="caption">프리셋으로 칼럼의 세 시나리오를 불러온 뒤, <strong>한 칸씩 내 뷰로 바꿔 보세요.</strong> 아래 램프 세 개가 배선 ①②③을 실시간으로 검사합니다. 나머지 칸은 고정 (근미래 환원율 80.72% · n = 10 · 수렴 시작 12.25%).</p>
+
+  <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1.2rem">
+    <button class="ghost" data-preset="gold">골디락스</button>
+    <button class="ghost" data-preset="base">현상 유지</button>
+    <button class="ghost" data-preset="fisc">재정 지배</button>
+  </div>
+
+  <div class="control">
+    <label for="s-rf"><span><span class="num">10-2번</span> 장기 무위험수익률 <em style="color:var(--ink-faint);font-size:0.85em">(레슨 0004)</em></span><span class="val" data-for="s-rf">4.30%</span></label>
+    <input type="range" id="s-rf" min="2.5" max="6.5" step="0.05" value="4.3">
+  </div>
+
+  <div class="control">
+    <label for="s-erp"><span><span class="num">10-3번</span> 위험 프리미엄 ERP <em style="color:var(--ink-faint);font-size:0.85em">(레슨 0005)</em></span><span class="val" data-for="s-erp">4.80%</span></label>
+    <input type="range" id="s-erp" min="3" max="6.5" step="0.05" value="4.8">
+  </div>
+
+  <div class="control">
+    <label for="s-g"><span><span class="num">10-1번</span> 영구성장률 g <em style="color:var(--ink-faint);font-size:0.85em">(명목)</em></span><span class="val" data-for="s-g">3.75%</span></label>
+    <input type="range" id="s-g" min="2" max="5" step="0.05" value="3.75">
+  </div>
+
+  <div class="control">
+    <label for="s-roe"><span><span class="num">10-4번</span> 장기 ROE <em style="color:var(--ink-faint);font-size:0.85em">(밴드 13~18%)</em></span><span class="val" data-for="s-roe">13.0%</span></label>
+    <input type="range" id="s-roe" min="8" max="22" step="0.5" value="13">
+  </div>
+
+  <div class="readout">
+    <div class="metric"><span class="k">합 r</span><span class="v" id="s-r">—</span></div>
+    <div class="metric"><span class="k">도출 환원율</span><span class="v" id="s-pay">—</span></div>
+    <div class="metric"><span class="k">적정가치</span><span class="v hl" id="s-val">—</span></div>
+    <div class="metric"><span class="k">7,411 대비</span><span class="v" id="s-gap">—</span></div>
+  </div>
+
+  <ul class="checks" id="s-checks"></ul>
+</div>
+
+<h3>해 볼 것 세 가지</h3>
+
+<ol>
+  <li><strong>골디락스를 불러 보세요.</strong> 램프 하나가 노란색입니다 — <strong>칼럼 자신의 시나리오가 규칙 ③에 걸립니다.</strong> 왜 걸리는지, 그리고 그게 잘못인지 아닌지가 아래 §3-1입니다.</li>
+  <li><strong>현상 유지에서 <span class="num">10-2번</span>만 5.5%로 올려 보세요.</strong> 규칙 ①이 노란색입니다 — 국채에는 세상이 바뀐 것을 반영했는데 주식은 그대로 둔 상태입니다. <strong>이어서 <span class="num">10-3번</span>을 4.3%로 내려 보세요.</strong> 이제 빨간색입니다. 두 칸이 서로 다른 세상을 가리키고 있고, 이게 레슨 0005의 상쇄를 뷰 모드에 잘못 옮겨 왔을 때 나오는 모양입니다.</li>
+  <li><strong>ROE를 8%까지 내려 보세요.</strong> 규칙 ②가 깨집니다 — g 3.75%를 ROE 8%로 감당하려면 환원율이 53%까지 떨어집니다. 이익의 절반 가까이를 계속 재투자하는 세상입니다.</li>
+</ol>
+
+<h3>§3-1. 골디락스가 걸리는 이유 — g ≤ rf 규칙</h3>
+
+<p>영구성장률에는 잘 알려진 상한이 있습니다. <strong>어떤 자산도 경제 전체보다 영원히 빨리 자랄 수는 없고</strong>, 무위험수익률은 경제의 명목 성장률에 대한 시장의 가장 좋은 대리값입니다. 그래서 실무 규칙은 <code>g ≤ rf</code>입니다.</p>
+
+<p>골디락스는 <strong>g 3.75% &gt; rf 3.60%</strong>입니다. 0.15%p 초과입니다.</p>
+
+<p>이건 <em>고발</em>이 아니라 <strong>설명을 요구하는 표시</strong>입니다. 실제로 방어할 수 있습니다 — 무위험수익률은 명목 성장률 <em>더하기 기간 프리미엄</em>인데, 골디락스는 기간 프리미엄을 0.5%로 아주 낮게 잡은 국면입니다. 기간 프리미엄이 음수가 될 수도 있는 값이라는 걸 감안하면, rf가 명목 성장률보다 살짝 낮게 나오는 것 자체는 모순이 아닙니다.</p>
+
+<div class="note">
+  <span class="label">점검기는 판사가 아니라 질문지다</span>
+  <p>램프가 노란색이라고 값을 고칠 필요는 없습니다. <strong>노란 램프 하나 = 리포트에 들어갈 문장 하나</strong>라고 보세요. 규칙에 걸린 칸은 “왜 그래도 되는지”를 한 줄 적으면 그것으로 방어가 끝납니다. 걸리지도 않았는데 아무 말 없는 칸보다, 걸렸는데 설명이 달린 칸이 채점자에게 훨씬 좋습니다.</p>
+  <p>빨간 램프는 다릅니다. 규칙 ①의 빨강은 <strong>두 칸이 서로 다른 세상을 가리키고 있다</strong>는 뜻이고, 이건 설명으로 넘어가지 않습니다 — 시나리오를 둘로 쪼개거나 한쪽을 고쳐야 합니다.</p>
+</div>
+
+<h2>4. 확률은 방법론이 아니라 뷰다</h2>
+
+<p>세 시나리오의 적정가치가 나왔으면 하나로 합쳐야 합니다. 칼럼은 <strong>35 / 15 / 50</strong>을 씁니다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>확률 (골디락스 / 현상 유지 / 재정 지배)</th><th class="n">가중평균</th><th class="n">7,411은</th></tr></thead>
+  <tbody>
+    <tr><td><strong>35 / 15 / 50</strong> — 칼럼의 뷰</td><td class="n">7,078</td><td class="n">4.7% 고평가</td></tr>
+    <tr><td>33 / 34 / 33 — 아무 뷰도 없음</td><td class="n">7,276</td><td class="n">1.9% 고평가</td></tr>
+    <tr><td>50 / 30 / 20 — 낙관</td><td class="n">7,881</td><td class="n"><strong>6.0% 저평가</strong></td></tr>
+    <tr><td>10 / 20 / 70 — 비관</td><td class="n">6,175</td><td class="n">20.0% 고평가</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="caption">개별 적정가치는 재현 모델의 9,395 / 6,950 / 5,494로 고정하고 <strong>확률만</strong> 바꾼 것입니다.</p>
+
+<p><strong>확률 벡터 하나가 결론의 부호를 뒤집습니다.</strong> 입력값을 한 칸도 안 건드렸는데 “6% 저평가”와 “20% 고평가” 사이를 오갑니다. 그러니 확률은 마지막에 대충 얹는 마무리가 아니라 <strong>가장 무거운 입력값</strong>입니다.</p>
+
+<p>그리고 <strong>35 / 15 / 50은 방법론이 아니라 월가아재 본인의 주관적 사전확률</strong>입니다. 가운데를 가장 낮게 두고 재정 지배에 절반을 준 강한 뷰입니다 — Week 1~8에서 배운 매크로 판단이 여기 한 줄로 들어간 것입니다. <strong>Index DCF의 요점이 바로 여기에 당신의 확률이 들어가는 것</strong>이므로, 그의 숫자를 베끼면 숙제의 절반이 사라집니다.</p>
+
+<div class="note">
+  <span class="label">가운데가 가장 낮은 게 이상해 보인다면</span>
+  <p>시나리오 확률은 <em>종 모양</em>일 이유가 없습니다. 세 시나리오는 연속된 눈금의 세 점이 아니라 <strong>서로 다른 세 개의 이야기</strong>이기 때문입니다. “AI가 물가를 누른다”와 “재정이 물가를 고착시킨다”는 각각 그럴듯한 이야기이고, “지금이 그냥 계속된다”는 오히려 둘 중 아무것도 이기지 못하는 좁은 경우일 수 있습니다.</p>
+  <p>다만 <strong>세 개를 넘기지 마세요.</strong> 시나리오 분석은 서너 개까지가 실용적인 범위입니다 (<a href="https://pages.stern.nyu.edu/~adamodar/pdfiles/DSV2/Ch3.pdf">Damodaran, Ch.3</a>). 넷째부터는 확률을 정직하게 부여할 수 없고, 그러면 가중평균이 그냥 평균이 됩니다.</p>
+</div>
+
+<h2>5. 오늘 것을 한 문장으로</h2>
+
+<div class="note mission">
+  <span class="label">되말하기 — 두 절로</span>
+  <p>레슨을 닫기 전에, 아래 문장을 <strong>“~때문에 ~이다”</strong> 형태로 채워서 저(선생)에게 채팅으로 보내 주세요. 결론만 있고 이유가 없으면 숙제에서 점수가 되지 않습니다.</p>
+  <p style="text-align:center;margin:1rem 0"><em>“내 뷰로 시나리오를 채울 때 10-2번과 10-3번이 같은 방향으로 가는 것은 <strong>____ 때문에</strong>, ____이다.”</em></p>
+  <p>한 문장 더 — <em>“재정 지배 시나리오에서 rf만 올리고 g를 그대로 두면, ____ 때문에 ____을 가정한 것이 된다.”</em></p>
+</div>
+
+<h2>6. 꺼내 보기</h2>
+
+<div class="quiz" data-quiz>
+  <h3>퀴즈 3문항</h3>
+
+  <div class="q" data-answer="0">
+    <p class="stem">내 뷰로 채울 때 <span class="num">10-2번</span>과 <span class="num">10-3번</span>이 같은 방향으로 가는 이유는?</p>
+    <div class="opts">
+      <button class="opt">r이 안 묶여 있어서 둘이 각자 움직여서</button>
+      <button class="opt">같은 방향으로 가는 것이 정상적이기 때문</button>
+      <button class="opt">레짐 표가 그렇게 배정을 해 두었기 때문</button>
+    </div>
+    <div class="why">두 번째 보기는 <strong>결론을 되풀이한 것</strong>이지 이유가 아닙니다 — 숙제에서 이렇게 쓰면 점수가 되지 않습니다. 세 번째는 권위를 인용한 것이고요. 기계는 이것입니다: 역산 모드에서는 <strong>시장가격이 r을 못 박아</strong> 두 조각이 시소를 타지만, 뷰 모드에는 그 못이 없어 두 칸이 각자 자기 세계관을 따릅니다. 그리고 같은 세계관에서 나왔으니 같이 움직입니다.</div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">g 3.75%, 장기 ROE 11.5%면 도출 환원율이 67.4%다. 이게 뜻하는 것은?</p>
+    <div class="opts">
+      <button class="opt">과거 25년 평균보다는 덜 돌려준다는 뜻</button>
+      <button class="opt">과거 25년 평균과 똑같이 돌려준다는 뜻</button>
+      <button class="opt">이 칸은 직접 타이핑해 넣어야 한다는 뜻</button>
+    </div>
+    <div class="why">과거 25년 평균은 <strong>80.72%</strong>(배당 33.72% + 바이백 47%)입니다. 67.4%는 그보다 13.3%p 낮으니, 성숙기에 재투자를 더 하는 세상을 그린 것입니다. 그리고 이 칸은 <strong>타이핑하는 곳이 아니라 도출되는 곳</strong>입니다 — 아무 데도 입력하지 않았는데 이미 정해진 가정이라, 리포트에 적지 않으면 아무도 모릅니다.</div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">확률을 35/15/50에서 33/34/33으로 바꾸면 4.7% 고평가가 1.9% 고평가가 된다. 이게 보여 주는 것은?</p>
+    <div class="opts">
+      <button class="opt">확률 벡터 자체가 하나의 강한 뷰라는 것</button>
+      <button class="opt">확률은 고르게 나눠 두는 쪽이 낫다는 것</button>
+      <button class="opt">세 시나리오의 적정가치가 서로 같다는 것</button>
+    </div>
+    <div class="why">입력값은 한 칸도 안 건드렸는데 결론이 움직였습니다. 균등 확률은 <em>중립</em>이 아니라 <strong>“세 세상이 똑같이 그럴듯하다”는 하나의 강한 주장</strong>입니다 — 매크로 뷰를 가진 사람이라면 그렇게 볼 이유가 없습니다. 낙관 쪽으로 두면 같은 입력값에서 <strong>저평가</strong>라는 반대 결론이 나옵니다.</div>
+  </div>
+
+  <div class="score"></div>
+</div>
+
+<div class="drill" data-drill>
+  <h3>계산 5문항</h3>
+  <p class="caption">칸에 답을 넣으면 바로 채점됩니다.</p>
+
+  <div class="row" data-answer="7.95" data-tol="0.02">
+    <span class="ask">골디락스: <span class="num">10-2번</span> 3.60% + <span class="num">10-3번</span> 4.35%. 합 r은?</span>
+    <input type="text" inputmode="decimal">
+    <span class="unit">%</span>
+    <span class="mark"></span>
+    <div class="hint"><strong>7.95%</strong>. 현상 유지(9.10%)보다 1.15%p 낮습니다 — <em>두 칸이 같이</em> 내려갔기 때문입니다.</div>
+  </div>
+
+  <div class="row" data-answer="10.3" data-tol="0.02">
+    <span class="ask">재정 지배: 5.10% + 5.20%. 합 r은?</span>
+    <input type="text" inputmode="decimal">
+    <span class="unit">%</span>
+    <span class="mark"></span>
+    <div class="hint"><strong>10.30%</strong>. 골디락스와 <strong>2.35%p</strong> 벌어집니다. 시나리오가 정보를 주려면 이만큼 멀어야 합니다.</div>
+  </div>
+
+  <div class="row" data-answer="67.4" data-tol="0.15">
+    <span class="ask">재정 지배: g 3.75%, ROE 11.5%. 도출 환원율은? (1 − g ÷ ROE)</span>
+    <input type="text" inputmode="decimal">
+    <span class="unit">%</span>
+    <span class="mark"></span>
+    <div class="hint">1 − 3.75/11.5 = <strong>67.4%</strong>. 근미래에 타이핑한 80.72%보다 13.3%p 낮습니다 — 리포트에 한 줄 적어야 할 <strong>숨은 가정</strong>입니다.</div>
+  </div>
+
+  <div class="row" data-answer="0.15" data-tol="0.02">
+    <span class="ask">골디락스는 g 3.75%, rf 3.60%다. g가 rf를 몇 %p 넘는가?</span>
+    <input type="text" inputmode="decimal">
+    <span class="unit">%p</span>
+    <span class="mark"></span>
+    <div class="hint"><strong>0.15%p</strong>. <code>g ≤ rf</code> 규칙 위반입니다. 방어는 가능합니다 — 기간 프리미엄을 0.5%로 낮게 잡은 국면이라 rf가 명목 성장률 아래로 내려간 것이라고 쓰면 됩니다.</div>
+  </div>
+
+  <div class="row" data-answer="4.7" data-tol="0.15">
+    <span class="ask">35/15/50 가중평균이 7,078이다. 지수 7,411은 몇 % 고평가인가?</span>
+    <input type="text" inputmode="decimal">
+    <span class="unit">%</span>
+    <span class="mark"></span>
+    <div class="hint">7,411 ÷ 7,078 − 1 = <strong>+4.7%</strong>. 나누는 순서에 주의하세요 — <strong>가격을 가치로</strong> 나눕니다. 가치를 가격으로 나누면 −4.5%가 나오고 그건 다른 질문의 답입니다.</div>
+  </div>
+
+  <div class="actions"><button class="ghost" data-reveal>정답 보기</button></div>
+</div>
+
+<hr>
+
+<h2>이번에 읽을 것 (하나만)</h2>
+
+<p><strong>1차 자료 —</strong> <a href="https://pages.stern.nyu.edu/~adamodar/pdfiles/DSV2/Ch3.pdf">Aswath Damodaran, “Probabilistic Valuation: Scenario Analysis, Decision Trees and Simulations” (Ch.3, PDF)</a></p>
+
+<p>시나리오 분석을 언제 쓰고, 몇 개를 만들고, 확률을 어떻게 붙이는지 다루는 장입니다. 앞쪽의 시나리오 분석 절만 읽으면 충분합니다 — 뒤쪽 의사결정나무와 몬테카를로는 지금 필요 없습니다.</p>
+
+<p>읽으면서 들고 갈 질문 하나 — <strong>그는 시나리오를 “완전한 스펙트럼”으로 만들라고 합니다. 내 세 시나리오는 일어날 수 있는 세상을 다 덮고 있는가?</strong> 덮지 못한다면 가중평균은 기댓값이 아니라 <em>세 점의 평균</em>일 뿐입니다. 이 질문의 답이 리포트에서 확률표 아래 붙일 한 문장입니다.</p>
+
+<p class="caption">※ 이 세션에서는 네트워크 정책 때문에 원문 PDF를 직접 열어 확인하지 못했습니다. 링크와 “서너 개까지”라는 범위는 검색 결과로 확인한 것이고, 본문의 다른 숫자들은 전부 재현 모델과 칼럼에서 나온 것입니다. 읽으시고 어긋나는 부분이 있으면 알려 주세요 — 고치겠습니다.</p>
+
+<div class="note mission">
+  <span class="label">숙제 3번의 뼈대가 오늘로 섭니다</span>
+  <p>지금 표 하나를 그려 두세요. 행이 세 시나리오, 열이 <strong>세계관 한 줄 · <span class="num">10-2번</span> · <span class="num">10-3번</span> · <span class="num">10-1번</span> · <span class="num">10-4번</span> · 도출 환원율 · 확률</strong>입니다.</p>
+  <p>채우는 순서는 <strong>왼쪽에서 오른쪽</strong>입니다 — 세계관 문장을 먼저 쓰고 그 문장에서 숫자를 끌어내세요. 숫자를 먼저 고르고 이야기를 나중에 붙이면 배선이 반드시 어긋납니다.</p>
+  <p>그리고 각 시나리오마다 <strong>점검기의 램프 세 개를 통과시키고</strong>, 노란 램프가 켜진 칸에는 “그래도 되는 이유”를 한 줄씩 달아 두세요. 그 줄들이 모여 숙제 3번의 방어 문단이 됩니다.</p>
+</div>
+
+<p class="next-up"><strong>진도 —</strong> 월가아재 글로벌 매크로 지식편 6회차 2강(주가지수의 DCF). 다음은 <strong>민감도</strong>입니다 — 오늘 만든 시나리오에서 입력값 하나를 1단위 흔들면 적정가치가 몇 % 움직이는지, 그리고 어느 칸이 가장 무거운지.</p>
+
+<div class="ask-teacher">
+  <span class="label">막히면 물어보세요</span>
+  오늘 가장 흐릿하게 남기 쉬운 지점은 <em>“레슨 0005에서는 반대로 간다고 했는데 오늘은 같이 간다고 한다”</em>입니다. 헷갈리면 그대로 물어보세요 — 못이 박혀 있느냐 아니냐 하나로 갈립니다. 그리고 <em>“내 확률은 어떻게 정하나”</em>도 좋은 질문입니다. Week 1~8의 매크로 지표들이 실제로 들어오는 자리입니다.
+</div>
+
+<div class="footer">
+  <h3>이어지는 곳</h3>
+  <ul>
+    <li><a href="0005-equity-risk-premium.html">← 레슨 0005 — ERP를 역산하기</a></li>
+    <li><a href="0003-growth-identity.html">레슨 0003 — g = ROE × 유보율 (와이어 ③의 출처)</a></li>
+    <li><a href="0004-long-run-riskfree.html">레슨 0004 — 무위험수익률 3분해 (와이어 ①의 출처)</a></li>
+    <li><a href="../reference/dcf-core.html">레퍼런스 — §6 레짐 배정, §9 시나리오 종합</a></li>
+    <li><a href="../reference/glossary.html">레퍼런스 — 용어와 약자</a></li>
+    <li><a href="../index.html">Valley 워크스페이스 목록</a></li>
+    <li>레슨 0007 — 민감도 분석: 어느 칸이 가장 무거운가 <em>(예정)</em></li>
+  </ul>
+</div>
+
+<script src="../assets/dcf.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+(function () {
+  var INDEX = 7411;               // 칼럼 시점의 S&P 500
+  var PAST_PAYOUT = 0.8072;       // 과거 25년 평균 주주환원율
+  var BASE_RF = 4.3, BASE_ERP = 4.8;   // 방향 판정의 기준점 = 현상 유지
+
+  var FIXED = { eps: [340.39, 397.87, 446.60], payoutNear: 0.8072, n: 10, glideFrom: 0.1225 };
+
+  var PRESETS = {
+    gold: { rf: 3.6, erp: 4.35, g: 3.75, roe: 16.5 },
+    base: { rf: 4.3, erp: 4.80, g: 3.75, roe: 13.0 },
+    fisc: { rf: 5.1, erp: 5.20, g: 3.75, roe: 11.5 }
+  };
+
+  var el = {
+    rf: document.getElementById('s-rf'),
+    erp: document.getElementById('s-erp'),
+    g: document.getElementById('s-g'),
+    roe: document.getElementById('s-roe')
+  };
+
+  function render() {
+    var rf  = parseFloat(el.rf.value)  / 100;
+    var erp = parseFloat(el.erp.value) / 100;
+    var g   = parseFloat(el.g.value)   / 100;
+    var roe = parseFloat(el.roe.value) / 100;
+
+    var o = {};
+    for (var k in FIXED) o[k] = FIXED[k];
+    o.riskFree = rf; o.erp = erp; o.g = g; o.roe = roe;
+
+    var m = DCF.indexDCF(o);
+    var payout = m.payoutTV;
+
+    document.getElementById('s-r').textContent   = DCF.pct(m.r, 2);
+    document.getElementById('s-pay').textContent = isFinite(payout) ? DCF.pct(payout, 1) : '—';
+    document.getElementById('s-val').textContent = (isFinite(m.total) && m.total > 0)
+      ? DCF.fmt(m.total, 0) : '—';
+    document.getElementById('s-gap').textContent = (isFinite(m.total) && m.total > 0)
+      ? ((INDEX / m.total - 1) * 100).toFixed(1) + '%' : '—';
+
+    DCF.renderChecks('#s-checks', [
+      checkDirection(rf, erp),
+      checkPayout(g, roe, payout),
+      checkGrowthCap(g, rf)
+    ]);
+  }
+
+  /* 와이어 ② — rf와 ERP가 같은 세상을 가리키는가 */
+  function checkDirection(rf, erp) {
+    var drf  = rf  * 100 - BASE_RF;
+    var derp = erp * 100 - BASE_ERP;
+    var DEAD = 0.12;   // 현상 유지 근처는 방향을 묻지 않는다
+
+    if (Math.abs(drf) < DEAD && Math.abs(derp) < DEAD) {
+      return { rule: '규칙 ① 방향 — 두 칸이 같은 세상인가', level: 'ok',
+        msg: '<b>현상 유지 그대로입니다.</b> 두 칸 모두 기준점에 있으니 방향을 물을 것이 없습니다. 한 칸을 움직여 보세요.' };
+    }
+    if (Math.abs(drf) < DEAD || Math.abs(derp) < DEAD) {
+      var moved = Math.abs(drf) >= DEAD ? '10-2번' : '10-3번';
+      var still = Math.abs(drf) >= DEAD ? '10-3번' : '10-2번';
+      return { rule: '규칙 ① 방향 — 두 칸이 같은 세상인가', level: 'warn',
+        msg: '<b>' + moved + '만 움직였고 ' + still + '은 현상 유지에 남아 있습니다.</b> 세계관이 바뀌었다면 대개 두 칸이 함께 움직입니다. ' +
+             still + '을 그대로 두는 이유가 있다면 리포트에 한 줄 적으세요.' };
+    }
+    if (drf * derp < 0) {
+      return { rule: '규칙 ① 방향 — 두 칸이 같은 세상인가', level: 'bad',
+        msg: '<b>두 칸이 반대 방향입니다.</b> 국채에는 ' + (drf > 0 ? '더' : '덜') + ' 요구하면서 주식에는 ' +
+             (derp > 0 ? '더' : '덜') + ' 요구하는 세상입니다. 그런 세상을 설명할 이야기가 없다면 어긋난 것입니다 — ' +
+             '<b>상쇄는 시장가격을 고정한 역산 모드에서만 일어납니다.</b>' };
+    }
+    return { rule: '규칙 ① 방향 — 두 칸이 같은 세상인가', level: 'ok',
+      msg: '<b>두 칸이 같은 방향입니다.</b> 현상 유지 대비 <b>10-2번 ' + (drf > 0 ? '+' : '') + drf.toFixed(2) +
+           '%p</b>, <b>10-3번 ' + (derp > 0 ? '+' : '') + derp.toFixed(2) + '%p</b> — ' +
+           (drf > 0 ? '국채도 주식도 더 요구하는' : '국채도 주식도 덜 요구하는') + ' 하나의 세상입니다.' };
+  }
+
+  /* 와이어 ③ — g와 ROE가 도출하는 환원율이 말이 되는가 */
+  function checkPayout(g, roe, payout) {
+    var RULE = '규칙 ② 검산 — 도출 환원율이 말이 되는가';
+    if (!(roe > g)) {
+      return { rule: RULE, level: 'bad',
+        msg: '<b>식이 깨졌습니다.</b> ROE가 g보다 크지 않으면 환원율이 0 이하가 됩니다 — 벌어들이는 것 전부를 재투자하고도 ' +
+             '그 성장률에 못 미친다는 뜻이라, 영원히 유지될 수 없는 상태입니다.' };
+    }
+    var p = payout * 100;
+    var vs = (p - PAST_PAYOUT * 100);
+    var tail = ' 과거 25년 평균 <b>80.7%</b> 대비 <b>' + (vs > 0 ? '+' : '') + vs.toFixed(1) + '%p</b>.';
+
+    if (p < 55) {
+      return { rule: RULE, level: 'warn',
+        msg: '<b>도출 환원율 ' + p.toFixed(1) + '% — 낮습니다.</b> 이익의 ' + (100 - p).toFixed(0) +
+             '%를 영원히 재투자하는 세상입니다.' + tail + ' 성숙한 지수에 이 정도 유보를 가정한다면 근거가 필요합니다.' };
+    }
+    if (p > 92) {
+      return { rule: RULE, level: 'warn',
+        msg: '<b>도출 환원율 ' + p.toFixed(1) + '% — 높습니다.</b> 거의 다 돌려주면서 g만큼 계속 자란다는 뜻입니다.' + tail +
+             ' ROE를 이 정도로 높게 잡은 근거가 필요합니다.' };
+    }
+    return { rule: RULE, level: 'ok',
+      msg: '<b>도출 환원율 ' + p.toFixed(1) + '%.</b>' + tail +
+           ' 타이핑하지 않았는데 정해진 가정이므로, <b>리포트에는 이 값을 적어야 합니다.</b>' };
+  }
+
+  /* 영구성장률의 상한 — g ≤ rf */
+  function checkGrowthCap(g, rf) {
+    var RULE = '규칙 ③ 상한 — g가 rf를 넘지 않는가';
+    var over = (g - rf) * 100;
+    if (over > 0.005) {
+      return { rule: RULE, level: 'warn',
+        msg: '<b>g가 rf를 ' + over.toFixed(2) + '%p 넘습니다.</b> 어떤 자산도 경제보다 영원히 빨리 자랄 수 없고, ' +
+             'rf는 명목 성장률의 대리값입니다. 다만 rf = 명목 성장률 + <b>기간 프리미엄</b>이므로, ' +
+             '기간 프리미엄을 아주 낮게(또는 음수로) 잡은 국면이라면 방어할 수 있습니다 — <b>한 줄 적어 두세요.</b>' };
+    }
+    return { rule: RULE, level: 'ok',
+      msg: '<b>g ' + (g * 100).toFixed(2) + '% ≤ rf ' + (rf * 100).toFixed(2) + '%.</b> 영구성장률이 상한 안에 있습니다. ' +
+           '여유는 <b>' + (-over).toFixed(2) + '%p</b>.' };
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-preset]'), function (btn) {
+    btn.addEventListener('click', function () {
+      var p = PRESETS[btn.getAttribute('data-preset')];
+      el.rf.value = p.rf; el.erp.value = p.erp; el.g.value = p.g; el.roe.value = p.roe;
+      // bindRange가 붙여 둔 라벨 갱신을 태운다
+      ['s-rf', 's-erp', 's-g', 's-roe'].forEach(function (id) {
+        document.getElementById(id).dispatchEvent(new Event('input', { bubbles: true }));
+      });
+    });
+  });
+
+  DCF.bindRange('#s-rf',  function (v) { return v.toFixed(2) + '%'; }, render);
+  DCF.bindRange('#s-erp', function (v) { return v.toFixed(2) + '%'; }, render);
+  DCF.bindRange('#s-g',   function (v) { return v.toFixed(2) + '%'; }, render);
+  DCF.bindRange('#s-roe', function (v) { return v.toFixed(1) + '%'; }, render);
+})();
+</script>
+
+</body>
+</html>

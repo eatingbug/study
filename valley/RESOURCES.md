@@ -18,6 +18,9 @@
   종료가치가 전체 가치의 대부분을 차지하는 것이 왜 결함이 아닌지 (주식 수익의 67~85%가 배당이 아닌 가격 상승에서 오므로), 그리고 "TV가 지배하니 근미래 가정은 덜 중요하다"가 왜 **위험한 논리적 비약(dangerous leap of logic)**인지. TV 비중이 고성장 기간의 길이·성장률에 따라 크게 달라진다는 표도 있다. → **숙제 리포트에서 종료가치 가정을 방어할 때, 스터디 라운지에서 "TV가 87%면 못 믿는 것 아니냐"는 반론에 답할 때.** L0002의 1차 자료.
 - [Damodaran, "Myth 5.3: Growth is good, more growth is better!" (2016-11)](https://aswathdamodaran.blogspot.com/2016/11/myth-53-growth-is-good-more-growth-is.html)
   성장은 공짜가 아니며 재투자로 값을 치러야 한다(`g = 유보율 × ROE`)는 것, 그리고 **가치를 만드는 것은 성장률 자체가 아니라 초과수익(ROE − 요구수익률)**이라는 것. 검증된 인용: *"Growth is not free and it has to be paid for with reinvestment and in the terminal value equation, this effectively means that you cannot leave cash flows fixed and change the growth rate."* → **숙제에서 10-1번(g)과 10-4번(ROE) 조합을 방어할 때.** L0003의 1차 자료.
+- [Damodaran, "Probabilistic Valuation: Scenario Analysis, Decision Trees and Simulations" (Ch.3, PDF)](https://pages.stern.nyu.edu/~adamodar/pdfiles/DSV2/Ch3.pdf)
+  시나리오 분석을 언제 쓰고, 몇 개를 만들고, 확률을 어떻게 붙이는지. 앞쪽 시나리오 분석 절만 읽으면 되고 뒤쪽 의사결정나무·몬테카를로는 아직 불필요. 확인된 것: **시나리오는 서너 개까지가 실용 범위**이고, 시나리오들이 "완전한 스펙트럼"을 이룰 때만 가중평균이 기댓값이 된다. → **숙제 3번에서 세 시나리오와 확률 배정을 방어할 때.** L0006의 1차 자료.
+  → ⚠️ **2026-08-27 세션에서도 원문 fetch에 실패했다** (egress가 `pages.stern.nyu.edu`·`papers.ssrn.com`을 차단). 검색 결과 경유 확인이며, 같은 내용의 SSRN판은 "Facing Up to Uncertainty: Using Probabilistic Approaches in Valuation"(abstract_id=3237778). **사용자 브라우저에서는 열리므로 레슨에 링크는 걸어 두었다.**
 - [Damodaran, Valuation 강의 패킷 1 (Spring 2026, PDF)](https://pages.stern.nyu.edu/~adamodar/pdfiles/eqnotes/valpacket1spr26.pdf)
   DCF의 정석 교재. 할인율, 종료가치, 성장률의 내부 일관성(g = ROE × 유보율)이 전부 여기 있다. → **어떤 공식의 "정통" 근거가 필요할 때.**
 
@@ -64,7 +67,7 @@
 ## Gaps
 - **`g = ROE × 유보율`의 한계에 대한 1차 자료 미확보.** 평균 ROE ≠ 한계 ROE(신규 투자 수익률), 부채·M&A·마진개선 경로 누락, 장부 자기자본이 투입자본의 나쁜 대리변수라는 점, 자사주 매입이 ROE를 부풀리는 점 — 이 논점들은 **다모다란 Myth 5.3에 없다**(2026-08-07 확인). 숙제에 쓰려면 별도 출처가 필요하다. 다음 후보: Valuation 강의 패킷 1의 성장률 챕터, Damodaran의 ROIC/excess return 관련 글.
 - **ERP 레짐별 평균 6개 (3.3 / 5.2 / 3.3 / 3.8 / 5.4 / 4.8%)** — 다모다란이 발표한 값이 아니라 **월가아재가 시계열을 임의 구간으로 잘라 계산한 값**이다. 구간 경계도 그의 판단. 숙제에 근거로 쓰려면 histimpl 엑셀을 받아 직접 검산할 것. **미검산 상태** — L0005는 이 표를 레퍼런스에만 두고, 레슨 본문에서는 각 값이 지수로 얼마인지만 가르친다(구간 평균 자체를 인용하지 않는다). L0005 §5에 "구간을 인용하지 말고 직접 계산하라"를 명시했다.
-- **네트워크 제약 (2026-08-25 세션)** — 이 환경의 egress 정책이 `pages.stern.nyu.edu` · `aswathdamodaran.blogspot.com` · `aswathdamodaran.substack.com` · `stocktwits.com`을 모두 차단했다. WebSearch는 동작하므로 사실 확인은 가능하지만 **원문 verbatim 인용은 불가**. 다모다란 자료를 새로 검증해야 하는 작업은 egress가 열린 환경에서 할 것.
+- **네트워크 제약 (2026-08-25 · 2026-08-27 두 세션 모두)** — 이 환경의 egress 정책이 `pages.stern.nyu.edu` · `aswathdamodaran.blogspot.com` · `aswathdamodaran.substack.com` · `stocktwits.com`을 모두 차단했다. WebSearch는 동작하므로 사실 확인은 가능하지만 **원문 verbatim 인용은 불가**. 다모다란 자료를 새로 검증해야 하는 작업은 egress가 열린 환경에서 할 것.
 - ~~**Valley AI Index DCF의 정확한 계산 규약**~~ → **해결 (2026-08-22).** 역검증으로 규약을 확정, ±3.6% 재현. [LR0004](./learning-records/0004-valley-ai-calculation-convention-back-verified.md). 남은 미확인은 **n=4~10 EPS 수렴 경로**뿐이며, 칼럼 산문과 재현 조건이 어긋난다.
 - **CPI − PCE 갭의 공식 시계열** — 칼럼은 "현재 서베이상 0.18%, 장기평균 0.30%, 절충 0.26%"라고 하는데 출처 미확인. BEA/BLS 원자료로 직접 계산하는 절차가 필요.
 - **민감도 수치 불일치 (신규, 2026-08-25)** — 칼럼은 "무위험수익률 1% 상승 → 적정주가 −700"이라 하는데 내 모델은 현상유지 기준 −1,111이다(−16.0%). 예시용 어림수일 가능성이 높지만 미확인. **L0007 착수 전에 Valley AI 화면에서 10-2번만 1%p 흔들어 실제 변화폭을 기록할 것.** 이게 어긋나면 L0007이 틀린 숫자를 가르친다.
