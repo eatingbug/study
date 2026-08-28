@@ -205,6 +205,32 @@
     return (lo + hi) / 2;
   };
 
+
+  /**
+   * 일관성 점검 램프를 그린다 — 규칙 목록을 켜고 끄는 컴포넌트.
+   *
+   *   DCF.renderChecks(el, [
+   *     { rule: '방향', level: 'ok',   msg: '두 칸이 같은 세상을 가리킨다' },
+   *     { rule: '검산', level: 'warn', msg: '도출 환원율이 <b>58.7%</b>' }
+   *   ]);
+   *
+   * level은 'ok' | 'warn' | 'bad' | ''(중립). msg는 HTML을 허용한다
+   * (레슨이 직접 쓰는 문자열만 넣을 것 — 사용자 입력을 넣지 않는다).
+   * 스타일은 style.css의 .checks 에 있다.
+   */
+  DCF.renderChecks = function (container, checks) {
+    var el = typeof container === 'string'
+      ? document.querySelector(container) : container;
+    if (!el) return;
+    el.className = 'checks';
+    el.innerHTML = checks.map(function (c) {
+      return '<li class="' + (c.level || '') + '">' +
+             '<span class="lamp"></span>' +
+             '<span class="body"><span class="rule">' + c.rule + '</span>' +
+             '<span class="msg">' + c.msg + '</span></span></li>';
+    }).join('');
+  };
+
   /* ---------- formatting ---------- */
 
   DCF.fmt = function (n, digits) {
