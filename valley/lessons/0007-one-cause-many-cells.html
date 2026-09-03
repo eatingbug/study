@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>레슨 0007 — 배선된 것은 칸이 아니라 원인이다</title>
-<meta name="index-gloss" content="규칙 ①②를 외우지 않고 매번 다시 만들어 내는 법. 칸끼리 묶여 있는 것이 아니라 원인 하나가 여러 칸에 들어간다는 지도 하나로 두 규칙을 도출한다.">
+<meta name="index-gloss" content="일관성 규칙을 외우지 않고 매번 다시 만들어 내는 법. 칸끼리 묶여 있는 것이 아니라 원인 하나가 여러 칸에 들어간다는 지도 하나로 두 규칙을 도출한다.">
 <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
@@ -17,7 +17,7 @@
 
 <div class="note mission">
   <span class="label">이번 레슨의 한 가지 win</span>
-  <p>지도 하나로 규칙 ①과 ②를 <strong>도출</strong>할 수 있게 됩니다. 지도는 <em>원인 넷</em>과 <em>칸 넷</em>의 표 하나입니다.</p>
+  <p>지도 하나로 <strong>물가 일치 규칙</strong>과 <strong>방향 규칙</strong>을 <strong>도출</strong>할 수 있게 됩니다. 지도는 <em>원인 넷</em>과 <em>칸 넷</em>의 표 하나입니다.</p>
   <p>숙제 3번에서 실제로 쓰는 문장이 여기서 나옵니다. 방어는 “이 칸에 4.75%를 넣었다”가 아니라 <strong>“이 세상에서는 이것이 원인이므로, 이 칸과 저 칸이 함께 움직인다”</strong>의 모양이기 때문입니다.</p>
 </div>
 
@@ -29,7 +29,7 @@
   <h3>워밍업 3문항</h3>
 
   <div class="q" data-answer="1">
-    <p class="stem">장기 무위험수익률 <span class="num">10-2번</span>은 무엇 세 개의 합입니까?</p>
+    <p class="stem">장기 무위험수익률<span class="num">(10-2)</span>은 무엇 세 개의 합입니까?</p>
     <div class="opts">
       <button class="opt">중립 실질금리 + 기대 인플레이션 + 위험 프리미엄</button>
       <button class="opt">중립 실질금리 + 기대 인플레이션 + 기간 프리미엄</button>
@@ -41,7 +41,7 @@
   </div>
 
   <div class="q" data-answer="2">
-    <p class="stem">영구성장률 <span class="num">10-1번</span> 3.75%는 명목입니까, 실질입니까?</p>
+    <p class="stem">영구성장률<span class="num">(10-1)</span> 3.75%는 명목입니까, 실질입니까?</p>
     <div class="opts">
       <button class="opt">실질이다 — 물가를 이미 빼낸 성장률이다</button>
       <button class="opt">실질이다 — 이익은 물가와 무관하게 큰다</button>
@@ -53,7 +53,7 @@
   </div>
 
   <div class="q" data-answer="0">
-    <p class="stem">할인율 r은 <span class="num">10-2번</span>과 <span class="num">10-3번</span>을 어떻게 씁니까?</p>
+    <p class="stem">할인율 r은 장기 무위험수익률<span class="num">(10-2)</span>과 위험 프리미엄<span class="num">(10-3)</span>을 어떻게 씁니까?</p>
     <div class="opts">
       <button class="opt">두 값을 더해서 하나의 r로 쓴다</button>
       <button class="opt">두 값의 평균을 내어 r로 쓴다</button>
@@ -67,14 +67,52 @@
   <div class="score"></div>
 </div>
 
+<h2>0-1. 오늘 쓰는 규칙 넷 — 이름으로 부릅니다</h2>
+
+<p>레슨 0006에서 만든 일관성 규칙은 넷입니다. 아래가 전문이고, <strong>오늘부터 번호 대신 이름으로 부릅니다.</strong></p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>이름</th><th>규칙</th><th>어겼을 때 처리</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>물가 일치 규칙</strong></td>
+      <td>물가를 이유로 <strong>장기 무위험수익률<span class="num">(10-2)</span></strong>을 올렸다면 <strong>영구성장률<span class="num">(10-1)</span></strong>도 같이 올린다 — 둘 다에 기대 인플레이션이 들어 있다</td>
+      <td><strong>고친다</strong> (또는 “기간 프리미엄 상승으로 읽었다”고 밝힌다)</td>
+    </tr>
+    <tr>
+      <td><strong>방향 규칙</strong></td>
+      <td><strong>장기 무위험수익률<span class="num">(10-2)</span></strong>과 <strong>위험 프리미엄<span class="num">(10-3)</span></strong>이 같은 세계관을 가리키는가 — 대개 함께 오르고 함께 내린다</td>
+      <td>반대 방향이면 <strong>고친다</strong>, 한쪽만 움직였으면 <strong>이유를 적는다</strong></td>
+    </tr>
+    <tr>
+      <td><strong>검산 규칙</strong></td>
+      <td><code>1 − g ÷ ROE</code>로 도출된 주주환원율이 말이 되는가 (55~92% 밖이면 근거 필요)</td>
+      <td><strong>적는다</strong> — 입력하지 않았는데 정해진 가정이다</td>
+    </tr>
+    <tr>
+      <td><strong>상한 규칙</strong></td>
+      <td><code>g ≤ rf</code> — 어떤 자산도 경제보다 영원히 빨리 자랄 수 없고, rf가 명목 성장률의 대리값이다</td>
+      <td><strong>설명한다</strong> — 기간 프리미엄이 낮은 국면이면 방어된다</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note">
+  <span class="label">번호를 버린 이유 — 제 실수를 정리합니다</span>
+  <p>레슨 0006은 같은 규칙을 두 가지로 번호 매겼습니다. 본문의 <em>“와이어 ①②③”</em>과 점검기 램프의 <em>“규칙 ①②③”</em>이 서로 어긋나 있습니다 — 와이어 ①(물가)은 램프에 번호가 없고, 램프의 규칙 ①은 와이어 ②(방향)입니다.</p>
+  <p>완료 확인 때 제가 “규칙 ①”이라고 물은 것은 <strong>물가 일치 규칙</strong>, “규칙 ②”라고 물은 것은 <strong>방향 규칙</strong>이었습니다. 번호가 어긋난 질문이었으니, 헷갈린 것이 당연합니다. 앞으로 번호는 쓰지 않고 위 네 이름만 씁니다. 레슨 0006과 <a href="../reference/dcf-core.html">레퍼런스</a>에도 이름을 함께 적어 두었습니다.</p>
+</div>
+
 <h2>1. 지난 회상에서 어긋난 지점</h2>
 
-<p>레슨 0006 완료 후 회상 확인에서, 규칙 ②를 물었을 때 <strong>“서로 아무 관계가 없다”</strong>를 고르셨습니다. 그리고 규칙 ①도 확신 없이 맞혔다고 하셨습니다.</p>
+<p>번호 문제를 걷어내고 나면, 남는 것은 이렇습니다 — <strong>방향 규칙</strong>에 “서로 아무 관계가 없다”를 고르셨고, <strong>물가 일치 규칙</strong>은 확신 없이 맞혔습니다. 두 규칙 모두 아직 손에 없다는 뜻입니다.</p>
 
 <p>고른 답이 나온 자리는 짚어 볼 만합니다. 레슨 0006 §1의 표에 이렇게 썼습니다 —</p>
 
 <blockquote>
-  <p>뷰 모드: <strong>10-3번은 내가 정한다 — 묶여 있지 않다</strong></p>
+  <p>뷰 모드: <strong>위험 프리미엄(10-3)은 내가 정한다 — 묶여 있지 않다</strong></p>
 </blockquote>
 
 <p>그리고 같은 레슨 §2에서는 <strong>“세계관은 rf와 ERP를 같은 방향으로 끈다”</strong>고 했습니다. 두 문장을 나란히 놓으면 모순처럼 보입니다. <em>묶여 있지 않은데 같은 방향으로 간다?</em></p>
@@ -115,10 +153,10 @@
 <table class="cause-map">
   <thead><tr>
     <th>원인 (세상이 달라지는 이유)</th>
-    <th class="cell">10-1<br>g</th>
-    <th class="cell">10-2<br>rf</th>
-    <th class="cell">10-3<br>ERP</th>
-    <th class="cell">10-4<br>ROE</th>
+    <th class="cell">영구성장률 g<br><span class="num">(10-1)</span></th>
+    <th class="cell">장기 무위험수익률 rf<br><span class="num">(10-2)</span></th>
+    <th class="cell">위험 프리미엄 ERP<br><span class="num">(10-3)</span></th>
+    <th class="cell">장기 ROE ROE<br><span class="num">(10-4)</span></th>
   </tr></thead>
   <tbody>
     <tr>
@@ -143,15 +181,15 @@
 
 <p class="caption">A·B는 <code>rf = 중립 실질금리 + 기대 인플레 + 기간 프리미엄</code>의 두 항입니다 (<a href="0004-long-run-riskfree.html">레슨 0004</a>). D가 두 칸에 들어가는 것은 <code>g = ROE × 유보율</code>에서 옵니다 (<a href="0003-growth-identity.html">레슨 0003</a>) — 성장과 수익성은 같은 뿌리입니다.</p>
 
-<p>이제 규칙 ①②는 표의 <strong>행 두 개를 읽은 것</strong>일 뿐입니다.</p>
+<p>이제 두 규칙은 이 표의 <strong>행을 읽은 것</strong>일 뿐입니다.</p>
 
 <ul>
-  <li><strong>규칙 ①은 A행입니다.</strong> A는 g와 rf 두 칸에 표시가 있으므로, A를 이유로 들었다면 두 칸을 함께 올려야 합니다. rf만 올리면 <em>A를 원인이라 말하면서 B를 반영한 것</em>이 됩니다.</li>
-  <li><strong>규칙 ②는 A·C가 대개 함께 온다는 관찰입니다.</strong> 물가가 굳는 세상은 앞이 잘 안 보이는 세상이기도 합니다. C가 켜지면 ERP가 올라가므로, rf와 ERP가 같은 방향으로 갑니다. <strong>산술이 강제하는 게 아니라 원인을 공유해서</strong> 그렇습니다.</li>
+  <li><strong>물가 일치 규칙은 A행입니다.</strong> A는 g와 rf 두 칸에 표시가 있으므로, A를 이유로 들었다면 두 칸을 함께 올려야 합니다. rf만 올리면 <em>A를 원인이라 말하면서 B를 반영한 것</em>이 됩니다.</li>
+  <li><strong>방향 규칙은 A·C(또는 B·C)가 대개 함께 온다는 관찰입니다.</strong> 물가가 굳는 세상은 앞이 잘 안 보이는 세상이기도 합니다. C가 켜지면 ERP가 올라가므로, rf와 ERP가 같은 방향으로 갑니다. <strong>산술이 강제하는 게 아니라 원인을 공유해서</strong> 그렇습니다.</li>
 </ul>
 
 <div class="note">
-  <span class="label">그래서 규칙 ②의 빨간 램프가 뜻하는 것</span>
+  <span class="label">그래서 방향 규칙의 빨간 램프가 뜻하는 것</span>
   <p>rf를 올리고 ERP를 내린 시나리오는 <strong>A(또는 B)는 켜고 C는 끈 세상</strong>입니다. 불가능한 세상은 아닙니다 — 물가는 오르지만 불확실성은 줄어드는 국면이 있습니다. 다만 그건 <strong>드문 조합이라 이야기가 따로 필요합니다.</strong> 램프는 “틀렸다”가 아니라 “그 이야기를 안 썼다”는 표시입니다.</p>
 </div>
 
@@ -166,7 +204,7 @@
     <label><input type="checkbox" id="cB"> <strong>B. 기간 프리미엄 +1%p</strong> <span class="caption">→ rf만</span></label>
     <label><input type="checkbox" id="cC"> <strong>C. 위험 인식 +1%p</strong> <span class="caption">→ ERP만</span></label>
     <label><input type="checkbox" id="cD"> <strong>D. 실질 성장 +0.5%p</strong> <span class="caption">→ g와 ROE</span></label>
-    <label style="margin-top:0.4rem;padding-top:0.5rem;border-top:1px solid var(--rule)"><input type="checkbox" id="cBreak"> <strong>배선 끊기</strong> <span class="caption">— A를 켜도 g는 그대로 둔다 (규칙 ① 위반)</span></label>
+    <label style="margin-top:0.4rem;padding-top:0.5rem;border-top:1px solid var(--rule)"><input type="checkbox" id="cBreak"> <strong>배선 끊기</strong> <span class="caption">— A를 켜도 g는 그대로 둔다 (물가 일치 규칙 위반)</span></label>
   </div>
 
   <div class="readout" id="out"></div>
@@ -176,7 +214,7 @@
 <div class="note">
   <span class="label">해 볼 것 두 가지</span>
   <p><strong>1. A만 켜 보세요.</strong> rf가 5.3%로 올라가는데 적정가치는 6,225(−10.4%)에서 멈춥니다. 이제 <strong>배선 끊기</strong>를 함께 켜 보세요. rf는 똑같이 5.3%인데 5,839(−16.0%)로 더 떨어집니다. <strong>같은 rf인데 값이 다릅니다</strong> — g가 따라 올라갔는지가 이 차이를 만듭니다.</p>
-  <p><strong>2. B와 C를 함께 켜 보세요.</strong> 5,030(−27.6%)입니다. 한 칸만 움직인 −16.0%의 거의 두 배입니다. 규칙 ②를 지킨 세상이 얼마나 더 아픈지가 여기 보입니다 — 그리고 그것이 정직한 비관 시나리오의 모습입니다.</p>
+  <p><strong>2. B와 C를 함께 켜 보세요.</strong> 5,030(−27.6%)입니다. 한 칸만 움직인 −16.0%의 거의 두 배입니다. 방향 규칙을 지킨 세상이 얼마나 더 아픈지가 여기 보입니다 — 그리고 그것이 정직한 비관 시나리오의 모습입니다.</p>
 </div>
 
 <h3>원인별 무게</h3>
@@ -207,7 +245,7 @@
   </div>
 
   <div class="row" data-answer="5030" data-tol="15">
-    <span class="ask">B와 C를 함께 +1%p 하면? (규칙 ② 준수)</span>
+    <span class="ask">B와 C를 함께 +1%p 하면? (방향 규칙 준수)</span>
     <input type="text" inputmode="decimal">
     <span class="unit">포인트</span>
     <span class="mark"></span>
@@ -223,13 +261,13 @@
 
 <div class="note">
   <span class="label">되말하기 — 채팅으로 한 줄 주세요</span>
-  <p>규칙 ②를 <strong>원인의 언어로</strong> 다시 말해 보세요. “~때문에 ~이다” 두 절로 부탁합니다. 칸 번호(10-2, 10-3)를 쓰지 않고 원인 이름(A~D)으로 쓰면 더 좋습니다.</p>
+  <p><strong>방향 규칙</strong>을 <strong>원인의 언어로</strong> 다시 말해 보세요. “~때문에 ~이다” 두 절로 부탁합니다. 칸 번호(10-2, 10-3)를 쓰지 않고 원인 이름(A~D)으로 쓰면 더 좋습니다.</p>
   <p>그리고 하나 더 — 내 시나리오 셋 중 <strong>가장 비관적인 세상에서 켜지는 원인</strong>이 무엇인지 A~D로 골라 주세요. 다음 레슨의 출발점으로 쓰겠습니다.</p>
 </div>
 
 <h2>1차 자료</h2>
 
-<p><a href="https://pages.stern.nyu.edu/~adamodar/pdfiles/eqnotes/valpacket1spr26.pdf">Damodaran, <em>Valuation 강의 패킷 1</em> (Spring 2026)</a> — 오늘의 규약이 여기서 옵니다. 다모다란이 “일관성(consistency)”이라 부르는 원칙: <strong>현금흐름과 할인율은 같은 통화·같은 물가 기준이어야 한다.</strong> 명목 EPS를 명목 r로 할인하고 명목 g로 키우는 것이 그 적용이고, 규칙 ①은 그 원칙을 시나리오 세 벌로 확장한 것입니다. 할인율 부분(Cost of Capital)만 읽어도 충분합니다.</p>
+<p><a href="https://pages.stern.nyu.edu/~adamodar/pdfiles/eqnotes/valpacket1spr26.pdf">Damodaran, <em>Valuation 강의 패킷 1</em> (Spring 2026)</a> — 오늘의 규약이 여기서 옵니다. 다모다란이 “일관성(consistency)”이라 부르는 원칙: <strong>현금흐름과 할인율은 같은 통화·같은 물가 기준이어야 한다.</strong> 명목 EPS를 명목 r로 할인하고 명목 g로 키우는 것이 그 적용이고, 물가 일치 규칙은 그 원칙을 시나리오 세 벌로 확장한 것입니다. 할인율 부분(Cost of Capital)만 읽어도 충분합니다.</p>
 
 <p class="caption">이 문서는 <a href="../RESOURCES.md">RESOURCES.md</a>에 수집 시점에 확인해 둔 것이고, 이 레슨을 쓰는 동안에는 네트워크 정책으로 다시 열어 보지 못했습니다. 본문의 숫자는 전부 재현 모델로 계산해 표시했습니다.</p>
 
@@ -243,7 +281,7 @@
 <div class="footer">
   <h3>이어지는 곳</h3>
   <ul>
-    <li><a href="0006-scenario-consistency.html">← 레슨 0006 — 시나리오는 세 개의 세상이다 (규칙 ①②③의 출처)</a></li>
+    <li><a href="0006-scenario-consistency.html">← 레슨 0006 — 시나리오는 세 개의 세상이다 (네 규칙의 출처)</a></li>
     <li><a href="0004-long-run-riskfree.html">레슨 0004 — 무위험수익률 3분해 (원인 A·B의 출처)</a></li>
     <li><a href="0003-growth-identity.html">레슨 0003 — g = ROE × 유보율 (원인 D의 출처)</a></li>
     <li><a href="0005-equity-risk-premium.html">레슨 0005 — 내재 ERP는 잔차다 (§2와 같은 성질)</a></li>
@@ -314,10 +352,10 @@
     var anyOn = on.A || on.B || on.C || on.D;
 
     el.out.innerHTML =
-      cell('10-2번 rf', DCF.pct(r.s.riskFree, 2), r.touched.rf) +
-      cell('10-3번 ERP', DCF.pct(r.s.erp, 2), r.touched.erp) +
-      cell('10-1번 g', DCF.pct(r.s.g, 2), r.touched.g) +
-      cell('10-4번 ROE', DCF.pct(r.s.roe, 1), r.touched.roe) +
+      cell('장기 무위험수익률 rf (10-2)', DCF.pct(r.s.riskFree, 2), r.touched.rf) +
+      cell('위험 프리미엄 ERP (10-3)', DCF.pct(r.s.erp, 2), r.touched.erp) +
+      cell('영구성장률 g (10-1)', DCF.pct(r.s.g, 2), r.touched.g) +
+      cell('장기 ROE (10-4)', DCF.pct(r.s.roe, 1), r.touched.roe) +
       cell('합 r', DCF.pct(out.r, 2), r.touched.rf || r.touched.erp) +
       cell('r − g', DCF.pct(out.r - r.s.g, 2), false) +
       cell('적정가치', DCF.fmt(out.total, 0), anyOn) +
@@ -326,23 +364,23 @@
     var checks = [];
 
     if (on.A && on.breakWire) {
-      checks.push({ rule: '규칙 ① 배선', level: 'warn',
+      checks.push({ rule: '물가 일치 규칙 — A는 rf와 g 둘 다', level: 'warn',
         msg: 'A(기대 인플레)를 원인으로 들면서 <strong>g는 그대로</strong> 두었습니다. ' +
              '실질 이익 성장이 1%p 낮아진 세상을 함께 가정한 것이 됩니다 — ' +
              '배선을 지킨 6,225와의 차이 ' + DCF.fmt(6225 - out.total, 0) + '포인트가 그 가정의 값입니다.' });
     } else if (on.A) {
-      checks.push({ rule: '규칙 ① 배선', level: 'ok',
+      checks.push({ rule: '물가 일치 규칙 — A는 rf와 g 둘 다', level: 'ok',
         msg: 'A를 rf와 g 양쪽에 반영했습니다. <code>r − g</code>가 ' + DCF.pct(out.r - r.s.g, 2) +
              '로 기준(5.35%)에 가깝게 유지됩니다 — 종료가치의 분모는 물가에 중립입니다.' });
     }
 
     if ((on.A || on.B) && !on.C) {
-      checks.push({ rule: '규칙 ② 원인 공유', level: 'warn',
+      checks.push({ rule: '방향 규칙 — rf와 ERP가 같은 세상인가', level: 'warn',
         msg: '국채에 요구를 늘렸는데 <strong>주식에는 늘리지 않았습니다</strong>. ' +
              'C(위험 인식)가 꺼진 세상이므로 불가능하지는 않지만, ' +
              '“물가는 오르는데 불확실성은 그대로”라는 이야기를 한 줄 적어야 방어됩니다.' });
     } else if ((on.A || on.B) && on.C) {
-      checks.push({ rule: '규칙 ② 원인 공유', level: 'ok',
+      checks.push({ rule: '방향 규칙 — rf와 ERP가 같은 세상인가', level: 'ok',
         msg: '금리 쪽 원인과 위험 쪽 원인을 함께 켰습니다. 두 칸이 같은 세계관을 가리킵니다.' });
     }
 
@@ -377,7 +415,7 @@
         pct: only({ B: true }), note: DCF.fmt(value(apply({ B: true }).s).total, 0) },
       { label: '<strong>C</strong> 위험 인식 +1%p <span class="caption">ERP</span>',
         pct: only({ C: true }), note: DCF.fmt(value(apply({ C: true }).s).total, 0) },
-      { label: '<strong>B+C</strong> 함께 <span class="caption">규칙 ② 준수</span>',
+      { label: '<strong>B+C</strong> 함께 <span class="caption">방향 규칙 준수</span>',
         pct: only({ B: true, C: true }), note: DCF.fmt(value(apply({ B: true, C: true }).s).total, 0) },
       { label: '<strong>D</strong> 실질 성장 +0.5%p <span class="caption">g·ROE</span>',
         pct: only({ D: true }), note: DCF.fmt(value(apply({ D: true }).s).total, 0) }
