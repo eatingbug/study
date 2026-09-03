@@ -91,7 +91,7 @@
 
 <div class="note">
   <span class="label">함정 ② — g는 r보다 작아야 한다</span>
-  <p>분모가 <span class="num">r − g</span>입니다. g가 r에 가까워질수록 분모는 0으로 가고, 종료가치는 무한대로 폭발합니다. <strong>g ≥ r이면 모형 자체가 깨집니다.</strong> "영원히 할인율보다 빠르게 성장하는 자산"은 값이 무한대라는 뜻이니까요. 아래 슬라이더로 직접 폭발시켜 보세요.</p>
+  <p>분모가 <span class="num">r − g</span>입니다. g가 r에 가까워질수록 분모는 0으로 가고 종료가치는 무한대로 폭발합니다. <strong>g ≥ r이면 모형 자체가 깨집니다.</strong> "영원히 할인율보다 빠르게 성장하는 자산"은 값이 무한대라는 뜻이니까요. 아래 슬라이더로 직접 폭발시켜 보세요.</p>
 </div>
 
 <h2>3. 직접 움직여 보기</h2>
@@ -100,7 +100,7 @@
 
 <div class="widget">
   <h3>2단 구조 계산기</h3>
-  <p class="caption">할인율 r은 <span class="num">9.10%</span>로 고정했습니다 (칼럼의 <em>현상 유지</em> 시나리오: 무위험수익률 4.3% + ERP 4.8%). 1년차 현금흐름을 100으로 두고, 3년차까지는 컨센서스대로 연 <span class="num">12%</span> 성장, 그 뒤로는 영구성장률 g까지 <strong>선형으로 수렴</strong>시킵니다 — 월가아재가 "n = 4~10에 걸쳐 영구성장률에 수렴하도록 한다"고 한 그 경로입니다.</p>
+  <p class="caption">할인율 r은 <span class="num">9.10%</span>로 고정했습니다 (칼럼의 <em>현상 유지</em> 시나리오: 무위험수익률 4.3% + ERP 4.8%). 1년차 현금흐름을 100으로 두고 3년차까지는 컨센서스대로 연 <span class="num">12%</span> 성장, 그 뒤로는 영구성장률 g까지 <strong>선형으로 수렴</strong>시킵니다 — 월가아재가 "n = 4~10에 걸쳐 영구성장률에 수렴하도록 한다"고 한 그 경로입니다.</p>
 
   <div class="control">
     <label for="n"><span>근미래 파트 길이 n</span><span class="val" data-for="n">3년</span></label>
@@ -123,7 +123,7 @@
     <div class="metric"><span class="k">총 적정가치</span><span class="v" id="total">—</span></div>
   </div>
 
-  <p class="caption" style="margin:1rem 0 0">※ 구조를 보여 주는 예시 모델입니다. Valley AI의 Index DCF를 재현한 것이 아니고, 칼럼의 9,513 / 6,710 / 5,407을 여기서 얻으려 하지 마세요. 여기서 가져갈 것은 <strong>숫자가 아니라 비중의 거동</strong>입니다.</p>
+  <p class="caption" style="margin:1rem 0 0">※ 구조를 보여 주는 예시 모델입니다. Valley AI의 Index DCF를 재현한 것이 아니고 칼럼의 9,513 / 6,710 / 5,407을 여기서 얻으려 하지 마세요. 여기서 가져갈 것은 <strong>숫자가 아니라 비중의 거동</strong>입니다.</p>
 </div>
 
 <h3>손잡이 하나씩 확인해 볼 것</h3>
@@ -132,7 +132,7 @@
   <li><strong>기본값(n=3, g=3.75%)에서 종료가치 비중을 보세요.</strong> 약 <span class="num">87%</span>입니다. 3년치를 아무리 정성껏 추정해도 그건 전체의 13%입니다.</li>
   <li><strong>g를 3.75%에서 4.75%로 올려 보세요.</strong> 1%p 올렸을 뿐인데 총 가치가 크게 뜁니다. 분모 <span class="num">r − g</span>가 5.35에서 4.35로 <em>19% 줄어들기</em> 때문입니다. g가 한 칸 움직일 때의 파괴력이 EPS 추정치 한 칸과 비교가 안 됩니다.</li>
   <li><strong>g를 계속 올려 9.1%를 넘겨 보세요.</strong> r = 9.1%에 닿는 순간 분모가 0 이하가 되고 값이 <span class="num">∞</span>로 터집니다. 함정 ②의 실물입니다. 넘기기 직전 8~9% 구간에서 값이 어떻게 폭주하는지도 함께 보세요.</li>
-  <li><strong>g를 3.75%로 돌려놓고, 이번엔 n을 3에서 10으로 끌어 보세요.</strong> 종료가치 비중이 <span class="num">87%</span>에서 <span class="num">64%</span> 근처까지 <em>내려갑니다</em>. 그리고 총 가치는 <em>올라갑니다</em>.</li>
+  <li><strong>g를 3.75%로 돌려놓고 이번엔 n을 3에서 10으로 끌어 보세요.</strong> 종료가치 비중이 <span class="num">87%</span>에서 <span class="num">64%</span> 근처까지 <em>내려갑니다</em>. 그리고 총 가치는 <em>올라갑니다</em>.</li>
 </ol>
 
 <p>네 번째가 오늘의 진짜 발견입니다. 다음 절에서 정면으로 봅니다.</p>
@@ -166,7 +166,7 @@
 
 <p><em>"종료가치가 87%를 차지한다 → 그러니 근미래 파트는 대충 해도 된다."</em></p>
 
-<p>다모다란은 이것을 <strong>위험한 논리적 비약(a dangerous leap of logic)</strong>이라고 부릅니다. 이유는 계산기를 다시 보면 바로 보입니다. 종료가치 공식의 출발점은 <span class="num">CF<sub>n</sub></span>, 즉 <strong>근미래 파트의 마지막 해 현금흐름</strong>입니다. 근미래 경로를 대충 그리면 그 오차가 그대로 종료가치에 <em>곱해져서</em> 들어갑니다. 종료가치가 클수록, 그것을 떠받치는 근미래 가정의 무게도 같이 커집니다.</p>
+<p>다모다란은 이것을 <strong>위험한 논리적 비약(a dangerous leap of logic)</strong>이라고 부릅니다. 이유는 계산기를 다시 보면 바로 보입니다. 종료가치 공식의 출발점은 <span class="num">CF<sub>n</sub></span>, 즉 <strong>근미래 파트의 마지막 해 현금흐름</strong>입니다. 근미래 경로를 대충 그리면 그 오차가 그대로 종료가치에 <em>곱해져서</em> 들어갑니다. 종료가치가 클수록 그것을 떠받치는 근미래 가정의 무게도 같이 커집니다.</p>
 
 <p>그리고 다모다란은 종료가치 비중이 큰 것 자체는 결함이 아니라고 못박습니다.</p>
 
@@ -211,7 +211,7 @@
       <button class="opt">높아진다</button>
       <button class="opt">유지된다</button>
     </div>
-    <div class="why">한 해씩 구체적으로 추정하는 구간이 길어질수록 그 구간이 담는 가치가 커지고, 종료가치의 몫은 줄어듭니다. 그래서 "종료가치가 80~90%"는 <strong>상수가 아니라 n의 함수</strong>입니다. 칼럼의 "10~20%"는 n=3~5를 전제로 한 수치입니다.</div>
+    <div class="why">한 해씩 구체적으로 추정하는 구간이 길어질수록 그 구간이 담는 가치가 커지고 종료가치의 몫은 줄어듭니다. 그래서 "종료가치가 80~90%"는 <strong>상수가 아니라 n의 함수</strong>입니다. 칼럼의 "10~20%"는 n=3~5를 전제로 한 수치입니다.</div>
   </div>
 
   <div class="q" data-answer="1">
