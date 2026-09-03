@@ -328,5 +328,54 @@
     container.appendChild(legend);
   };
 
+
+  /**
+   * 토네이도 — 기준값 대비 변화율을 좌우로 뻗는 가로 막대로 보여 준다.
+   * 민감도(L0007·L0008)에서 "어느 칸이 가장 무거운가"를 한눈에 보는 용도.
+   *
+   *   DCF.drawTornado(el, [{ label: '기간 프리미엄 +1%p', pct: -16.0, note: '5,839' }], { max: 30 });
+   *
+   * pct는 백분율 숫자(−16.0). max를 주지 않으면 값들의 최대 절대값으로 스케일한다.
+   */
+  DCF.drawTornado = function (container, rows, opts) {
+    var o = opts || {};
+    var max = o.max || Math.max.apply(null, rows.map(function (r) {
+      return Math.abs(isFinite(r.pct) ? r.pct : 0);
+    }).concat([1]));
+
+    container.innerHTML = '';
+    container.className = 'tornado';
+
+    rows.forEach(function (r) {
+      var pct = isFinite(r.pct) ? r.pct : 0;
+      var share = Math.min(1, Math.abs(pct) / max);
+
+      var row = document.createElement('div');
+      row.className = 'trow' + (r.dim ? ' dim' : '');
+
+      var name = document.createElement('div');
+      name.className = 'tname';
+      name.innerHTML = r.label;
+
+      var track = document.createElement('div');
+      track.className = 'ttrack';
+
+      var bar = document.createElement('div');
+      bar.className = 'tbar ' + (pct < 0 ? 'neg' : 'pos');
+      bar.style.width = (share * 50) + '%';
+      track.appendChild(bar);
+
+      var val = document.createElement('div');
+      val.className = 'tval';
+      val.textContent = (pct > 0 ? '+' : '') + pct.toFixed(1) + '%' +
+        (r.note ? '  (' + r.note + ')' : '');
+
+      row.appendChild(name);
+      row.appendChild(track);
+      row.appendChild(val);
+      container.appendChild(row);
+    });
+  };
+
   global.DCF = DCF;
 })(window);

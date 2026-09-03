@@ -357,6 +357,63 @@
 
 <p class="caption" style="font-size:0.85rem;color:var(--ink-faint)">균등 확률은 <em>중립</em>이 아니라 "세 세상이 똑같이 그럴듯하다"는 하나의 주장이다. 시나리오는 <strong>서너 개까지</strong>가 실용 범위이고, 넷째부터는 확률을 정직하게 부여할 수 없어 가중평균이 그냥 평균이 된다.</p>
 
+<h2>7-2. 원인 → 칸 지도 <span class="tag">L0007</span></h2>
+
+<p><strong>칸끼리 배선된 것이 아니라, 원인 하나가 여러 칸에 들어간다.</strong> 시나리오를 만들 때는 칸을 정하지 말고 <em>원인</em>을 정한 뒤, 그 원인이 닿는 칸을 전부 따라간다. 규칙 ①②③은 이 표의 행을 읽은 결과다.</p>
+
+<div class="scroll-x">
+<table class="cause-map">
+  <thead><tr>
+    <th>원인</th>
+    <th class="cell">10-1 g</th>
+    <th class="cell">10-2 rf</th>
+    <th class="cell">10-3 ERP</th>
+    <th class="cell">10-4 ROE</th>
+    <th>근거</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>A. 기대 인플레이션</strong></td>
+      <td class="hit">↑</td><td class="hit">↑</td><td class="miss">·</td><td class="miss">·</td>
+      <td>rf·g 양쪽에 같은 항이 있다 (§5, §4)</td>
+    </tr>
+    <tr>
+      <td><strong>B. 기간 프리미엄</strong><br><span class="caption">재정 적자·국채 수급</span></td>
+      <td class="miss">·</td><td class="hit">↑</td><td class="miss">·</td><td class="miss">·</td>
+      <td>rf의 세 번째 항 (§5)</td>
+    </tr>
+    <tr>
+      <td><strong>C. 위험 인식</strong></td>
+      <td class="miss">·</td><td class="miss">·</td><td class="hit">↑</td><td class="miss">·</td>
+      <td>ERP의 정의 (§6)</td>
+    </tr>
+    <tr>
+      <td><strong>D. 실질 성장·수익성</strong></td>
+      <td class="hit">↑</td><td class="miss">·</td><td class="miss">·</td><td class="hit">↑</td>
+      <td><code>g = ROE × 유보율</code> (§3)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>모형은 칸을 구별하지 못한다.</strong> 들어가는 것은 합 <code>r</code> 하나뿐이다 — 현상 유지에서 <em>rf만 +1%p</em>, <em>ERP만 +1%p</em>, <em>rf −1%p와 ERP +2%p</em>가 모두 r 10.10% · 적정가치 <strong>5,839</strong>로 같다. 그러니 두 칸을 나눠 적는 이유는 계산이 아니라 <strong>독자에게 근거를 보이는 것</strong>이다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>원인 +1%p (현상 유지 6,950 기준)</th><th>움직이는 칸</th><th class="n">적정가치</th><th class="n">변화</th></tr></thead>
+  <tbody>
+    <tr><td>A 기대 인플레</td><td>rf · g</td><td class="n">6,225</td><td class="n">−10.4%</td></tr>
+    <tr><td>A를 rf에만 <span class="caption">규칙 ① 위반</span></td><td>rf</td><td class="n">5,839</td><td class="n">−16.0%</td></tr>
+    <tr><td>B 기간 프리미엄</td><td>rf</td><td class="n">5,839</td><td class="n">−16.0%</td></tr>
+    <tr><td>C 위험 인식</td><td>ERP</td><td class="n">5,839</td><td class="n">−16.0%</td></tr>
+    <tr><td><strong>B + C 함께</strong> <span class="caption">규칙 ② 준수</span></td><td>rf · ERP</td><td class="n"><strong>5,030</strong></td><td class="n"><strong>−27.6%</strong></td></tr>
+    <tr><td>D 실질 성장 +0.5%p</td><td>g · ROE</td><td class="n">7,337</td><td class="n">+5.6%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="caption" style="font-size:0.85rem;color:var(--ink-faint)">A가 B·C보다 덜 아픈 것은 <code>r</code>과 <code>g</code>를 함께 밀어 <code>r − g</code>를 보존하기 때문이다 — 물가는 분자와 분모를 같이 올린다. 반대로 <strong>규칙 ②를 지킨 세상은 한 칸만 움직인 경우의 거의 두 배로 아프다.</strong> 배선을 지키는 것은 깔끔해지는 일이 아니라 결론이 달라지는 일이다.</p>
+
 <h2>8. 입력칸 체크리스트</h2>
 
 <div class="scroll-x">
