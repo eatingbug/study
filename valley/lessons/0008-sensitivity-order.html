@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레슨 0008 — 방어 순서는 민감도 순서다</title>
+<meta name="index-gloss" content="일곱 개의 가정을 같은 눈금으로 흔들어 순위를 매긴다. 그리고 그 순위가 r − g 하나로 어림된다는 것 — 표 없이도 머릿속에서 민감도를 계산하는 법.">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">Lesson 0008 · Week 9 · Index DCF</p>
+  <h1>방어 순서는 민감도 순서다</h1>
+  <p class="standfirst">가정은 일곱 개인데 리포트에서 각각에 쓸 수 있는 건 한두 줄입니다. <strong>어느 것부터 방어할 것인가</strong> — 오늘은 그 순서를 숫자로 정합니다. 그리고 그 순서가 <strong>딱 하나의 숫자</strong>에서 나온다는 것을 봅니다.</p>
+</header>
+
+<div class="note mission">
+  <span class="label">이번 레슨의 한 가지 win</span>
+  <p>일곱 칸을 같은 눈금으로 흔들어 <strong>토네이도</strong>를 얻고, 그 결과를 <strong><code>r − g</code> 하나로 암산</strong>할 수 있게 됩니다. 표를 다시 열지 않아도 “이 가정을 0.5%p 틀리면 몇 %”가 나옵니다.</p>
+  <p>숙제 3번에서 이게 하는 일: <strong>지면 배분</strong>입니다. 값이 거의 안 움직이는 가정에 세 줄을 쓰고 압도적인 가정에 한 줄을 쓰면, 방어가 아니라 장식이 됩니다.</p>
+</div>
+
+<h2>0. 시작 전 — 지난 레슨 회상</h2>
+
+<p>오늘은 <a href="0007-one-cause-many-cells.html">레슨 0007</a>의 지도 위에서 움직입니다. 지도가 손에 있는지 먼저 확인합니다.</p>
+
+<div class="quiz" data-quiz>
+  <h3>워밍업 3문항</h3>
+
+  <div class="q" data-answer="0">
+    <p class="stem">원인 A(기대 인플레이션)가 <strong>+1%p 굳는</strong> 세상에서 함께 움직이는 칸은?</p>
+    <div class="opts">
+      <button class="opt">영구성장률 + 장기 무위험수익률</button>
+      <button class="opt">위험 프리미엄 + 근미래 환원율</button>
+      <button class="opt">장기 ROE + EPS 컨센서스</button>
+    </div>
+    <div class="why">
+      A는 <code>rf = 중립 실질금리 + <strong>기대 인플레</strong> + 기간 프리미엄</code>의 가운데 항이면서, 동시에 <code>g = 실질 성장 + <strong>기대 인플레</strong></code>의 가운데 항입니다. 그래서 두 칸에 동시에 들어갑니다 — 이것이 <strong>물가 일치 규칙</strong>입니다.
+    </div>
+  </div>
+
+  <div class="q" data-answer="1">
+    <p class="stem">장기 무위험수익률과 위험 프리미엄이 <strong>대개 같은 방향</strong>으로 가는 이유는?</p>
+    <div class="opts">
+      <button class="opt">한 칸이 다른 칸을 계산으로 정하기 때문에</button>
+      <button class="opt">두 칸 미는 원인이 대개 같이 오기 때문에</button>
+      <button class="opt">할인율이 둘의 합으로 정의되어 있기 때문에</button>
+    </div>
+    <div class="why">
+      <strong>방향 규칙</strong>입니다. 물가가 굳거나(A) 재정이 국채를 밀어내는(B) 세상은 앞이 잘 안 보이는 세상(C)이기도 합니다. A·B가 rf를 밀고 C가 ERP를 미는데 <strong>이 원인들이 대개 함께 켜지므로</strong> 두 칸이 같이 움직입니다. 산술이 강제하는 게 아닙니다 — <code>r = rf + ERP</code>라는 정의는 <em>합을 어떻게 쓰는지</em>만 말할 뿐, 두 항이 함께 움직일 이유를 주지 않습니다.
+    </div>
+  </div>
+
+  <div class="q" data-answer="2">
+    <p class="stem"><code>rf 4.3 + ERP 4.8</code>과 <code>rf 3.3 + ERP 5.8</code>의 적정가치는?</p>
+    <div class="opts">
+      <button class="opt">다르다 — 칸마다 가중치가 있다</button>
+      <button class="opt">다르다 — rf가 더 세게 든다</button>
+      <button class="opt">같다 — 모형은 합 하나만 본다</button>
+    </div>
+    <div class="why">
+      둘 다 <code>r = 9.10%</code>, 값은 <strong>6,950으로 완전히 같습니다.</strong> 모형은 합만 봅니다. 그래서 두 칸을 나눠 적는 이유는 계산이 아니라 <strong>읽는 사람에게 근거를 보이기 위해서</strong>입니다. 오늘 §3의 어림자는 바로 이 성질 위에 서 있습니다.
+    </div>
+  </div>
+
+  <div class="score"></div>
+</div>
+
+<h2>1. 님의 비관 시나리오에서 출발합니다</h2>
+
+<p>지난 레슨 끝에 “가장 비관적인 세상에서 켜지는 원인”을 <strong>B(기간 프리미엄)</strong> 하나로 고르셨습니다. 재정 적자와 국채 수급이 장기채를 들고 있는 대가를 키우는 세상입니다. 지도상 B는 <strong>장기 무위험수익률<span class="num">(10-2)</span>만</strong> 밀고 위험 프리미엄<span class="num">(10-3)</span>은 건드리지 않습니다.</p>
+
+<ul class="checks" id="lamp"></ul>
+
+<p>램프가 노랑입니다. <strong>틀린 게 아니라 한 줄이 필요한 자리</strong>입니다 — 국채 수급은 나빠지는데 주식 투자자의 위험 인식은 그대로인 세상을 주장한 것이니까요. 그리고 그 한 줄을 쓰느냐 마느냐가 숫자를 이만큼 바꿉니다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>비관 시나리오의 모양</th><th>움직이는 칸</th><th>적정가치</th><th>현상 유지 6,950 대비</th></tr></thead>
+  <tbody>
+    <tr><td><strong>B만</strong> — 기간 프리미엄 +1%p</td><td>rf</td><td>5,839</td><td>−16.0%</td></tr>
+    <tr><td><strong>B + C</strong> — 위험 인식도 함께</td><td>rf · ERP</td><td>5,030</td><td><strong>−27.6%</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>같은 “비관”인데 폭이 거의 두 배입니다. 그러니 <strong>C를 켤지 말지가 이 리포트에서 가장 무거운 판단 중 하나</strong>이고, 그 판단을 왜 내렸는지가 숙제 3번의 문장이 됩니다.</p>
+
+<h2>2. 일곱 칸을 같은 눈금으로 흔든다</h2>
+
+<p>민감도의 함정은 <strong>눈금이 다르면 순위가 거짓말을 한다</strong>는 것입니다. rf를 5%p 흔들고 ROE를 0.1%p 흔들면 당연히 rf가 이깁니다. 그래서 각 칸을 <em>“내가 실제로 이만큼 틀릴 수 있다”</em>는 폭으로 맞춰 흔듭니다.</p>
+
+<div class="widget">
+  <div class="tornado" id="tor"></div>
+  <p class="caption">현상 유지(6,950) 기준, 각 입력을 <strong>불리한 쪽으로 한 단위</strong> 움직였을 때의 변화율. 재현 모델 <code>DCF.indexDCF</code> 기준이므로 <strong>절대값이 아니라 폭을 보세요</strong> — Valley AI 화면의 값과 몇 % 다를 수 있습니다.</p>
+</div>
+
+<p>세 가지가 보입니다.</p>
+
+<ul>
+  <li><strong>할인율 두 칸이 나머지 전부를 합친 것보다 무겁습니다.</strong> 그리고 둘은 완전히 같은 무게입니다(둘 다 −16.0%) — 모형이 합만 보기 때문입니다.</li>
+  <li><strong>EPS 컨센서스가 두 번째입니다.</strong> 3년치 EPS를 통째로 5% 틀리는 것이 <strong>rf를 0.3%p 틀리는 것과 같습니다.</strong> 애널리스트 컨센서스를 그대로 쓰는 것이 겸손해 보이지만, 실은 여기에 −5%의 여지가 들어 있습니다.</li>
+  <li><strong>장기 ROE<span class="num">(10-4)</span>와 근미래 주주환원율은 거의 안 움직입니다</strong>(−2%대). 이 두 칸에 리포트 지면을 많이 쓰면 손해입니다.</li>
+</ul>
+
+<h2>3. 어림자 — <code>r − g</code> 하나면 된다</h2>
+
+<p>토네이도를 매번 다시 그릴 필요는 없습니다. 값의 대부분(현상 유지에서 <strong>61%</strong>)은 종료가치이고, 종료가치는 <code>1 ÷ (r − g)</code>에 비례하기 때문입니다(<a href="0002-two-part-structure.html">레슨 0002</a>). 그래서:</p>
+
+<p class="formula">변화율 ≈ (바꾸기 전 <code>r − g</code>) ÷ (바꾼 뒤 <code>r − g</code>) − 1</p>
+
+<p>현상 유지의 <code>r − g</code>는 <code>9.10 − 3.75 = 5.35%p</code>입니다. 여기에 rf를 1%p 올리면 분모가 6.35%p가 되므로 <code>5.35 ÷ 6.35 − 1 = −15.7%</code>. 실제는 −16.0%였습니다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>흔든 것</th><th>바뀐 <code>r − g</code></th><th>어림자</th><th>실제</th></tr></thead>
+  <tbody>
+    <tr><td>rf +1%p</td><td>6.35%p</td><td>−15.7%</td><td>−16.0%</td></tr>
+    <tr><td>rf +0.5%p</td><td>5.85%p</td><td>−8.5%</td><td>−8.7%</td></tr>
+    <tr><td>ERP +1%p</td><td>6.35%p</td><td>−15.7%</td><td>−16.0%</td></tr>
+    <tr><td>rf −1%p</td><td>4.35%p</td><td>+23.0%</td><td><strong>+23.3%</strong></td></tr>
+    <tr><td>B + C 각 +1%p</td><td>7.35%p</td><td>−27.2%</td><td>−27.6%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note">
+  <span class="label">여기서 비대칭이 나옵니다</span>
+  <p>rf를 <strong>1%p 올리면 −16.0%인데 1%p 내리면 +23.3%</strong>입니다. 대칭이 아닙니다. 어림자를 보면 이유가 바로 보입니다 — 분모가 <strong>나눗셈에 들어가</strong>기 때문입니다. 5.35를 6.35로 나누는 것과 4.35로 나누는 것은 크기가 다릅니다.</p>
+  <p>실무적 함의: <strong>금리가 낮은 세상일수록 밸류에이션이 금리에 더 민감합니다.</strong> <code>r − g</code>가 작을수록 같은 1%p가 더 크게 아픕니다. 이것이 §5에서 시나리오마다 아픔이 다른 이유이기도 합니다.</p>
+</div>
+
+<div class="widget">
+  <h3>어림자 시험대</h3>
+  <p class="caption">슬라이더를 움직이면 <strong>어림자</strong>와 <strong>전체 모형</strong>이 나란히 나옵니다. 둘이 벌어지는 자리를 찾아보세요 — 그게 §4입니다.</p>
+
+  <div class="control">
+    <label for="sRf">장기 무위험수익률 rf<span class="num">(10-2)</span></label>
+    <input type="range" id="sRf" min="2.0" max="7.0" step="0.1" value="4.3">
+    <span class="readout" data-for="sRf"></span>
+  </div>
+  <div class="control">
+    <label for="sErp">위험 프리미엄 ERP<span class="num">(10-3)</span></label>
+    <input type="range" id="sErp" min="2.0" max="8.0" step="0.1" value="4.8">
+    <span class="readout" data-for="sErp"></span>
+  </div>
+  <div class="control">
+    <label for="sG">영구성장률 g<span class="num">(10-1)</span></label>
+    <input type="range" id="sG" min="1.5" max="5.5" step="0.05" value="3.75">
+    <span class="readout" data-for="sG"></span>
+  </div>
+
+  <div id="approxOut" class="verdict"></div>
+</div>
+
+<h2>4. 어림자가 빗나가는 한 자리 — 영구성장률</h2>
+
+<p>슬라이더에서 <strong>g만</strong> 움직여 보면 두 숫자가 벌어집니다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>g</th><th>도출된 종료 주주환원율</th><th>어림자</th><th>실제</th></tr></thead>
+  <tbody>
+    <tr><td>3.25%</td><td>75.0%</td><td>−8.5%</td><td>−3.8%</td></tr>
+    <tr><td>3.75% (기준)</td><td>71.2%</td><td>—</td><td>—</td></tr>
+    <tr><td>4.25%</td><td>67.3%</td><td>+10.3%</td><td><strong>+4.4%</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>어림자가 <strong>두 배 넘게 과장</strong>합니다. 이유는 <a href="0003-growth-identity.html">레슨 0003</a>의 항등식입니다 — <code>주주환원율 = 1 − g ÷ ROE</code>. g를 올리면 분모 <code>r − g</code>가 줄어 값이 오르지만, <strong>같은 g가 종료 환원율을 깎아</strong> 나눠지는 현금흐름 자체를 줄입니다. 71.2% → 67.3%, 즉 −5.4%입니다. 두 효과가 반대 방향입니다.</p>
+
+<div class="note">
+  <span class="label">검산 규칙이 브레이크였습니다</span>
+  <p>지금까지 <strong>검산 규칙</strong>(도출된 환원율이 말이 되는가)은 <em>실수를 잡는 장치</em>였습니다. 여기서는 그것이 <strong>모형의 자동 브레이크</strong>로 나타납니다 — 성장률을 낙관적으로 올려도 값이 그만큼 오르지 않습니다. 성장에는 재투자가 필요하고, 재투자한 돈은 주주에게 갈 수 없기 때문입니다.</p>
+  <p>그래서 <strong>“g를 올려 밸류를 띄우는” 수법은 이 모형에서 잘 안 먹힙니다.</strong> 반대로 <strong>rf나 ERP를 슬쩍 내리는 것은 그대로 먹힙니다</strong> — 브레이크가 없으니까요. 남의 리포트를 읽을 때 <em>어느 칸이 낙관적인지</em>를 이 순서로 보면 됩니다.</p>
+</div>
+
+<h2>5. 시나리오마다 아픔의 크기가 다르다</h2>
+
+<p>칼럼은 <em>“무위험수익률이 1% 오르면 적정주가가 700 정도 빠진다”</em>고 했습니다. 그런데 현상 유지에서 계산하면 <strong>−1,111</strong>입니다. 거의 두 배 차이라 확인이 필요했습니다. 세 시나리오에서 각각 재 보면 이렇게 나옵니다.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>시나리오</th><th><code>r − g</code></th><th>기준값</th><th>rf +1%p</th><th>변화</th><th>변화율</th></tr></thead>
+  <tbody>
+    <tr><td>골디락스</td><td>4.20%p</td><td>8,879</td><td>7,153</td><td>−1,725</td><td>−19.4%</td></tr>
+    <tr><td>현상 유지</td><td>5.35%p</td><td>6,950</td><td>5,839</td><td>−1,111</td><td>−16.0%</td></tr>
+    <tr><td><strong>재정 지배</strong></td><td>6.55%p</td><td>5,658</td><td>4,894</td><td><strong>−764</strong></td><td>−13.5%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>칼럼의 −700은 재정 지배 시나리오의 숫자로 보입니다</strong>(−764). 확정은 아니지만 셋 중 유일하게 자릿수가 맞습니다. 그리고 <em>왜</em> 재정 지배가 가장 덜 아픈지는 §3에서 이미 나왔습니다 — <code>r − g</code>가 가장 크기 때문입니다.</p>
+
+<div class="note">
+  <span class="label">이건 직관과 반대입니다</span>
+  <p>가장 비관적인 시나리오가 금리 충격에 <strong>가장 덜 아픕니다.</strong> 이미 낮게 잡힌 값에는 깎일 것이 적기 때문입니다. 그러니 <em>“금리가 1% 오르면 −700”</em>이라는 문장은 <strong>어느 세상에서 잰 것인지를 밝히지 않으면 의미가 없습니다.</strong> 님의 리포트에서 민감도를 쓸 때 반드시 기준 시나리오를 함께 적으세요.</p>
+</div>
+
+<div class="note mission">
+  <span class="label">Valley AI 화면에서 확인할 것 세 가지</span>
+  <p>오늘 숫자는 전부 <strong>재현 모델</strong>의 값입니다. 화면을 옆에 띄우고 세 가지만 실제로 눌러 봐 주세요 — 다음 레슨(리포트 작성)이 이 확인 위에 올라갑니다.</p>
+  <ol>
+    <li><strong>장기 무위험수익률<span class="num">(10-2)</span>만 1%p 올려</strong> 적정가치가 얼마나 빠지는지. 현상 유지 기준 −16% 근처면 재현 모델이 맞습니다.</li>
+    <li><strong>근미래 무위험수익률<span class="num">(6번)</span>을 흔들어</strong> 결과가 움직이는지. 재현 모델에는 이 칸이 들어갈 자리가 없는데 화면에는 있습니다 — 실제로 쓰이는지 확인이 필요합니다.</li>
+    <li><strong>n = 4~10 구간의 EPS 경로</strong>가 시나리오마다 다른지, 아니면 공통인지. 칼럼 산문과 재현 조건이 어긋나는 지점입니다.</li>
+  </ol>
+</div>
+
+<h2>6. 숫자로 확인하기</h2>
+
+<div class="drill" data-drill>
+  <h3>어림자로 암산하기</h3>
+  <p class="caption">전부 현상 유지(<code>r − g = 5.35%p</code>, 6,950) 기준. 어림자 <code>5.35 ÷ (바뀐 값) − 1</code>로 계산하고, 백분율 숫자만 넣으세요(예: <code>-8.5</code>). 소수 첫째 자리까지 ±0.4 허용.</p>
+
+  <div class="row" data-answer="-8.5" data-tol="0.4">
+    <span class="ask">위험 프리미엄만 +0.5%p — 변화율은?</span>
+    <input type="text" inputmode="decimal"><span class="unit">%</span><span class="mark"></span>
+  </div>
+  <div class="row" data-answer="-27.2" data-tol="0.5">
+    <span class="ask">B와 C가 함께 +1%p씩 — 변화율은?</span>
+    <input type="text" inputmode="decimal"><span class="unit">%</span><span class="mark"></span>
+  </div>
+  <div class="row" data-answer="10.3" data-tol="0.4">
+    <span class="ask">위험 인식이 걷혀 ERP만 −0.5%p — 변화율은?</span>
+    <input type="text" inputmode="decimal"><span class="unit">%</span><span class="mark"></span>
+  </div>
+</div>
+
+<div class="quiz" data-quiz>
+  <h3>순서 정하기</h3>
+
+  <div class="q" data-answer="1">
+    <p class="stem">리포트에서 <strong>가장 긴 방어</strong>를 붙여야 할 가정은?</p>
+    <div class="opts">
+      <button class="opt">장기 ROE — 종료가치의 환원율을 정하니까</button>
+      <button class="opt">위험 프리미엄 — 한 단위가 제일 무거우니까</button>
+      <button class="opt">근미래 환원율 — 현금흐름의 크기를 정하니까</button>
+    </div>
+    <div class="why">
+      토네이도의 순서 그대로입니다. ERP 1%p가 −16.0%인데 장기 ROE 1%p는 −2.1%입니다. <strong>여덟 배 차이</strong>입니다. 게다가 ERP는 <a href="0005-equity-risk-premium.html">레슨 0005</a>에서 봤듯 관측값이 아니라 <em>내가 고른 값</em>이라 방어 부담도 가장 큽니다 — 무게와 자의성이 같은 칸에 몰려 있습니다.
+    </div>
+  </div>
+
+  <div class="q" data-answer="2">
+    <p class="stem">영구성장률을 낙관적으로 올려도 값이 덜 오르는 이유는?</p>
+    <div class="opts">
+      <button class="opt">종료가치 비중이 절반밖에 안 되기 때문에</button>
+      <button class="opt">모형이 성장률에 상한을 걸어 두기 때문에</button>
+      <button class="opt">성장률이 종료 환원율도 함께 깎기 때문에</button>
+    </div>
+    <div class="why">
+      <code>주주환원율 = 1 − g ÷ ROE</code>. g 3.75 → 4.25%는 환원율을 71.2 → 67.3%로 깎습니다. 분모 <code>r − g</code>가 줄어 값을 밀어 올리는 힘과, 나눠 줄 현금이 줄어 값을 끌어내리는 힘이 <strong>맞섭니다</strong>. 상한 규칙(<code>g ≤ rf</code>)은 별개의 장치이고, 여기서 작동한 것은 <strong>검산 규칙</strong>입니다.
+    </div>
+  </div>
+
+  <div class="score"></div>
+</div>
+
+<h2>7. 오늘 것을 한 문장으로</h2>
+
+<p>적정가치의 민감도는 거의 전부 <code>r − g</code> 하나에 들어 있습니다. 그래서 <strong>방어의 순서는 취향이 아니라 계산으로 정해지고</strong>, 같은 1%p라도 <em>어느 세상에서 재는지</em>에 따라 아픔의 크기가 달라집니다.</p>
+
+<div class="ask-teacher">
+  <span class="label">되말하기 — 채팅으로 한 줄 주세요</span>
+  <p><strong>“내 리포트에서 가장 먼저 방어할 가정은 ___이다 — ___이기 때문에.”</strong> 빈칸 둘을 채워 주세요. 뒤 칸에는 <strong>숫자가 하나 들어가야</strong> 합니다.</p>
+  <p>그리고 하나 더 — §1의 비관 시나리오에서 <strong>C(위험 인식)를 켤 것인지</strong> 정하고, 그 이유를 한 절로 주세요. 다음 레슨에서 리포트 문장을 쓸 때 이 결정이 첫 문단에 들어갑니다.</p>
+</div>
+
+<div class="note">
+  <span class="label">1차 자료</span>
+  <p><strong>Damodaran, <em>Investment Valuation</em> — 종료가치(Terminal Value) 장.</strong> 오늘 어림자의 근거인 <em>“안정 성장 모형에서 값은 <code>r − g</code>에 지배된다”</em>와, 성장률을 올릴 때 재투자율을 함께 올리지 않으면 값이 가짜로 부풀어 오른다는 경고가 여기 있습니다. 다모다란은 이것을 <em>“free lunch가 없다”</em>고 부릅니다 — §4의 브레이크가 바로 그 이야기입니다.</p>
+  <p class="caption">이 세션에서도 네트워크 정책으로 원문을 다시 열지 못했습니다(<a href="../RESOURCES.md">RESOURCES.md</a> 참조). 본문의 숫자는 전부 재현 모델 <code>DCF.indexDCF</code>로 계산해 표시했습니다.</p>
+</div>
+
+<p class="next-up"><strong>진도 —</strong> 월가아재 글로벌 매크로 지식편 6회차 2강. 다음은 <strong>리포트 작성</strong>입니다 — 레슨 0001~0008에서 만든 것을 숙제 3번의 문장으로 옮깁니다. 오늘의 순서가 그 리포트의 <em>목차</em>가 됩니다.</p>
+
+<div class="ask-teacher">
+  <span class="label">막히면 물어보세요</span>
+  오늘 가장 흐릿하게 남기 쉬운 지점은 <em>“왜 값이 <code>1 ÷ (r − g)</code>에 비례하는가”</em>입니다 — 레슨 0002의 고든 공식으로 돌아가면 나옵니다. 그리고 <em>“내 비관 시나리오에서 rf를 얼마나 올리는 게 그럴듯한가”</em>도 좋은 질문입니다. 기간 프리미엄의 역사적 범위를 같이 보겠습니다.
+</div>
+
+<div class="footer">
+  <h3>이어지는 곳</h3>
+  <ul>
+    <li><a href="0007-one-cause-many-cells.html">← 레슨 0007 — 배선된 것은 칸이 아니라 원인이다 (§0·§1의 출처)</a></li>
+    <li><a href="0002-two-part-structure.html">레슨 0002 — 2단 구조와 고든 공식 (§3 어림자의 뿌리)</a></li>
+    <li><a href="0003-growth-identity.html">레슨 0003 — g = ROE × 유보율 (§4의 브레이크)</a></li>
+    <li><a href="0005-equity-risk-premium.html">레슨 0005 — 내재 ERP는 잔차다 (§6 퀴즈의 배경)</a></li>
+    <li><a href="../reference/dcf-core.html">레퍼런스 — DCF 핵심</a></li>
+    <li><a href="../reference/glossary.html">레퍼런스 — 용어와 약자</a></li>
+    <li><a href="../index.html">Valley 워크스페이스 목록</a></li>
+    <li>레슨 0009 — 숙제 리포트 작성 <em>(예정)</em></li>
+  </ul>
+</div>
+
+<script src="../assets/dcf.js"></script>
+<script src="../assets/quiz.js"></script>
+<script>
+(function () {
+  var FIXED = { eps: [340.39, 397.87, 446.60], payoutNear: 0.8072, n: 10, glideFrom: 0.1225 };
+  var BASE  = { riskFree: 0.043, erp: 0.048, g: 0.0375, roe: 0.13 };
+
+  function value(o) {
+    var opts = {};
+    for (var k in FIXED) opts[k] = FIXED[k];
+    for (var k2 in BASE) opts[k2] = BASE[k2];
+    for (var k3 in (o || {})) opts[k3] = o[k3];
+    return DCF.indexDCF(opts).total;
+  }
+
+  var BASE_VALUE = value();            // 6,950
+  function pct(v) { return (v / BASE_VALUE - 1) * 100; }
+
+  /* ---- §1 램프 — B만 켠 시나리오가 방향 규칙에 걸린다 ---------------- */
+  var lamp = document.getElementById('lamp');
+  if (lamp) {
+    DCF.renderChecks(lamp, [
+      { level: 'warn',
+        rule: '방향 규칙',
+        msg: '장기 무위험수익률은 올렸는데 위험 프리미엄은 그대로입니다 — 원인 B만 켜고 C는 끈 세상입니다. 고칠 필요는 없지만 <strong>이유를 한 줄 적어야</strong> 합니다.' },
+      { level: 'ok',
+        rule: '물가 일치 규칙',
+        msg: '기간 프리미엄을 이유로 들었으므로 영구성장률은 그대로 두는 것이 맞습니다. 물가를 이유로 들었다면 g도 올려야 했습니다.' },
+      { level: 'ok',
+        rule: '상한 규칙',
+        msg: 'g 3.75% ≤ rf 5.30%. 통과입니다 — 오히려 여유가 늘었습니다.' }
+    ]);
+  }
+
+  /* ---- §2 토네이도 — 각 칸을 '그럴듯한 한 단위'로 -------------------- */
+  var tor = document.getElementById('tor');
+  if (tor) {
+    var rows = [
+      { key: '장기 무위험수익률 <span class="num">(10-2)</span> +1%p',  o: { riskFree: 0.053 } },
+      { key: '위험 프리미엄 <span class="num">(10-3)</span> +1%p',      o: { erp: 0.058 } },
+      { key: 'EPS 컨센서스 전체 −5%',                                    o: { eps: FIXED.eps.map(function (e) { return e * 0.95; }) } },
+      { key: '영구성장률 <span class="num">(10-1)</span> −0.5%p',        o: { g: 0.0325 } },
+      { key: '근미래 주주환원율 −5%p',                                   o: { payoutNear: 0.7572 } },
+      { key: '장기 ROE <span class="num">(10-4)</span> −1%p',            o: { roe: 0.12 } }
+    ].map(function (r) {
+      var v = value(r.o);
+      return { label: r.key, pct: pct(v), note: DCF.fmt(v, 0) };
+    });
+    DCF.drawTornado(tor, rows, { max: 18 });
+  }
+
+  /* ---- §3 어림자 시험대 ---------------------------------------------- */
+  var out = document.getElementById('approxOut');
+  var S = { riskFree: 0.043, erp: 0.048, g: 0.0375 };
+  var SPREAD0 = BASE.riskFree + BASE.erp - BASE.g;      // 5.35%p
+
+  function paint() {
+    if (!out) return;
+    var spread = S.riskFree + S.erp - S.g;
+    var approx = spread > 0 ? (SPREAD0 / spread - 1) * 100 : NaN;
+    var real   = pct(value(S));
+    var gap    = real - approx;
+
+    out.className = 'verdict ' + (Math.abs(gap) < 1.5 ? 'ok' : 'bad');
+    out.innerHTML =
+      '<div><code>r − g</code> = ' + DCF.pct(spread, 2) +
+      ' &nbsp;·&nbsp; 적정가치 ' + DCF.fmt(value(S), 0) + '</div>' +
+      '<div><strong>어림자 ' + (approx > 0 ? '+' : '') + approx.toFixed(1) + '%</strong>' +
+      ' &nbsp;vs&nbsp; <strong>전체 모형 ' + (real > 0 ? '+' : '') + real.toFixed(1) + '%</strong>' +
+      ' &nbsp;(차이 ' + (gap > 0 ? '+' : '') + gap.toFixed(1) + '%p)</div>' +
+      '<div class="caption">' +
+      (Math.abs(gap) < 1.5
+        ? '어림자가 잘 맞습니다 — 할인율 쪽만 움직이면 <code>r − g</code>가 거의 전부입니다.'
+        : '벌어졌습니다. g를 움직이면 종료 환원율 <code>1 − g ÷ ROE</code>가 반대로 작동합니다 (§4).') +
+      '</div>';
+  }
+
+  DCF.bindRange('#sRf',  function (v) { return v.toFixed(1) + '%'; },  function (v) { S.riskFree = v / 100; paint(); });
+  DCF.bindRange('#sErp', function (v) { return v.toFixed(1) + '%'; },  function (v) { S.erp = v / 100; paint(); });
+  DCF.bindRange('#sG',   function (v) { return v.toFixed(2) + '%'; },  function (v) { S.g = v / 100; paint(); });
+  paint();
+})();
+</script>
+
+</body>
+</html>

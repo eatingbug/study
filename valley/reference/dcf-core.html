@@ -416,6 +416,61 @@
 
 <p class="caption" style="font-size:0.85rem;color:var(--ink-faint)">A가 B·C보다 덜 아픈 것은 <code>r</code>과 <code>g</code>를 함께 밀어 <code>r − g</code>를 보존하기 때문이다 — 물가는 분자와 분모를 같이 올린다. 반대로 <strong>방향 규칙을 지킨 세상은 한 칸만 움직인 경우의 거의 두 배로 아프다.</strong> 배선을 지키는 것은 깔끔해지는 일이 아니라 결론이 달라지는 일이다.</p>
 
+<h2>7-3. 민감도 어림자 <span class="tag">L0008</span></h2>
+
+<p class="formula">변화율 ≈ (바꾸기 전 <code>r − g</code>) ÷ (바꾼 뒤 <code>r − g</code>) − 1</p>
+
+<p>값의 대부분이 종료가치이고 종료가치는 <code>1 ÷ (r − g)</code>에 비례하므로, <strong>할인율 쪽(rf · ERP)을 흔드는 경우 이 한 줄로 표 없이 암산된다.</strong> 현상 유지의 <code>r − g</code>는 <code>9.10 − 3.75 = 5.35%p</code>.</p>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>흔든 것 (현상 유지 6,950)</th><th class="n">바뀐 <code>r − g</code></th><th class="n">어림자</th><th class="n">실제</th></tr></thead>
+  <tbody>
+    <tr><td>rf 또는 ERP +0.5%p</td><td class="n">5.85%p</td><td class="n">−8.5%</td><td class="n">−8.7%</td></tr>
+    <tr><td>rf 또는 ERP +1%p</td><td class="n">6.35%p</td><td class="n">−15.7%</td><td class="n">−16.0%</td></tr>
+    <tr><td>rf 또는 ERP −1%p</td><td class="n">4.35%p</td><td class="n">+23.0%</td><td class="n"><strong>+23.3%</strong></td></tr>
+    <tr><td>B + C 각 +1%p</td><td class="n">7.35%p</td><td class="n">−27.2%</td><td class="n">−27.6%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p><strong>비대칭</strong> — 분모가 나눗셈에 들어가므로 내릴 때가 올릴 때보다 크게 움직인다. 따라서 <code>r − g</code>가 작은 세상(= 낙관 시나리오, 고밸류)일수록 같은 1%p가 더 아프다.</p>
+
+<p><strong>어림자가 빗나가는 한 자리는 g다.</strong> g는 분모 <code>r − g</code>를 줄여 값을 올리는 동시에 종료 주주환원율 <code>1 − g ÷ ROE</code>를 깎아 현금흐름을 줄인다. g 3.75 → 4.25%면 환원율이 71.2 → 67.3%가 되어, 어림자 +10.3% 대신 실제로는 <strong>+4.4%</strong>에 그친다. <em>검산 규칙이 모형의 자동 브레이크로 나타난 것</em>이다 — 성장을 낙관해도 값이 그만큼 부풀지 않는다.</p>
+
+<h2>7-4. 방어 순서 (토네이도) <span class="tag">L0008</span></h2>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>입력 (불리한 쪽으로 한 단위)</th><th class="n">적정가치</th><th class="n">변화</th></tr></thead>
+  <tbody>
+    <tr><td>장기 무위험수익률 <span class="num">(10-2)</span> +1%p</td><td class="n">5,839</td><td class="n"><strong>−16.0%</strong></td></tr>
+    <tr><td>위험 프리미엄 <span class="num">(10-3)</span> +1%p</td><td class="n">5,839</td><td class="n"><strong>−16.0%</strong></td></tr>
+    <tr><td>EPS 컨센서스 전체 −5%</td><td class="n">6,603</td><td class="n">−5.0%</td></tr>
+    <tr><td>영구성장률 <span class="num">(10-1)</span> −0.5%p</td><td class="n">6,687</td><td class="n">−3.8%</td></tr>
+    <tr><td>근미래 주주환원율 −5%p</td><td class="n">6,782</td><td class="n">−2.4%</td></tr>
+    <tr><td>장기 ROE <span class="num">(10-4)</span> −1%p</td><td class="n">6,807</td><td class="n">−2.1%</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>리포트의 지면은 이 순서로 배분한다. EPS 컨센서스를 통째로 5% 틀리는 것이 <strong>rf를 0.3%p 틀리는 것과 같다</strong>. 장기 ROE와 근미래 환원율에 긴 방어를 붙이는 것은 손해다.</p>
+
+<h2>7-5. 같은 1%p, 다른 아픔 <span class="tag">L0008</span></h2>
+
+<div class="scroll-x">
+<table>
+  <thead><tr><th>시나리오</th><th class="n"><code>r − g</code></th><th class="n">기준값</th><th class="n">rf +1%p</th><th class="n">변화</th></tr></thead>
+  <tbody>
+    <tr><td>골디락스</td><td class="n">4.20%p</td><td class="n">8,879</td><td class="n">7,153</td><td class="n">−1,725 (−19.4%)</td></tr>
+    <tr><td>현상 유지</td><td class="n">5.35%p</td><td class="n">6,950</td><td class="n">5,839</td><td class="n">−1,111 (−16.0%)</td></tr>
+    <tr><td>재정 지배</td><td class="n">6.55%p</td><td class="n">5,658</td><td class="n">4,894</td><td class="n"><strong>−764 (−13.5%)</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="caption" style="font-size:0.85rem;color:var(--ink-faint)">칼럼의 “무위험수익률 1% → −700”은 <strong>재정 지배 기준</strong>으로 보인다(−764). 가장 비관적인 시나리오가 금리 충격에 가장 덜 아프다 — 이미 낮은 값에는 깎일 것이 적기 때문이다. <strong>민감도를 인용할 때는 기준 시나리오를 반드시 함께 밝힌다.</strong> (세 시나리오 모두 g 3.75% · ROE 13% · 공통 EPS 경로로 계산한 재현 모델 값이다.)</p>
+
 <h2>8. 입력칸 체크리스트</h2>
 
 <div class="scroll-x">
