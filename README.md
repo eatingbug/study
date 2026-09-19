@@ -6,6 +6,11 @@
 목표는 노트를 쌓는 것이 아니라 **압축된 학습 결과물**을 남기는 것이다 —
 레슨은 한 번 하고 지나가지만, 참조 문서는 계속 다시 열게 된다.
 
+그리고 **레슨은 읽어서 끝나지 않는다 — 산출물이 나와야 끝난다.**
+요약을 쓰고 필수 실습 항목을 기록해야 다음 레슨으로 넘어간다.
+규칙은 [`CLAUDE.md`](./CLAUDE.md), 그렇게 정한 이유는
+[`docs/adr/0001`](./docs/adr/0001-lessons-close-on-output.md) 에 있다.
+
 ## 웹에서 보기
 
 <https://eatingbug.github.io/study/>
@@ -17,6 +22,9 @@
 > **처음 한 번만:** 저장소 Settings → Pages → **Source** 를 `GitHub Actions` 로 바꿔야
 > 워크플로가 배포 권한을 얻는다. 그 뒤로는 푸시할 때마다 자동으로 갱신된다.
 
+작업은 `main` 에 직접 커밋하지 않고 **전부 PR 로 낸다** — 브랜치 규칙은
+[`CLAUDE.md`](./CLAUDE.md) 참조. 그래서 실제 배포는 PR 이 머지되는 시점에 일어난다.
+
 사이트 구조는 디렉터리 구조 그대로다 — 루트에 전체 목록,
 `/llmops/` 와 `/valley/` 에 워크스페이스별 목록.
 
@@ -24,9 +32,9 @@
 빌더가 올릴 파일을 골라내는 방식은 allow-list다 — `lessons/` · `reference/` 의
 HTML과 `assets/` 의 정적 파일만 복사한다. 그래서 메모·노트북·실습 산출물이
 저장소에 새로 생겨도 **자동으로 공개되지 않는다.** 마크다운 문서
-(`MISSION.md` · `NOTES.md` · `RESOURCES.md` · `GLOSSARY.md`)와 `learning-records/`
-도 여기서 걸러진다 — 학습 기록은 사이트의 일부가 아니고, GitHub에서
-렌더링해 읽는 편이 낫다.
+(`MISSION.md` · `NOTES.md` · `RESOURCES.md` · `GLOSSARY.md`)와
+`learning-records/` · `summaries/` 도 여기서 걸러진다 — 학습 기록은 사이트의
+일부가 아니고, GitHub에서 렌더링해 읽는 편이 낫다.
 
 ### 새 레슨을 추가하면
 
@@ -77,8 +85,8 @@ python3 tools/build-index.py --stage _site  # 배포될 파일 그대로 모아 
 
 | 주제 | 내용 | 상태 |
 |---|---|---|
-| [`llmops/`](./llmops) | LLM 운영 체계 — 평가·관측성·비용·배포 | 진행 중 (레슨 2) |
-| [`valley/`](./valley) | 기업가치 평가 — DCF·할인율 | 진행 중 (레슨 1) |
+| [`llmops/`](./llmops) | LLM 운영 체계 — 평가·관측성·비용·배포 | 레슨 2편 · 소급 스윕 중 |
+| [`valley/`](./valley) | 기업가치 평가 — DCF·할인율 | 레슨 4편 · 소급 스윕 중 |
 
 ## 각 워크스페이스의 구조
 
@@ -92,6 +100,7 @@ python3 tools/build-index.py --stage _site  # 배포될 파일 그대로 모아 
 ├── GLOSSARY.md         이 주제의 표준 용어 (이해가 증명된 것만 등재)
 ├── lessons/            0001-*.html — 한 번에 하나씩, 짧게, 인터랙티브
 ├── reference/          압축된 참조 문서. 프린트해서 옆에 두는 용도
+├── summaries/          레슨을 내 언어로 다시 쓴 글. 레슨을 닫는 조건이다
 ├── learning-records/   무엇을 알게 됐고 그래서 다음에 뭘 배울지 (ADR 형식)
 └── assets/             레슨이 공유하는 스타일시트·퀴즈 위젯 등
 ```
