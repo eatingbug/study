@@ -141,7 +141,7 @@ open llmops/lessons/0001-llmops-map-and-self-audit.html
 `tools/build-index.py` 를 돌린다.
 
 레슨과 참조 문서의 문체는 [AGENTS.md](./AGENTS.md) 가 정한다.
-`tools/style-check.py` 가 그중 여섯 개를 기계로 검사한다.
+`tools/style-check.py` 가 그중 다섯 개를 기계로 검사한다 (`auto` 표시).
 
 ```sh
 python3 tools/style-check.py ai/lessons/*.html ai/reference/*.html
