@@ -13,7 +13,10 @@ ASD-STE100(Simplified Technical English)의 규칙 중
   5. 긴 복합명사    : 13자 이상 붙어 있는 토큰 경고 (명사 3개 초과 나열 추정)
   6. 명사화         : "~의 가능성 / ~함으로써 / ~에 대한" 등 경고
 
-사용:  python3 tools/style-check.py lessons/*.html reference/*.html
+HTML 과 마크다운을 모두 읽는다. 마크다운에서는 코드 블록과 표를 건너뛴다.
+큰따옴표 안의 글은 5·6번 검사에서 제외한다. 인용과 반례는 고쳐 쓸 대상이 아니다.
+
+사용:  python3 tools/style-check.py lessons/*.html reference/*.html AGENTS.md
 """
 
 import re
@@ -36,6 +39,14 @@ SCRIPT = re.compile(r"<(script|style)\b.*?</\1>", re.S | re.I)
 PARA = re.compile(r"<p\b[^>]*>(.*?)</p>", re.S | re.I)
 ENTITY = re.compile(r"&[a-z]+;")
 
+FENCE = re.compile(r"^```.*?^```", re.S | re.M)
+TABLE_ROW = re.compile(r"^\s*\|.*$", re.M)
+MD_LINK = re.compile(r"\[([^\]]*)\]\([^)]*\)")
+INLINE_CODE = re.compile(r"`[^`]*`")
+MD_HEAD = re.compile(r"^\s*#{1,6}\s*", re.M)
+MD_BULLET = re.compile(r"^\s*(?:[-*+]|\d+\.)\s+", re.M)
+QUOTED = re.compile(r"[\"\u201c\u2018\u2019\u201d][^\"\u201c\u2018\u2019\u201d]*[\"\u201c\u2018\u2019\u201d]")
+
 
 def strip(html):
     """블록 요소의 끝은 문장의 끝으로 본다. 표·목록이 한 문장으로 붙는 것을 막는다."""
@@ -46,17 +57,39 @@ def strip(html):
     return re.sub(r"\s+", " ", html).strip()
 
 
+def strip_md(text):
+    """마크다운을 산문만 남긴다. 코드 블록과 표는 산문이 아니므로 버린다."""
+    text = FENCE.sub(" ", text)
+    text = TABLE_ROW.sub(" ", text)
+    text = INLINE_CODE.sub(" ", text)
+    text = MD_LINK.sub(r"\1", text)
+    text = MD_HEAD.sub("", text)
+    text = MD_BULLET.sub("", text)
+    # 빈 줄과 줄바꿈은 문단·문장의 끝으로 본다.
+    text = re.sub(r"\n{2,}", ". ", text)
+    text = re.sub(r"\n", ". ", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
 def sentences(text):
     parts = re.split(r"(?<=[.!?])\s+", text)
-    return [p.strip() for p in parts if p.strip()]
+    out = []
+    for p in parts:
+        p = p.strip()
+        # 표를 걷어낸 자리에 남는 마침표만 있는 조각은 문장이 아니다.
+        if p and re.search(r"[0-9A-Za-z가-힣]", p):
+            out.append(p)
+    return out
 
 
 def check(path):
     raw = open(path, encoding="utf-8").read()
+    is_md = path.lower().endswith((".md", ".markdown"))
+    body = strip_md(raw) if is_md else strip(raw)
     problems = []
 
     # 1 + 3 + 4 + 5 + 6 : 문장 단위 검사
-    for sent in sentences(strip(raw)):
+    for sent in sentences(body):
         words = sent.split()
         n = len(words)
         if n > SENT_WORDS_FAIL:
@@ -69,20 +102,36 @@ def check(path):
         if sent.count("(") > 1:
             problems.append(("warn", f"괄호 {sent.count('(')}쌍", sent))
 
-        for w in words:
+        # 인용과 반례는 고쳐 쓸 대상이 아니다. 따옴표 안은 빼고 본다.
+        unquoted = QUOTED.sub(" ", sent)
+
+        for w in unquoted.split():
             bare = re.sub(r"[^가-힣]", "", w)
             if len(bare) >= LONG_TOKEN:
                 problems.append(("warn", f"긴 복합명사 '{bare}'", sent))
 
         for pat in NOMINALISATION:
-            if pat in sent:
+            if pat in unquoted:
                 problems.append(("warn", f"명사화 '{pat}'", sent))
 
-    # 2 : 문단 검사
-    for body in PARA.findall(raw):
-        ns = len(sentences(strip(body)))
+    # 2 : 문단 검사. 마크다운은 빈 줄로 문단을 나눈다.
+    if is_md:
+        # 빈 줄로 나누고, 목록 항목은 각각 한 문단으로 본다.
+        # 항목 일곱 개짜리 목록은 일곱 문장짜리 문단이 아니다.
+        chunks = re.split(r"\n\s*\n", FENCE.sub(" ", raw))
+        blocks = []
+        for chunk in chunks:
+            if re.search(r"^\s*(?:[-*+]|\d+\.)\s+", chunk, re.M):
+                blocks += [strip_md(i) for i in
+                           re.split(r"\n(?=\s*(?:[-*+]|\d+\.)\s+)", chunk)]
+            else:
+                blocks.append(strip_md(chunk))
+    else:
+        blocks = [strip(b) for b in PARA.findall(raw)]
+    for block in blocks:
+        ns = len(sentences(block))
         if ns > PARA_SENT_FAIL:
-            problems.append(("FAIL", f"문단 {ns}문장 (>{PARA_SENT_FAIL})", strip(body)[:70]))
+            problems.append(("FAIL", f"문단 {ns}문장 (>{PARA_SENT_FAIL})", block[:70]))
 
     return problems
 

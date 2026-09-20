@@ -140,6 +140,13 @@ open llmops/lessons/0001-llmops-map-and-self-audit.html
 루트의 `index.html` 은 전체 목록이다. 둘 다 생성물이니 직접 고치지 말고
 `tools/build-index.py` 를 돌린다.
 
+레슨과 참조 문서의 문체는 [AGENTS.md](./AGENTS.md) 가 정한다.
+`tools/style-check.py` 가 그중 여섯 개를 기계로 검사한다.
+
+```sh
+python3 tools/style-check.py ai/lessons/*.html ai/reference/*.html
+```
+
 ## 저장소에 넣지 않는 것
 
 - `raw/` — 저작권 있는 원본 자료(유료 구독 콘텐츠 등). 로컬에만 둔다.
