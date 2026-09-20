@@ -1,0 +1,617 @@
+/* ============================================================
+   Shared stylesheet for the study workspace.
+   Tufte-ish: wide margin for sidenotes, generous measure,
+   restrained palette, prints cleanly on A4.
+   Every lesson and reference doc links this file.
+   ============================================================ */
+
+:root {
+  --ink:        #1a1a1a;
+  --ink-soft:   #55524d;
+  --ink-faint:  #8c8880;
+  --paper:      #fffcf7;
+  --rule:       #ded9d0;
+  --accent:     #1f4f6b;   /* 딥 틸 — 강조, 링크 */
+  --accent-bg:  #eef4f8;
+  --good:       #1f6b45;
+  --good-bg:    #edf6f1;
+  --bad:        #a8321f;
+  --bad-bg:     #fbeeeb;
+  --note-bg:    #f5f1e8;
+
+  --sans: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+          "Pretendard", "Malgun Gothic", "Segoe UI", sans-serif;
+  --serif: Georgia, "Iowan Old Style", "Times New Roman",
+           "Apple SD Gothic Neo", serif;
+  --mono: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 17px; }
+
+body {
+  margin: 0 auto;
+  padding: 4rem 2rem 8rem;
+  max-width: 46rem;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.75;
+  letter-spacing: -0.003em;
+  word-break: keep-all;      /* 한국어 줄바꿈을 어절 단위로 */
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- masthead ---------- */
+
+.masthead {
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+.eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 0 0 0.6rem;
+}
+.masthead h1 { margin: 0 0 0.5rem; }
+.standfirst {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ---------- type ---------- */
+
+h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 2.1rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 1.45rem;
+  line-height: 1.35;
+  margin: 3.5rem 0 1rem;
+  letter-spacing: -0.015em;
+}
+h3 {
+  font-size: 1.02rem;
+  font-weight: 700;
+  margin: 2.25rem 0 0.6rem;
+  letter-spacing: -0.01em;
+}
+p { margin: 0 0 1.2rem; }
+ul, ol { margin: 0 0 1.2rem; padding-left: 1.35rem; }
+li { margin-bottom: 0.45rem; }
+li > ul, li > ol { margin-top: 0.45rem; }
+
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(31,79,107,0.32); }
+a:hover { border-bottom-color: var(--accent); }
+
+strong { font-weight: 700; }
+em { font-style: italic; }
+
+code, .num {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  background: rgba(0,0,0,0.045);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+.num { background: none; padding: 0; font-variant-numeric: tabular-nums; }
+
+/* ---------- structural bits ---------- */
+
+hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+blockquote {
+  margin: 1.75rem 0;
+  padding: 0.1rem 0 0.1rem 1.25rem;
+  border-left: 2px solid var(--rule);
+  font-family: var(--serif);
+  color: var(--ink-soft);
+}
+blockquote p:last-child { margin-bottom: 0; }
+
+.formula {
+  font-family: var(--mono);
+  font-size: 1rem;
+  text-align: center;
+  background: var(--note-bg);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 1.1rem 1rem;
+  margin: 1.75rem 0;
+  line-height: 1.9;
+}
+.formula .lead { color: var(--ink-faint); }
+
+.note {
+  background: var(--note-bg);
+  border-left: 3px solid var(--ink-faint);
+  padding: 1rem 1.15rem;
+  margin: 1.75rem 0;
+  font-size: 0.93rem;
+  line-height: 1.7;
+}
+.note p:last-child { margin-bottom: 0; }
+.note .label {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 0.4rem;
+}
+.note.mission { background: var(--accent-bg); border-left-color: var(--accent); }
+.note.mission .label { color: var(--accent); }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.75rem 0;
+  font-size: 0.93rem;
+  font-variant-numeric: tabular-nums;
+}
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-weight: 700; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); }
+td.n, th.n { text-align: right; }
+
+.scroll-x { overflow-x: auto; margin: 1.75rem 0; }
+.scroll-x table { margin: 0; }
+
+/* ---------- interactive widgets ---------- */
+
+.widget {
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: #fff;
+  padding: 1.4rem 1.5rem;
+  margin: 2rem 0;
+}
+.widget > h3:first-child { margin-top: 0; }
+.widget .caption { font-size: 0.85rem; color: var(--ink-faint); margin: 0 0 1.1rem; line-height: 1.6; }
+
+.control { margin-bottom: 1rem; }
+.control label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.3rem;
+}
+.control label .val {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+
+.readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  border-top: 1px solid var(--rule);
+  padding-top: 1rem;
+  margin-top: 1.2rem;
+}
+.readout .metric { flex: 1 1 8rem; }
+.readout .metric .k {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 0.2rem;
+}
+.readout .metric .v {
+  font-family: var(--mono);
+  font-size: 1.35rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.readout .metric .v.hl { color: var(--accent); }
+
+/* bar chart for cashflow visualisations */
+.bars { display: flex; align-items: stretch; gap: 0.3rem; height: 8rem; margin: 1.2rem 0 0.4rem; }
+.bars .bar { flex: 1; display: flex; flex-direction: column; height: 100%; min-width: 0; }
+.bars .bar .track { flex: 1; display: flex; align-items: flex-end; }
+.bars .bar .fill { width: 100%; background: var(--accent); opacity: 0.3; border-radius: 2px 2px 0 0; min-height: 1px; }
+.bars .bar .fill.solid { opacity: 0.75; }
+.bars .bar .lbl { flex: 0 0 1rem; font-size: 0.62rem; color: var(--ink-faint); text-align: center; font-family: var(--mono); }
+
+/* horizontal stacked bar — 두 덩어리의 비중 (DCF.drawSplitBar) */
+.splitbar {
+  display: flex;
+  height: 2.6rem;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  margin: 1.2rem 0 0.7rem;
+}
+.splitbar .seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  transition: width 0.12s;
+  min-width: 0;
+}
+.splitbar .seg.near { background: var(--accent); }
+.splitbar .seg.tv   { background: var(--good); }
+/* 이익 100을 어떻게 쪼개나 — 주주환원 vs 사내유보 */
+.splitbar .seg.payout { background: #6a5acd; }
+.splitbar .seg.retain { background: #c98a2e; }
+
+.splitlegend { display: flex; flex-wrap: wrap; gap: 1.2rem; font-size: 0.82rem; color: var(--ink-soft); }
+.splitlegend .key { display: flex; align-items: center; gap: 0.4rem; }
+.splitlegend .key b { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--ink); }
+.splitlegend .key i { width: 0.7rem; height: 0.7rem; border-radius: 2px; display: inline-block; }
+.splitlegend .key i.near { background: var(--accent); }
+.splitlegend .key i.tv   { background: var(--good); }
+.splitlegend .key i.payout { background: #6a5acd; }
+.splitlegend .key i.retain { background: #c98a2e; }
+
+/* 검산 판정 — 그럴듯한가? (L0003 이후 일관성 점검에 재사용) */
+.verdict {
+  margin: 1rem 0 0;
+  padding: 0.7rem 0.9rem;
+  border-radius: 4px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  border-left: 3px solid var(--ink-faint);
+  background: var(--note-bg);
+  color: var(--ink-soft);
+}
+.verdict.ok  { border-left-color: var(--good); background: var(--good-bg); color: var(--good); }
+.verdict.bad { border-left-color: var(--bad);  background: var(--bad-bg);  color: var(--bad); }
+.verdict b { color: inherit; }
+
+/* ---------- quiz ---------- */
+
+.quiz { border: 1px solid var(--rule); border-radius: 6px; background: #fff; padding: 1.4rem 1.5rem; margin: 2rem 0; }
+.quiz > h3:first-child { margin-top: 0; }
+.quiz .q { margin-bottom: 1.6rem; }
+.quiz .q:last-of-type { margin-bottom: 0.5rem; }
+.quiz .q .stem { font-weight: 700; margin-bottom: 0.7rem; }
+.quiz .opts { display: flex; flex-direction: column; gap: 0.4rem; }
+.quiz button.opt {
+  font: inherit;
+  font-size: 0.95rem;
+  text-align: left;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+.quiz button.opt:hover:not(:disabled) { border-color: var(--ink-faint); background: #fff; }
+.quiz button.opt:disabled { cursor: default; }
+.quiz button.opt.correct { background: var(--good-bg); border-color: var(--good); color: var(--good); font-weight: 700; }
+.quiz button.opt.wrong { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); }
+.quiz .why {
+  display: none;
+  margin-top: 0.7rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--note-bg);
+  border-radius: 4px;
+  font-size: 0.89rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+.quiz .why.show { display: block; }
+.quiz .score {
+  border-top: 1px solid var(--rule);
+  padding-top: 0.9rem;
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- numeric drill ---------- */
+
+.drill { border: 1px solid var(--rule); border-radius: 6px; background: #fff; padding: 1.4rem 1.5rem; margin: 2rem 0; }
+.drill > h3:first-child { margin-top: 0; }
+.drill .row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.drill .row:last-of-type { border-bottom: 0; }
+.drill .row .ask { flex: 1 1 16rem; font-size: 0.95rem; }
+.drill .row input[type="text"] {
+  font: inherit;
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  width: 7.5rem;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--paper);
+  text-align: right;
+}
+.drill .row input.ok { border-color: var(--good); background: var(--good-bg); color: var(--good); }
+.drill .row input.no { border-color: var(--bad); background: var(--bad-bg); color: var(--bad); }
+.drill .row .unit { font-size: 0.85rem; color: var(--ink-faint); min-width: 2rem; }
+.drill .row .mark { font-size: 1rem; min-width: 1.2rem; }
+.drill .row .hint {
+  flex-basis: 100%;
+  display: none;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  background: var(--note-bg);
+  padding: 0.55rem 0.8rem;
+  border-radius: 4px;
+}
+.drill .row .hint.show { display: block; }
+.drill .actions { margin-top: 1rem; }
+button.ghost {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+button.ghost:hover { border-color: var(--ink-faint); color: var(--ink); }
+
+/* ---------- footer ---------- */
+
+.footer { margin-top: 4rem; border-top: 1px solid var(--rule); padding-top: 1.5rem; font-size: 0.9rem; color: var(--ink-soft); }
+.footer h3 { margin-top: 0; }
+.footer ul { padding-left: 1.2rem; }
+
+.ask-teacher {
+  background: var(--accent-bg);
+  border: 1px dashed var(--accent);
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  margin: 2.5rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+.ask-teacher .label { color: var(--accent); }
+
+.next-up { font-size: 0.92rem; color: var(--ink-soft); }
+
+/* ---------- 2x2 triage (triage.js) ---------- */
+.triage { border: 1px solid var(--rule); border-radius: 6px; background: #fff; padding: 1.4rem 1.5rem; margin: 2rem 0; }
+.triage > h3:first-child { margin-top: 0; }
+.triage .item {
+  border-top: 1px solid var(--rule);
+  padding: 1.1rem 0 1.2rem;
+}
+.triage .item:first-of-type { border-top: 0; padding-top: 0.2rem; }
+.triage .task { font-weight: 700; margin: 0 0 0.75rem; }
+.triage .axes { display: flex; flex-direction: column; gap: 0.5rem; }
+.triage .axis { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.8rem; }
+.triage .alabel { flex: 1 1 15rem; font-size: 0.87rem; color: var(--ink-soft); line-height: 1.5; }
+.triage .abtns { display: flex; gap: 0.4rem; flex: 0 0 auto; }
+.triage .abtns button.opt {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.triage .abtns button.opt:hover:not(:disabled) { border-color: var(--ink-faint); color: var(--ink); }
+.triage .abtns button.opt.picked { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; }
+.triage .abtns button.opt:disabled { cursor: default; opacity: 0.85; }
+.triage .verdict-box:empty { display: none; }
+.triage .verdict-box .verdict { margin: 0.9rem 0 0; }
+.triage .refnote {
+  margin: 0.55rem 0 0;
+  font-size: 0.87rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+.triage .refnote b { color: var(--ink); }
+.triage .refnote.agree { color: var(--ink-faint); }
+.triage .tally {
+  margin-top: 1.2rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  line-height: 1.6;
+}
+
+/* ---------- 2x2 grid diagram ---------- */
+.grid2 { display: grid; grid-template-columns: auto 1fr 1fr; gap: 0.5rem; margin: 2rem 0 1.2rem; font-size: 0.88rem; }
+.grid2 .cnr { }
+.grid2 .colhead, .grid2 .rowhead {
+  font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-faint); align-self: center; line-height: 1.4;
+}
+.grid2 .colhead { text-align: center; padding-bottom: 0.2rem; }
+.grid2 .rowhead { writing-mode: horizontal-tb; max-width: 6.5rem; }
+.grid2 .cell {
+  border: 1px solid var(--rule); border-radius: 5px;
+  padding: 0.8rem 0.9rem; background: var(--paper); min-width: 0;
+}
+.grid2 .cell b { display: block; margin-bottom: 0.3rem; font-size: 0.95rem; }
+.grid2 .cell span { color: var(--ink-soft); line-height: 1.55; display: block; }
+.grid2 .cell.hot { border-color: var(--accent); background: var(--accent-bg); }
+.grid2 .cell.hot b { color: var(--accent); }
+@media (max-width: 40rem) {
+  .grid2 { grid-template-columns: 1fr; }
+  .grid2 .cnr, .grid2 .colhead { display: none; }
+  .grid2 .rowhead { max-width: none; margin-top: 0.6rem; }
+}
+
+/* ---------- 간격 인출 스케줄 (schedule.js) ---------- */
+table.sched { margin: 1.4rem 0 0.6rem; border-collapse: collapse; font-size: 0.8rem; }
+table.sched th, table.sched td { border-bottom: 0; padding: 0; }
+table.sched th.wk {
+  font-size: 0.6rem; font-family: var(--mono); color: var(--ink-faint);
+  text-align: center; text-transform: none; letter-spacing: 0;
+  width: 1.15rem; padding-bottom: 0.35rem; font-weight: 400;
+}
+table.sched td.name, table.sched th:first-child {
+  padding: 0.18rem 0.7rem 0.18rem 0; white-space: nowrap;
+  font-size: 0.82rem; color: var(--ink-soft); text-align: left;
+}
+table.sched th:first-child { font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); }
+table.sched td.cell {
+  width: 1.15rem; height: 1.15rem;
+  border-right: 1px solid var(--paper);
+  background: #f0ece4;
+}
+table.sched td.cell.first { background: var(--accent); }
+table.sched td.cell.rep   { background: var(--accent); opacity: 0.42; }
+.sched-legend { display: flex; flex-wrap: wrap; gap: 1.2rem; font-size: 0.8rem; color: var(--ink-soft); margin: 0.4rem 0 0; }
+.sched-legend .key { display: flex; align-items: center; gap: 0.4rem; }
+.sched-legend .key i { width: 0.7rem; height: 0.7rem; border-radius: 2px; display: inline-block; background: var(--accent); }
+.sched-legend .key i.rep { opacity: 0.42; }
+
+/* ---------- print ---------- */
+
+/* ---------- consistency checks (DCF.renderChecks) ----------
+   A list of pass/warn/fail lamps. Used wherever a lesson asks the
+   learner to build something and then tests it against a rule.
+   Each row: a lamp, the rule's name, and why it fired. */
+
+.checks { list-style: none; padding: 0; margin: 1.2rem 0 0; border-top: 1px solid var(--rule); }
+.checks li {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0.7rem 0.1rem;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+.checks li:last-child { border-bottom: 0; }
+.checks .lamp {
+  flex: 0 0 auto;
+  width: 0.7rem; height: 0.7rem;
+  border-radius: 50%;
+  margin-top: 0.45rem;
+  background: var(--ink-faint);
+  box-shadow: 0 0 0 3px var(--note-bg);
+}
+.checks .body { min-width: 0; }
+.checks .rule {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 0.15rem;
+}
+.checks .msg { color: var(--ink-soft); }
+.checks .msg b { color: var(--ink); }
+
+.checks li.ok   .lamp { background: var(--good); box-shadow: 0 0 0 3px var(--good-bg); }
+.checks li.ok   .msg b { color: var(--good); }
+.checks li.warn .lamp { background: #b8791f; box-shadow: 0 0 0 3px #fbf4e6; }
+.checks li.warn .msg b { color: #8a5a14; }
+.checks li.bad  .lamp { background: var(--bad); box-shadow: 0 0 0 3px var(--bad-bg); }
+.checks li.bad  .msg b { color: var(--bad); }
+
+@media print {
+  html { font-size: 11.5pt; }
+  body { background: #fff; padding: 0; max-width: none; }
+  a { color: var(--ink); border-bottom: 0; }
+  .widget, .quiz, .drill, .note, .formula { break-inside: avoid; }
+  button { display: none; }
+  .quiz .why, .drill .row .hint { display: block !important; }
+  .ask-teacher { display: none; }
+  h2 { break-after: avoid; }
+}
+
+/* 반쪽 화면 — 사용자는 레슨과 레퍼런스(그리고 Valley AI)를 나란히 띄워 놓고 읽는다.
+   46rem 측정폭을 유지할 수 없는 폭에서, 여백을 먼저 줄이고 위젯을 좁힌다. */
+@media (max-width: 46rem) {
+  body { padding: 3rem 1.5rem 6rem; }
+  .widget, .quiz, .drill { padding: 1.1rem 1.15rem; }
+  .readout { gap: 1rem; }
+  .readout .metric { flex: 1 1 6rem; }
+  .readout .metric .v { font-size: 1.15rem; }
+  .formula { font-size: 0.92rem; padding: 0.9rem 0.75rem; }
+  .drill .row .ask { flex: 1 1 100%; }
+}
+
+@media (max-width: 34rem) {
+  html { font-size: 16px; }
+  body { padding: 2.5rem 1.1rem 5rem; }
+  h1 { font-size: 1.7rem; }
+}
+
+/* ============================================================
+   토네이도 — 기준 대비 변화율 가로 막대 (L0007·L0008)
+   가운데가 0. 왼쪽이 하락, 오른쪽이 상승.
+   ============================================================ */
+
+.tornado { margin: 1.2rem 0; display: flex; flex-direction: column; gap: 0.45rem; }
+
+.tornado .trow {
+  display: grid;
+  grid-template-columns: minmax(8rem, 14rem) 1fr minmax(6.5rem, auto);
+  gap: 0.7rem;
+  align-items: center;
+}
+
+.tornado .tname { font-size: 0.86rem; line-height: 1.4; }
+
+.tornado .ttrack {
+  position: relative;
+  height: 1.15rem;
+  background: linear-gradient(var(--rule), var(--rule)) no-repeat center / 1px 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.tornado .tbar { height: 100%; }
+.tornado .tbar.neg { background: var(--bad); margin-right: 50%; }
+.tornado .tbar.pos { background: var(--good); margin-left: 50%; }
+
+.tornado .tval {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.tornado .trow.dim { opacity: 0.55; }
+
+/* 원인 → 칸 지도 (L0007) — 해당 칸에만 표시가 찍힌다 */
+table.cause-map td.hit { background: var(--accent-bg); font-weight: 600; text-align: center; }
+table.cause-map td.miss { color: var(--ink-faint); text-align: center; }
+table.cause-map th.cell { font-family: var(--mono); font-size: 0.78rem; }
+
+@media (max-width: 34rem) {
+  .tornado .trow { grid-template-columns: 1fr; gap: 0.15rem; }
+  .tornado .tval { text-align: right; }
+}
+
+/* 원인 스위치에서 '이번에 움직인 칸'을 표시한다 (L0007) */
+.readout .metric.moved .k { color: var(--accent); }
