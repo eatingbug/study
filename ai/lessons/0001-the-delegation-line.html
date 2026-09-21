@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레슨 0001 — 검증할 수 있는 것만 맡길 수 있다</title>
+<meta name="index-gloss" content="AI와 일하면 결과물은 좋아지지만 실력은 늘지 않는다. 두 개의 질문으로 학습 항목을 네 칸에 나누고, 6개월을 어디에 쓸지 정한다.">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">Lesson 0001 · Phase A · 학습 시스템</p>
+  <h1>검증할 수 있는 것만 맡길 수 있다</h1>
+  <p class="standfirst">6개월 뒤 면접장에는 AI가 없습니다. 그런데 지금 당신의 공부에는 AI가 있습니다. 이 차이를 그냥 두면 실력이 아니라 결과물만 늡니다.</p>
+</header>
+
+<div class="note mission">
+  <span class="label">이번 레슨에서 얻는 것 하나</span>
+  <p>앞으로 만나는 모든 학습 항목을 두 개의 질문으로 판정할 수 있게 됩니다.</p>
+  <p>판정 결과가 <a href="https://github.com/eatingbug/study/blob/main/ai/MISSION.md">6개월 계획</a>을 정합니다. 시간이 모자라기 때문입니다. 무엇을 배울지보다 <strong>무엇을 안 배울지</strong>를 먼저 정해야 합니다.</p>
+</div>
+
+<div class="note">
+  <span class="label">읽기 전에</span>
+  <p>모르는 용어가 나오면 <a href="../reference/0000-glossary.html">용어집</a>을 보세요. 한 줄 정의가 다 있습니다.</p>
+  <p>이 레슨에는 어려운 기술이 나오지 않습니다. 판단하는 방법만 다룹니다.</p>
+</div>
+
+<h2>1. 알아 둘 사실 두 가지</h2>
+
+<h3>사실 ① AI는 결과물을 올립니다. 지식은 올리지 않습니다</h3>
+
+<p>대학생 117명을 네 집단으로 나눈 실험이 있습니다. 모두 같은 글쓰기 과제를 받았습니다. 집단별로 도움을 다르게 주었습니다.</p>
+
+<div class="scroll-x">
+<table>
+  <tr><th>집단</th><th>받은 도움</th></tr>
+  <tr><td>1</td><td>ChatGPT</td></tr>
+  <tr><td>2</td><td>사람 전문가</td></tr>
+  <tr><td>3</td><td>글쓰기 분석 도구</td></tr>
+  <tr><td>4</td><td>없음</td></tr>
+</table>
+</div>
+
+<p>결과는 이랬습니다. ChatGPT 집단의 <strong>에세이 점수</strong>가 가장 많이 올랐습니다. 그런데 <strong>지식이 는 정도</strong>는 다른 집단과 차이가 없었습니다. 배운 것을 <strong>새 과제에 옮겨 쓰는 능력</strong>도 차이가 없었습니다.</p>
+
+<blockquote>
+  <p>"ChatGPT 집단은 에세이 점수 향상에서 앞섰다. 그러나 그들의 지식 습득과 전이는 유의하게 다르지 않았다."</p>
+  <p class="caption">— Fan 외 8인 (2025), <a href="https://bera-journals.onlinelibrary.wiley.com/doi/10.1111/bjet.13544"><em>Beware of Metacognitive Laziness</em></a>, British Journal of Educational Technology</p>
+</blockquote>
+
+<p>즉 결과물은 가장 좋았습니다. 머리에 남은 것은 도움을 안 받은 집단과 같았습니다.</p>
+
+<p>인지심리학에는 이것을 가리키는 오래된 구분이 있습니다. <a href="../reference/0000-glossary.html#performance"><strong>performance</strong></a>는 지금 관찰되는 성적입니다. <a href="../reference/0000-glossary.html#learning"><strong>learning</strong></a>은 시간이 지나도 남는 변화입니다. 둘은 다릅니다. 그리고 앞의 것으로 뒤의 것을 짐작할 수 없습니다.</p>
+
+<p class="caption">근거: <a href="https://bjorklab.psych.ucla.edu/wp-content/uploads/sites/13/2016/11/soderstorm_ra_learningvsperformance.pdf">Soderstrom &amp; Bjork (2015), <em>Learning versus Performance</em></a>.</p>
+
+<h3>사실 ② 면접은 결과물을 보지 않습니다. 판단을 봅니다</h3>
+
+<p>2026년 LLM 엔지니어 면접이 무엇을 묻는지 정리한 자료가 있습니다. 질문 네 개를 옮깁니다.</p>
+
+<div class="scroll-x">
+<table>
+  <tr><th>질문</th><th>붙는 답</th><th>떨어지는 답</th></tr>
+  <tr>
+    <td><a href="../reference/0000-glossary.html#rag">RAG</a>가 자신 있게 틀린 답을 냈다. 다음 20분에 뭘 하겠는가?</td>
+    <td>손대기 전에 원인을 둘로 나눈다. 자료를 못 찾은 것인가, 찾고서 잘못 읽은 것인가.</td>
+    <td>프롬프트부터 고쳐 본다.</td>
+  </tr>
+  <tr>
+    <td>이 시스템이 좋다는 걸 어떻게 아는가?</td>
+    <td><a href="../reference/0000-glossary.html#evalset">평가셋</a>과 채점 기준과 <a href="../reference/0000-glossary.html#regression">회귀 테스트</a>를 말한다.</td>
+    <td>"테스트해 보니 괜찮아 보였다."</td>
+  </tr>
+  <tr>
+    <td><a href="../reference/0000-glossary.html#agent">에이전트</a>가 메일을 읽고 도구를 부른다. 누가 그 메일에 지시문을 심었다면?</td>
+    <td>방어를 여러 겹 둔다. 권한을 줄인다. 사람이 중간에 확인한다.</td>
+    <td>"프롬프트를 더 똑똑하게 쓴다."</td>
+  </tr>
+  <tr>
+    <td>사용자 앞에서 무너진 시스템 이야기를 해 달라.</td>
+    <td>실제로 있었던 일을 숫자와 함께 말한다.</td>
+    <td>"그런 경우에는 이렇게 할 것 같습니다."</td>
+  </tr>
+</table>
+</div>
+
+<p class="caption">출처: <a href="https://www.kore1.com/llm-engineer-interview-questions/">KORE1, <em>LLM Engineer Interview Questions: 2026 Hiring Guide</em></a>.</p>
+
+<p>같은 자료가 <strong>시험은 많이 하는데 쓸모는 적은 영역</strong>도 알려 줍니다. 트랜스포머 내부 구조, 토크나이저 세부 사항, PyTorch 밑바닥 구현입니다. 이유는 한 줄입니다. <em>"후보자가 검색할 수 있었던 것"</em>이기 때문입니다.</p>
+
+<p>그래서 이 세 가지는 <a href="https://github.com/eatingbug/study/blob/main/ai/MISSION.md">MISSION의 제외 목록</a>에 넣었습니다.</p>
+
+<div class="note">
+  <span class="label">두 사실을 겹치면</span>
+  <p>면접은 learning을 봅니다. 그런데 AI와 일하면 performance만 오릅니다.</p>
+  <p>이것은 "AI를 쓰지 말라"는 뜻이 아닙니다. 6개월 안에 AI를 안 쓰는 것은 불가능합니다. 필요한 것은 <strong>경계선</strong>입니다.</p>
+</div>
+
+<h2>2. 경계선을 직접 그어 봅니다</h2>
+
+<p>답을 드리기 전에 먼저 생각해 보세요. 위의 네 질문을 왜 AI에게 맡길 수 없습니까? 이유가 둘 있습니다. 하나는 쉽고 하나는 쉽지 않습니다.</p>
+
+<p><strong>쉬운 쪽.</strong> 면접장에는 찾아볼 시간이 없습니다. 그 자리에서 답을 만들어야 합니다. 그러므로 머리에 담아 두어야 합니다.</p>
+
+<p><strong>쉽지 않은 쪽.</strong> AI가 옆에 있다고 해 봅시다. 그래도 문제가 남습니다. <strong>AI가 준 답이 틀렸다는 것을 당신이 알아챌 수 있습니까?</strong></p>
+
+<p>RAG 질문에 대해 모델은 그럴듯한 20분 계획을 바로 냅니다. 그중 일부는 맞습니다. 일부는 당신 시스템에 안 맞습니다. 그 차이를 못 보면 당신은 맡긴 것이 아닙니다. 그냥 받아 적은 것입니다.</p>
+
+<div class="formula">
+  <span class="lead">그래서 맡기기의 최소 조건은 하나입니다</span>
+  검증할 수 있는 것만 맡길 수 있다.
+</div>
+
+<p>이 한 줄이 오늘의 전부입니다. 나머지는 쓰는 방법입니다.</p>
+
+<p>두 질문을 축으로 놓으면 칸이 넷 나옵니다. 가로축은 <strong>검증할 수 있는가</strong>입니다. 세로축은 <strong>그 자리에서 꺼내야 하는가</strong>입니다.</p>
+
+<div class="grid2">
+  <div class="cnr"></div>
+  <div class="colhead">틀리면<br>알아챈다</div>
+  <div class="colhead">틀려도<br>못 알아챈다</div>
+
+  <div class="rowhead">찾아봐도 된다</div>
+  <div class="cell"><b>위임</b><span>맡기고 결과만 확인합니다. 시간을 여기서 법니다.</span></div>
+  <div class="cell"><b>검증력 먼저</b><span>지금 맡기면 받아 적기가 됩니다. 알아챌 수 있을 만큼 먼저 익힙니다.</span></div>
+
+  <div class="rowhead">그 자리에서<br>꺼내야 한다</div>
+  <div class="cell"><b>위임 + 인출 드릴</b><span>일할 때는 맡깁니다. 따로 꺼내는 연습을 겁니다.</span></div>
+  <div class="cell hot"><b>체화</b><span>맡길 수 없습니다. <strong>여기가 실력이 되는 자리입니다.</strong></span></div>
+</div>
+
+<p class="caption">칸 이름을 외우지 마세요. 두 질문만 남으면 칸은 매번 다시 만들어집니다.</p>
+
+<div class="note">
+  <span class="label">오른쪽 두 칸의 차이</span>
+  <p><strong>검증력 먼저</strong>와 <strong>체화</strong>는 가로축이 같습니다. 둘 다 "틀려도 못 알아챈다" 쪽입니다. 갈리는 것은 세로축 하나입니다. 시간이 있느냐 없느냐입니다.</p>
+  <p>그 차이가 이런 결과를 낳습니다.</p>
+  <p><strong>검증력 먼저 칸은 일을 해서 위임 칸으로 옮길 수 있습니다. 체화 칸은 옮길 수 없습니다.</strong></p>
+  <p><a href="../reference/0000-glossary.html#calibset">보정셋</a>을 만들면 채점 불일치를 알아챌 수 있게 됩니다. 그때부터는 맡겨도 됩니다. 칸이 왼쪽으로 옮겨 갑니다.</p>
+  <p>반면 "언제 파인튜닝하지 않겠는가"는 도구를 아무리 만들어도 옮겨지지 않습니다. 면접장에서 대신 꺼내 줄 것이 없습니다. 그래서 6개월을 체화 칸에 씁니다.</p>
+</div>
+
+<h2>3. 분류해 봅니다</h2>
+
+<p>실제 항목 여덟 개입니다. 절반은 당신의 현업에서 가져왔습니다. 절반은 면접에서 나옵니다.</p>
+
+<p>각 항목에 두 질문을 던지세요. 레퍼런스와 달라도 됩니다. 어긋난 자리가 오늘 가장 값진 지점입니다.</p>
+
+<div class="triage" data-triage>
+  <h3>여덟 개 항목</h3>
+  <p class="caption">두 질문에 답하면 칸이 정해집니다. 그다음에 레퍼런스 분류와 근거가 나옵니다.</p>
+
+  <div class="item" data-x="1" data-y="0"
+       data-why="이 코드는 <b>깨지면 바로 보입니다</b>. 형식이 틀리면 프로그램이 멈춥니다. 검증이 공짜입니다.">
+    <p class="task">채점 결과를 담는 데이터 형식과 그 해석 코드를 짜는 일</p>
+  </div>
+
+  <div class="item" data-x="0" data-y="1"
+       data-why="<a href='https://www.kore1.com/llm-engineer-interview-questions/'>KORE1이 첫 번째로 꼽는 질문</a>입니다. 모델은 그럴듯한 계획을 냅니다. 그것이 당신 시스템에 맞는지는 <b>당신만 압니다</b>. 그리고 면접장에는 찾아볼 시간이 없습니다.">
+    <p class="task">"RAG가 자신 있게 틀린 답을 냈다. 다음 20분에 뭘 하겠는가"에 답하는 일</p>
+  </div>
+
+  <div class="item" data-x="1" data-y="0"
+       data-why="인자 이름은 <b>틀리면 에러가 납니다</b>. 그리고 이런 것을 묻는 면접은 KORE1이 쓸모가 적다고 분류한 종류입니다. 외울 이유가 없습니다.">
+    <p class="task">API 라이브러리의 인자 이름을 기억하는 일</p>
+  </div>
+
+  <div class="item" data-x="0" data-y="0"
+       data-why="사람이 매긴 정답이 없습니다. 그래서 <b>어느 쪽이 틀렸는지 판정할 기준 자체가 없습니다</b>. 면접장 질문은 아니므로 시간은 있습니다. 그러니 맡기지 말고 <b>검증력을 먼저</b> 만듭니다. 보정셋을 만드는 일이 곧 검증력을 만드는 일입니다.">
+    <p class="task">평가용 judge와 제품 채점기가 어긋날 때, 어느 쪽이 틀렸는지 정하는 일</p>
+  </div>
+
+  <div class="item" data-x="1" data-y="0"
+       data-why="그림은 <b>눈으로 검증됩니다</b>. 분포가 이상하면 바로 보입니다. 코드가 틀리면 축이 깨집니다. 맡기고 그림만 보세요.">
+    <p class="task">사내 기록에서 점수 분포 그래프를 그리는 코드</p>
+  </div>
+
+  <div class="item" data-x="0" data-y="1"
+       data-why="KORE1의 관찰이 매섭습니다. <b>강한 후보는 파인튜닝을 마지막 수단으로 다룹니다. 약한 후보는 그것을 인상적인 답으로 다룹니다.</b> 모델에게 물으면 대개 뒤쪽으로 기웁니다. 그 기울기를 알아채려면 당신에게 기준이 있어야 합니다.">
+    <p class="task">"언제 파인튜닝하지 <em>않을</em> 것인가"에 답하는 일</p>
+  </div>
+
+  <div class="item" data-x="0" data-y="1"
+       data-why="붙는 답은 <b>여러 겹 방어와 권한 축소와 사람 확인</b>입니다. 떨어지는 답은 "프롬프트를 더 똑똑하게"입니다. 그런데 뒤쪽이 훨씬 그럴듯하게 들립니다. 모델의 답이 어느 쪽인지 구분하는 것 자체가 실력입니다.">
+    <p class="task">프롬프트 인젝션을 프롬프트만으로 막을 수 있는지 판단하는 일</p>
+  </div>
+
+  <div class="item" data-x="0" data-y="0"
+       data-why="설정값은 <b>틀려도 에러가 안 납니다</b>. 조용히 느려질 뿐입니다. 검증이 가장 비싼 종류입니다. 면접 즉답 대상은 아니므로 시간은 있습니다. 그러니 지표를 읽는 법을 먼저 익히고 조정은 그다음입니다.">
+    <p class="task">추론 서버의 배칭 설정값이 우리 트래픽에 맞는지 판단하는 일</p>
+  </div>
+
+  <div class="tally"></div>
+</div>
+
+<h2>4. 꺼내 보기</h2>
+
+<p>방금 읽은 것을 덮고 꺼내 보세요. 틀려도 됩니다. 틀린 뒤에 남는 것이 읽어서 남는 것보다 오래갑니다.</p>
+
+<div class="quiz" data-quiz>
+  <h3>세 문항</h3>
+
+  <div class="q" data-answer="0">
+    <p class="stem">117명 실험에서 ChatGPT 집단이 다른 집단보다 앞선 것은?</p>
+    <div class="opts">
+      <button class="opt">작성한 에세이의 점수 향상 폭</button>
+      <button class="opt">학습한 지식의 습득량 증가 폭</button>
+      <button class="opt">새로운 과제로의 지식 전이 폭</button>
+    </div>
+    <div class="why">
+      에세이 점수만 앞섰습니다. 지식이 는 정도와 새 과제로 옮겨 쓰는 능력은 차이가 없었습니다. 이 한 줄이 이 워크스페이스가 있는 이유입니다. 결과물이 좋아진 것을 실력이 좋아진 것으로 읽으면 6개월을 날립니다.
+    </div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">AI에게 맡겨도 되는 것의 <strong>최소 조건</strong>은?</p>
+    <div class="opts">
+      <button class="opt">틀렸을 때 내가 알아챌 수가 있는 일</button>
+      <button class="opt">내가 한번쯤 직접 해 본 적 있는 일</button>
+      <button class="opt">결과가 곧바로 눈에 보이게 나오는 일</button>
+    </div>
+    <div class="why">
+      검증할 수 있는가입니다. 세 번째 보기는 검증이 <em>쉬운</em> 경우일 뿐입니다. 조건 자체는 아닙니다. 눈에 안 보여도 검증할 방법이 있으면 맡길 수 있습니다. 두 번째 보기는 조건이 지나칩니다. 직접 해 본 적 없어도 틀린 것을 알아채면 됩니다.
+    </div>
+  </div>
+
+  <div class="q" data-answer="0">
+    <p class="stem">면접의 여섯 역량이 전부 <strong>체화</strong> 칸에 떨어지는 이유는?</p>
+    <div class="opts">
+      <button class="opt">알아채기 어렵고, 즉시 꺼내야 하기 때문</button>
+      <button class="opt">알아채기 쉽지만, 즉시 꺼내야 하기 때문</button>
+      <button class="opt">알아채기 어렵고, 찾아서 써도 되기 때문</button>
+    </div>
+    <div class="why">
+      두 축이 동시에 최악이기 때문입니다. 판단 질문에는 정답 키가 없습니다. 그래서 모델의 답이 틀렸는지 알아채기 어렵습니다. 그리고 면접장에는 찾아볼 시간이 없습니다. 이 겹침이 그 역량이 값진 이유이기도 합니다. 쉽게 맡겨지는 것에는 아무도 돈을 내지 않습니다.
+    </div>
+  </div>
+
+  <div class="score"></div>
+</div>
+
+<h2>5. 6개월을 어디에 쓰는가</h2>
+
+<p>분류를 끝내면 계획이 저절로 나옵니다. KORE1이 꼽은 여섯 역량은 <strong>전부 체화 칸</strong>에 떨어집니다. 그래서 <a href="https://github.com/eatingbug/study/blob/main/ai/MISSION.md">MISSION</a>의 Phase B가 그 여섯 개입니다.</p>
+
+<div class="scroll-x">
+<table>
+  <tr><th>역량</th><th>지금 당신의 위치</th></tr>
+  <tr><td>검색과 RAG</td><td>⚠️ 실무 경험이 없습니다. 업무 우선순위는 낮은데 면접 우선순위는 1번입니다.</td></tr>
+  <tr><td>평가</td><td>개념은 봤습니다. 사람이 매긴 정답이 없는 것이 가장 큰 제약입니다.</td></tr>
+  <tr><td>비용과 레이턴시</td><td>확인 안 됨</td></tr>
+  <tr><td>안전성과 인젝션</td><td>확인 안 됨</td></tr>
+  <tr><td>파인튜닝 판단</td><td>확인 안 됨. "안 하는 이유"를 말할 수 있어야 합니다.</td></tr>
+  <tr><td>시스템 판단</td><td>운영 경험이 있습니다. <strong>가장 큰 자산입니다.</strong> 숫자로 꺼내는 연습만 남았습니다.</td></tr>
+</table>
+</div>
+
+<div class="note">
+  <span class="label">정직하게 — 이 레슨은 어떤가</span>
+  <p>당연한 반문이 있습니다. "AI가 만든 이 레슨을 읽는 것도 같은 문제 아닌가?"</p>
+  <p>읽기만 하면 맞습니다. 실험에서 ChatGPT 집단이 한 것이 그것이었습니다. 모르면 다시 묻고, 또 묻는 것이었습니다.</p>
+  <p>그래서 이 레슨은 3절에서 당신에게 분류를 시킵니다. 4절에서 덮고 꺼내게 합니다. 판단은 당신이 내렸습니다. 저는 근거만 붙였습니다.</p>
+  <p>앞으로 모든 레슨이 이 모양입니다. <strong>제가 설명만 하고 끝나면 그 레슨은 실패한 것입니다.</strong></p>
+</div>
+
+<hr>
+
+<p class="next-up"><strong>읽을 것 하나.</strong> <a href="https://bera-journals.onlinelibrary.wiley.com/doi/10.1111/bjet.13544">Fan 외 (2025)</a>입니다. <a href="https://arxiv.org/abs/2412.09315">arXiv 판</a>은 무료입니다. 초록과 결과 부분만 보면 됩니다.</p>
+
+<p class="next-up">읽을 때 <strong>실험 설계</strong>를 보세요. 네 집단을 어떻게 나누고 무엇을 쟀는지가 핵심입니다. 당신이 자기 공부를 설계할 때 쓸 틀이 거기 있습니다.</p>
+
+<p class="next-up"><strong>다음.</strong> 레슨 0002는 <strong>꺼내는 연습</strong>입니다. 오늘 체화 칸이라고 판정한 것들을 실제로 머리에 넣는 방법을 다룹니다. 간격을 얼마나 둘지도 정합니다.</p>
+
+<div class="ask-teacher">
+  <span class="label">막히면 물어보세요</span>
+  오늘 흐릿하게 남기 쉬운 곳은 <strong>검증력 먼저 칸과 체화 칸의 차이</strong>입니다. 둘 다 못 알아채는 칸입니다. 갈리는 것은 시간이 있느냐 하나뿐입니다. 헷갈리면 그대로 물어보세요. 그리고 "내 현업의 이 일은 어느 칸인가"도 좋은 질문입니다. 실제 항목으로 몇 개 더 돌려 보면 경계선이 빨리 굳습니다.
+</div>
+
+<div class="footer">
+  <h3>이어지는 곳</h3>
+  <ul>
+    <li><a href="../reference/0000-glossary.html">레퍼런스 0000 — 용어집</a></li>
+    <li><a href="../reference/0001-delegation-line.html">레퍼런스 0001 — 위임 경계선</a></li>
+    <li><a href="0002-retrieval-loop.html">레슨 0002 — 잊기 직전에 꺼내라</a></li>
+    <li><a href="https://github.com/eatingbug/study/blob/main/ai/MISSION.md">MISSION — 왜 6개월인가</a></li>
+  </ul>
+
+  <h3>글감</h3>
+  <p>"AI로 공부하면 점수는 오르는데 지식은 안 오른다. 117명 실험이 그렇게 말한다. 그리고 면접은 정확히 그 안 오른 쪽을 본다." 출처 두 개가 서로 모른 채 같은 곳을 가리킵니다. 그것이 이 글의 힘입니다.</p>
+</div>
+
+<script src="../assets/quiz.js"></script>
+<script src="../assets/triage.js"></script>
+
+</body>
+</html>

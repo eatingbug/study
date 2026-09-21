@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레퍼런스 — 위임 경계선</title>
+<meta name="index-gloss" content="두 질문, 네 칸, 여섯 역량. 학습 항목을 만날 때마다 옆에 두고 보는 판정표.">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">Reference 0001 · 상시 참조</p>
+  <h1>위임 경계선</h1>
+  <p class="standfirst">새 학습 항목을 만나면 이 문서를 열고 두 질문을 던집니다. 출처는 <a href="../lessons/0001-the-delegation-line.html">레슨 0001</a>입니다.</p>
+</header>
+
+<h2>§1 · 한 문장</h2>
+
+<div class="formula">
+  <span class="lead">원칙</span>
+  검증할 수 있는 것만 맡길 수 있다.
+</div>
+
+<p>검증할 수 없는 것을 맡기는 것은 위임이 아닙니다. 그냥 받아 적는 것입니다.</p>
+
+<h2>§2 · 두 질문</h2>
+
+<div class="scroll-x">
+<table>
+  <tr><th>축</th><th>질문</th><th>"예"가 뜻하는 것</th></tr>
+  <tr><td><strong>가로 · 검증</strong></td><td>이게 틀렸을 때 내가 알아챌 수 있는가?</td><td>맡기기의 최소 조건을 통과했다</td></tr>
+  <tr><td><strong>세로 · 즉시성</strong></td><td>찾아볼 시간 없이 꺼내야 하는가?</td><td>머리에 담아 두어야 한다</td></tr>
+</table>
+</div>
+
+<p class="caption">칸 이름은 외우지 않습니다. 두 질문만 남으면 칸은 매번 다시 만들어집니다.</p>
+
+<h2>§3 · 네 칸</h2>
+
+<div class="grid2">
+  <div class="cnr"></div>
+  <div class="colhead">알아챈다</div>
+  <div class="colhead">못 알아챈다</div>
+
+  <div class="rowhead">찾아봐도 된다</div>
+  <div class="cell"><b>위임</b><span>맡기고 결과만 확인합니다. <em>시간을 여기서 법니다.</em><br>예 · 데이터 형식 코드, 분석 코드, 라이브러리 인자</span></div>
+  <div class="cell"><b>검증력 먼저</b><span>지금 맡기면 받아 적기가 됩니다. 알아챌 수 있을 만큼 먼저 익힙니다.<br>예 · 채점 불일치 판정, 추론 서버 설정값</span></div>
+
+  <div class="rowhead">그 자리에서<br>꺼내야 한다</div>
+  <div class="cell"><b>위임 + 인출 드릴</b><span>일할 때는 맡깁니다. 따로 꺼내는 연습을 겁니다.<br>예 · 토큰 비용 계산, 자주 쓰는 지표 정의</span></div>
+  <div class="cell hot"><b>체화</b><span>맡길 수 없습니다. <strong>실력이 되는 자리입니다.</strong><br>예 · 면접 여섯 역량 전부</span></div>
+</div>
+
+<div class="note">
+  <span class="label">오른쪽 두 칸의 차이</span>
+  <p><strong>검증력 먼저</strong>와 <strong>체화</strong>는 가로축이 같습니다. 세로축만 다릅니다. 그 결과는 이렇습니다.</p>
+  <p><strong>검증력 먼저 칸은 일을 해서 위임 칸으로 옮길 수 있습니다. 체화 칸은 옮길 수 없습니다.</strong></p>
+  <p>보정셋을 만들면 채점 불일치 판정은 검증할 수 있게 됩니다. 칸이 왼쪽으로 옮겨 갑니다.</p>
+  <p>"언제 파인튜닝하지 않는가"는 도구로 옮겨지지 않습니다. 그 자리에 남습니다.</p>
+  <p><strong>공부 시간은 옮길 수 없는 칸에 씁니다.</strong></p>
+</div>
+
+<h2>§4 · 체화 칸의 내용 — 면접 여섯 역량</h2>
+
+<p>출처는 <a href="https://www.kore1.com/llm-engineer-interview-questions/">KORE1의 2026년 채용 안내서</a>입니다.</p>
+
+<p>각 줄의 <strong>떨어지는 답</strong>을 특히 보세요. 대부분 그럴듯하게 들리는 답입니다.</p>
+
+<div class="scroll-x">
+<table>
+  <tr><th>역량</th><th>붙는 답</th><th>떨어지는 답</th></tr>
+  <tr><td>검색과 RAG</td><td>손대기 전에 원인을 둘로 나눈다</td><td>프롬프트부터 고친다</td></tr>
+  <tr><td>평가</td><td>평가셋과 채점 기준과 회귀 테스트</td><td>"테스트해 보니 괜찮아 보였다"</td></tr>
+  <tr><td>비용과 레이턴시</td><td>토큰 계산과 캐싱과 모델 배분. <strong>실제 숫자를 붙인다</strong></td><td>일반적인 절감 아이디어</td></tr>
+  <tr><td>안전성과 인젝션</td><td>여러 겹 방어, 권한 축소, 사람 확인</td><td>"프롬프트를 더 똑똑하게"</td></tr>
+  <tr><td>파인튜닝 판단</td><td><strong>마지막 수단</strong>으로 다룬다</td><td>인상적인 답으로 다룬다</td></tr>
+  <tr><td>시스템 판단</td><td>실제 사건을 숫자와 함께 말한다</td><td>"그런 경우에는 이렇게 할 것 같습니다"</td></tr>
+</table>
+</div>
+
+<h3>시험은 많이 하는데 쓸모는 적은 영역</h3>
+
+<p>같은 자료가 네 가지를 꼽습니다. 우리는 이것을 배우지 않습니다.</p>
+
+<ul>
+  <li><strong>트랜스포머 내부 구조.</strong> 제품 엔지니어를 걸러내고 금방 지루해할 연구자를 뽑게 됩니다.</li>
+  <li><strong>토크나이저 세부 사항.</strong> 후보자가 검색할 수 있었던 것입니다.</li>
+  <li><strong>PyTorch 밑바닥 구현.</strong> 제품 역할에서는 거의 필요 없습니다.</li>
+  <li><strong>프롬프트 잘 쓰기만.</strong> 화려한 시연은 운영 안정성의 신호가 아닙니다.</li>
+</ul>
+
+<h2>§5 · 근거</h2>
+
+<div class="scroll-x">
+<table>
+  <tr><th>주장</th><th>출처</th></tr>
+  <tr><td>AI 도움은 결과물 점수를 올린다. 그러나 지식과 전이는 올리지 않는다</td><td><a href="https://bera-journals.onlinelibrary.wiley.com/doi/10.1111/bjet.13544">Fan 외 (2025)</a></td></tr>
+  <tr><td>performance와 learning은 다르다. 앞의 것으로 뒤의 것을 짐작할 수 없다</td><td><a href="https://bjorklab.psych.ucla.edu/wp-content/uploads/sites/13/2016/11/soderstorm_ra_learningvsperformance.pdf">Soderstrom &amp; Bjork (2015)</a></td></tr>
+  <tr><td>면접은 운영해 본 사람의 판단을 본다. 교과서 지식이 아니다</td><td><a href="https://www.kore1.com/llm-engineer-interview-questions/">KORE1 (2026)</a></td></tr>
+</table>
+</div>
+
+<div class="footer">
+  <ul>
+    <li><a href="../lessons/0001-the-delegation-line.html">← 레슨 0001 — 검증할 수 있는 것만 맡길 수 있다</a></li>
+    <li><a href="0000-glossary.html">레퍼런스 0000 — 용어집</a></li>
+    <li><a href="0002-retrieval-schedule.html">레퍼런스 0002 — 인출 루프</a></li>
+  </ul>
+</div>
+
+</body>
+</html>

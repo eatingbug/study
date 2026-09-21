@@ -109,8 +109,9 @@ Claude Code 세션은 어느 환경에서 열든 이 저장소를 클론하므�
 
 | 주제 | 내용 | 상태 |
 |---|---|---|
-| [`llmops/`](./llmops) | LLM 운영 체계 — 평가·관측성·비용·배포 | 진행 중 (레슨 2) |
-| [`valley/`](./valley) | 기업가치 평가 — DCF·할인율 | 진행 중 (레슨 6) |
+| [`ai/`](./ai) | AI 엔지니어 — 학습 시스템으로 전문성 쌓기 | 진행 중 (레슨 2) |
+| [`llmops/`](./llmops) | LLM 운영 체계 — 평가·관측성·비용·배포 | `ai/` 로 흡수 (레슨 2, 참조용) |
+| [`valley/`](./valley) | 기업가치 평가 — DCF·할인율 | 진행 중 (레슨 8) |
 
 ## 각 워크스페이스의 구조
 
@@ -138,6 +139,13 @@ open llmops/lessons/0001-llmops-map-and-self-audit.html
 각 워크스페이스의 `index.html` 은 그 워크스페이스의 목록 페이지고,
 루트의 `index.html` 은 전체 목록이다. 둘 다 생성물이니 직접 고치지 말고
 `tools/build-index.py` 를 돌린다.
+
+레슨과 참조 문서의 문체는 [AGENTS.md](./AGENTS.md) 가 정한다.
+`tools/style-check.py` 가 그중 다섯 개를 기계로 검사한다 (`auto` 표시).
+
+```sh
+python3 tools/style-check.py ai/lessons/*.html ai/reference/*.html
+```
 
 ## 저장소에 넣지 않는 것
 

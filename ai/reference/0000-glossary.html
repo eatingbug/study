@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>레퍼런스 — 용어집</title>
+<meta name="index-gloss" content="이 워크스페이스에서 쓰는 모든 용어의 한 줄 정의. 레슨에서 모르는 말이 나오면 여기로 온다.">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">Reference 0000 · 상시 참조</p>
+  <h1>용어집</h1>
+  <p class="standfirst">레슨에서 모르는 말이 나오면 여기를 봅니다. 한 용어는 한 뜻으로만 씁니다. 다른 말로 바꿔 부르지 않습니다.</p>
+</header>
+
+<h2>§1 · 기계를 다루는 말</h2>
+
+<div class="scroll-x">
+<table>
+  <tr><th>용어</th><th>뜻</th><th>왜 중요한가</th></tr>
+
+  <tr id="llm"><td><strong>LLM</strong><br><span class="caption">대규모 언어 모델</span></td>
+    <td>글을 읽고 글을 쓰는 프로그램입니다. ChatGPT와 Claude가 여기 속합니다.</td>
+    <td>우리가 만드는 제품의 부품입니다.</td></tr>
+
+  <tr id="prompt"><td><strong>프롬프트</strong><br><span class="caption">prompt</span></td>
+    <td>LLM에게 주는 지시문입니다.</td>
+    <td>프롬프트를 바꾸면 결과가 바뀝니다. 그래서 버전을 관리해야 합니다.</td></tr>
+
+  <tr id="token"><td><strong>토큰</strong><br><span class="caption">token</span></td>
+    <td>LLM이 글을 세는 단위입니다. 한글은 대략 한 글자가 한 토큰입니다.</td>
+    <td>요금이 토큰 수로 매겨집니다. 비용 계산의 기본 단위입니다.</td></tr>
+
+  <tr id="rag"><td><strong>RAG</strong><br><span class="caption">검색 증강 생성</span></td>
+    <td>질문에 답하기 전에 먼저 자료를 <strong>찾아서</strong> LLM에게 같이 넘기는 방식입니다.</td>
+    <td>틀린 답이 나오면 원인이 둘입니다. 자료를 못 찾았거나, 찾았는데 잘못 읽었거나.</td></tr>
+
+  <tr id="agent"><td><strong>에이전트</strong><br><span class="caption">agent</span></td>
+    <td>LLM이 스스로 도구를 골라 쓰면서 여러 단계를 밟는 방식입니다.</td>
+    <td>도구를 쓰므로 실제로 무언가를 바꿉니다. 그래서 안전이 문제가 됩니다.</td></tr>
+
+  <tr id="injection"><td><strong>프롬프트 인젝션</strong><br><span class="caption">prompt injection</span></td>
+    <td>공격자가 데이터 안에 지시문을 숨겨 넣는 공격입니다. LLM이 그것을 지시로 읽습니다.</td>
+    <td>메일을 읽는 에이전트는 메일 본문의 지시를 따라 버릴 수 있습니다.</td></tr>
+
+  <tr id="finetune"><td><strong>파인튜닝</strong><br><span class="caption">fine-tuning</span></td>
+    <td>우리 데이터로 모델 자체를 더 학습시키는 것입니다.</td>
+    <td>비싸고 되돌리기 어렵습니다. 면접에서는 <strong>안 하는 이유</strong>를 말할 수 있는지를 봅니다.</td></tr>
+
+  <tr id="latency"><td><strong>레이턴시</strong><br><span class="caption">latency</span></td>
+    <td>요청을 보내고 답을 받기까지 걸리는 시간입니다.</td>
+    <td>사용자가 기다립니다. 품질과 맞바꿔야 하는 경우가 많습니다.</td></tr>
+
+  <tr id="batching"><td><strong>배칭</strong><br><span class="caption">batching</span></td>
+    <td>여러 요청을 묶어서 한 번에 처리하는 것입니다.</td>
+    <td>묶으면 처리량이 오르고 대기 시간도 같이 오릅니다.</td></tr>
+</table>
+</div>
+
+<h2>§2 · 품질을 다루는 말</h2>
+
+<div class="scroll-x">
+<table>
+  <tr><th>용어</th><th>뜻</th><th>왜 중요한가</th></tr>
+
+  <tr id="aes"><td><strong>자동채점</strong><br><span class="caption">AES</span></td>
+    <td>사람 대신 프로그램이 답안에 점수를 매기는 것입니다.</td>
+    <td>사용자가 현업에서 운영하는 제품이 이것입니다. 영어 작문을 채점합니다.</td></tr>
+
+  <tr id="rubric"><td><strong>루브릭</strong><br><span class="caption">rubric</span></td>
+    <td>채점 기준표입니다. 항목별로 몇 점을 주는지 글로 적어 놓은 것입니다.</td>
+    <td>기준이 글로 있어야 사람과 기계가 같은 잣대를 씁니다.</td></tr>
+
+  <tr id="band"><td><strong>밴드</strong><br><span class="caption">band</span></td>
+    <td>점수 구간입니다. 예를 들어 1점부터 5점까지 다섯 칸입니다.</td>
+    <td>점수가 연속이 아니라 칸이므로, 한 칸 차이와 세 칸 차이는 뜻이 다릅니다.</td></tr>
+
+  <tr id="eval"><td><strong>평가</strong><br><span class="caption">eval</span></td>
+    <td>시스템이 얼마나 잘하는지 숫자로 재는 일입니다.</td>
+    <td>재지 않으면 좋아졌는지 나빠졌는지 알 수 없습니다.</td></tr>
+
+  <tr id="evalset"><td><strong>평가셋</strong><br><span class="caption">eval set</span></td>
+    <td>평가에 쓰는 고정된 문제 묶음입니다.</td>
+    <td>같은 문제로 재야 지난번과 비교할 수 있습니다.</td></tr>
+
+  <tr id="judge"><td><strong>judge</strong><br><span class="caption">LLM-as-judge</span></td>
+    <td>LLM이 다른 출력을 평가하게 만드는 방식입니다.</td>
+    <td><strong>이 워크스페이스에서는 두 개를 구분합니다.</strong> 아래를 보세요.</td></tr>
+
+  <tr id="judge-a"><td><strong>Judge A</strong></td>
+    <td>사용자의 <strong>제품</strong>입니다. 답안에 루브릭 밴드 점수를 줍니다. 출력이 등수처럼 순서가 있습니다.</td>
+    <td>정답은 사람 채점자의 점수입니다.</td></tr>
+
+  <tr id="judge-b"><td><strong>Judge B</strong></td>
+    <td>Judge A를 <strong>평가하는</strong> 장치입니다. "이 채점이 실패했는가"를 예/아니오로 답합니다.</td>
+    <td>"판정은 예/아니오로 하라"는 원칙은 <strong>B에만</strong> 적용됩니다. A에 적용하면 제품이 깨집니다.</td></tr>
+
+  <tr id="groundtruth"><td><strong>정답 라벨</strong><br><span class="caption">ground truth</span></td>
+    <td>사람이 직접 매긴 정답입니다.</td>
+    <td><strong>사용자에게는 이것이 없습니다.</strong> 그래서 정답과 비교하는 지표를 지금은 못 씁니다.</td></tr>
+
+  <tr id="calibset"><td><strong>보정셋</strong><br><span class="caption">calibration set</span></td>
+    <td>사람이 정답을 매겨 놓은 표본 묶음입니다. 보통 100건에서 300건입니다.</td>
+    <td>이것을 만들면 "틀렸는지 알아챌 수" 있게 됩니다. 없던 검증력이 생깁니다.</td></tr>
+
+  <tr id="regression"><td><strong>회귀 테스트</strong><br><span class="caption">regression test</span></td>
+    <td>바꾸기 전과 바꾼 후를 같은 문제로 비교하는 검사입니다.</td>
+    <td>프롬프트를 고쳤을 때 다른 데가 망가졌는지 자동으로 잡아냅니다.</td></tr>
+</table>
+</div>
+
+<h2>§3 · 배우는 일을 다루는 말</h2>
+
+<div class="scroll-x">
+<table>
+  <tr><th>용어</th><th>뜻</th><th>왜 중요한가</th></tr>
+
+  <tr id="performance"><td><strong>performance</strong><br><span class="caption">수행</span></td>
+    <td>지금 이 순간 관찰되는 성적입니다.</td>
+    <td>지금 잘한다고 해서 나중에도 잘하는 것은 아닙니다.</td></tr>
+
+  <tr id="learning"><td><strong>learning</strong><br><span class="caption">학습</span></td>
+    <td>시간이 지나도 남는 변화입니다. 한참 뒤에 다시 재야 보입니다.</td>
+    <td>면접은 6개월 뒤입니다. 우리가 원하는 것은 이쪽입니다.</td></tr>
+
+  <tr id="storage"><td><strong>저장 강도</strong><br><span class="caption">storage strength</span></td>
+    <td>얼마나 깊이 학습되었는지를 나타냅니다. 한번 쌓이면 사라지지 않습니다.</td>
+    <td>learning이 재는 것이 이것입니다.</td></tr>
+
+  <tr id="retrieval"><td><strong>인출 강도</strong><br><span class="caption">retrieval strength</span></td>
+    <td>지금 이 순간 얼마나 쉽게 떠오르는지를 나타냅니다. 시간이 지나면 줄어듭니다.</td>
+    <td>performance가 재는 것이 이것입니다. 높다고 좋은 것이 아닙니다.</td></tr>
+
+  <tr id="spacing"><td><strong>간격</strong><br><span class="caption">spacing</span></td>
+    <td>한 번 공부하고 다시 볼 때까지 비워 두는 시간입니다.</td>
+    <td>간격을 두면 같은 공부량으로 더 많이 남습니다.</td></tr>
+
+  <tr id="interleaving"><td><strong>교차</strong><br><span class="caption">interleaving</span></td>
+    <td>한 주제로 돌아오기 전에 다른 주제를 끼워 넣는 것입니다.</td>
+    <td>따로 쉬는 시간을 만들지 않고도 간격이 생깁니다.</td></tr>
+
+  <tr id="dd"><td><strong>바람직한 어려움</strong><br><span class="caption">desirable difficulty</span></td>
+    <td>공부하는 동안은 성적을 떨어뜨리지만, 나중에 더 많이 남기는 조건입니다.</td>
+    <td>간격과 교차와 인출이 여기 속합니다. 하는 동안 기분이 나쁩니다.</td></tr>
+
+  <tr id="ri"><td><strong>RI</strong><br><span class="caption">retention interval</span></td>
+    <td>마지막으로 공부한 날부터 시험 보는 날까지의 기간입니다.</td>
+    <td>최적 간격이 이 값에 따라 달라집니다.</td></tr>
+</table>
+</div>
+
+<h2>§4 · 이 워크스페이스에서만 쓰는 말</h2>
+
+<div class="scroll-x">
+<table>
+  <tr><th>용어</th><th>뜻</th></tr>
+  <tr id="quadrant"><td><strong>칸</strong></td>
+    <td>학습 항목을 분류하는 네 자리입니다. <strong>위임 · 위임 + 인출 드릴 · 검증력 먼저 · 체화</strong> 네 개입니다. 사분면이나 구간이라고 부르지 않습니다. (→ <a href="0001-delegation-line.html">레퍼런스 0001</a>)</td></tr>
+  <tr id="rule30"><td><strong>30초 규칙</strong></td>
+    <td>AI에게 묻기 전에 내 답을 먼저 쓰는 것입니다. (→ <a href="0002-retrieval-schedule.html">레퍼런스 0002</a>)</td></tr>
+  <tr id="wartale"><td><strong>전쟁담</strong></td>
+    <td>실제로 무너진 시스템을 구체적으로 설명한 이야기입니다. 숫자가 들어가야 합니다.</td></tr>
+</table>
+</div>
+
+<div class="footer">
+  <ul>
+    <li><a href="0001-delegation-line.html">레퍼런스 0001 — 위임 경계선</a></li>
+    <li><a href="0002-retrieval-schedule.html">레퍼런스 0002 — 인출 루프</a></li>
+    <li><a href="../index.html">워크스페이스 처음으로</a></li>
+  </ul>
+</div>
+
+</body>
+</html>
