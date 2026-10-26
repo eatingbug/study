@@ -14,29 +14,18 @@
 study에는 원문 링크·요약·적용·회상 질문을 남기고, 주간 본문도 사용자가 직접 쓴다.
 에이전트는 질문·구조 피드백·기계적 교정·발행 형식 준비를 돕는다.
 
-운영 규약은 [AGENTS.md](./AGENTS.md) 하나로 통합한다.
-[일일·주간 절차](./docs/learning-loop.md), [결정 배경](./docs/adr/0002-daily-learning-weekly-post.md),
-[운영 용어](./GLOSSARY.md)를 참고한다.
+운영 규약과 일일·주간 절차는 [AGENTS.md](./AGENTS.md)에 모았다.
+[결정 배경](./docs/adr/0002-daily-learning-weekly-post.md)을 참고한다.
 
 ## 오늘 시작하기
 
 에이전트에게 `ai 오늘 학습을 시작하자`처럼 주제를 지정한다.
-미결 상태를 확인하고 오늘 읽을 레슨을 열면 요약의 48시간 시계가 시작된다.
-문단은 블로그의 해당 주간 이슈 댓글에 직접 쓰고, 아래 명령으로 만든 기록에 댓글 링크를 남긴다.
+레슨을 읽고 블로그 주간 이슈에 한 문단을 직접 쓴다.
+에이전트는 해당 레슨의 `summaries/000N-*.md`에 원문 댓글 링크·요약 채점·적용 기록을 남긴다.
+금요일에는 같은 이슈에서 주간 초고를 직접 쓰고, 주말에 블로그 `_posts/`에서 교정·발행한다.
+별도의 일일 파일이나 생성 명령은 없다.
 
-```sh
-python3 tools/writing.py daily
-python3 tools/writing.py weekly
-python3 tools/writing.py post --slug my-topic
-```
-
-명령은 빈 틀만 만들며 기존 파일을 덮어쓰지 않는다. 레슨을 열거나 실적을 완료 처리하지 않는다.
-`--date 2026-10-26`으로 기준 날짜를 지정할 수 있고, 기본값은 서울의 오늘이다.
-`post`는 해당 주 일요일 날짜의 Jekyll 파일을 `writing/posts/`에 만든다.
-제목·카테고리와 직접 쓴 본문을 채워 블로그 `_posts/`로 옮길 준비를 한다.
-실제 발행은 사용자가 한다. 미래 날짜를 넣는 것만으로 예약 발행되지 않는다.
-
-모든 변경은 브랜치와 PR로 낸다. 블로그 저장소와 study의 Pages 배포는 별개다.
+모든 저장소 변경은 브랜치와 PR로 낸다. 블로그와 study의 Pages 배포는 별개다.
 
 ## 웹에서 보기
 
@@ -56,7 +45,7 @@ python3 tools/writing.py post --slug my-topic
 빌더가 올릴 파일을 골라내는 방식은 allow-list다 — `lessons/` · `reference/` 의
 HTML과 `assets/` 의 정적 파일만 복사한다. 그래서 메모·노트북·실습 산출물이
 저장소에 새로 생겨도 **자동으로 공개되지 않는다.** 마크다운 문서
-(`MISSION.md` · `NOTES.md` · `RESOURCES.md` · `GLOSSARY.md`)와 `learning-records/`·`summaries/`·`writing/`
+(`MISSION.md` · `NOTES.md` · `RESOURCES.md` · `GLOSSARY.md`)와 `learning-records/`·`summaries/`
 도 여기서 걸러진다 — 학습 기록은 사이트의 일부가 아니고, GitHub에서
 렌더링해 읽는 편이 낫다.
 
@@ -172,8 +161,6 @@ open llmops/lessons/0001-llmops-map-and-self-audit.html
 각 워크스페이스의 `index.html` 은 그 워크스페이스의 목록 페이지고,
 루트의 `index.html` 은 전체 목록이다. 둘 다 생성물이니 직접 고치지 말고
 `tools/build-index.py` 를 돌린다.
-
-일일·주간 작업 파일은 루트 [writing/](./writing/)에, 빈 틀은 [templates/](./templates/)에 둔다.
 
 레슨과 참조 문서의 문체는 AGENTS.md가 연결하는 [문체 규칙](./docs/writing-style.md)을 따른다.
 `tools/style-check.py` 가 그중 다섯 개를 기계로 검사한다 (`auto` 표시).
