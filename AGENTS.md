@@ -1,97 +1,206 @@
 # AGENTS.md
 
-This repo holds teaching workspaces. Lessons and reference documents are HTML,
-published to GitHub Pages. The prose inside them is **Korean**.
+이 저장소는 `teach` 스킬의 학습 워크스페이스 모음이다.
+**기본 규약은 `teach` 스킬을 따른다.** 이 문서는 그 위에 얹는 확장이며,
+충돌하면 이 문서가 우선한다. 확장의 이유는
+[docs/adr/0001-lessons-close-on-output.md](./docs/adr/0001-lessons-close-on-output.md) 에 있다.
 
-This file sets how that prose is written.
+## 일일 학습·주간 글쓰기
 
-## A lesson is a manual, not an essay
+학습 세션·요약 채점·블로그 초안 작업을 시작할 때
+[docs/learning-loop.md](./docs/learning-loop.md)를 읽고 해당 절차를 따른다.
+매일 최소 레슨 1개 학습 + 사용자 문단 1개, 매주 블로그 1편이 목표다.
+미결 레슨이 있으면 그 레슨의 복습·요약·적용을 오늘 학습으로 삼는다.
+새 레슨 수를 채우기 위해 완료 규약을 우회하지 않는다.
 
-The reader does not know the subject. They must still be able to follow it with effort.
-So build no tension. Tell them things in order.
+레슨·참조 문서·MISSION을 작성하거나 수정할 때는
+[docs/writing-style.md](./docs/writing-style.md)의 문체·출처·퀴즈 규칙을 적용한다.
+공통 학습·글쓰기 용어는 [GLOSSARY.md](./GLOSSARY.md)를 따른다.
+학습자 이해를 확인한 주제 전문용어는 `<topic>/GLOSSARY.md`로 승격하고, 설명용 HTML 용어집은
+`reference/`에서 관리한다. HTML 용어집 등재만으로 이해가 증명되지는 않는다.
 
-Dramatic emphasis, rhetorical questions and reveals carry no information.
-Delete sentences like `여기가 오늘의 전부입니다`.
+공통 규약의 원본은 이 파일이다. `CLAUDE.md`에 별도 규약을 만들지 않는다.
+플러그인 캐시와 `.claude/skills/teach/`는 upstream이므로 저장소 운영 규칙은 여기에 둔다.
 
-The basis is [ASD-STE100](https://www.asd-ste100.org/). It is an English standard,
-so it does not transfer whole. The eleven rules below are the part that does.
+확장의 요지 한 줄: **레슨은 읽어서 끝나지 않는다. 산출물이 나와야 끝난다.**
 
-## Rules
+## 세션을 시작할 때 (항상 먼저)
 
-Rules marked `auto` are enforced by `tools/style-check.py`.
-This file owns the numbers. To change one, edit here first, then match the script.
+작업할 워크스페이스가 정해지면, 새 레슨을 저작하기 전에 순서대로 확인한다.
 
-### Sentences
+1. `<topic>/summaries/` 를 읽는다. 상태는 **전적으로 여기서 읽어 낸다** — 별도 추적 파일은 없다.
 
-| | Rule | |
+   | 파일 | 판정 줄 | 상태 |
+   |---|---|---|
+   | 없음 | — | 아직 안 열림 |
+   | 있음 | `작성중` 또는 `재작성` + 열린 시각이 48시간 이내 | **열림** |
+   | 있음 | `작성중` 또는 `재작성` + 열린 시각이 48시간 초과 | **만료** |
+   | 있음 | `통과` + 필수 실행 기록 완료 (스윕 예외 적용) | **닫힘** |
+   | 있음 | `통과` + 필수 실행 미결 | **열림** (48시간 초과 시 **만료**) |
+
+2. 닫히지 않은 가장 앞 레슨의 HTML에서 `lesson-claim-*` · `lesson-action-*` 을 읽는다.
+3. **열림이든 만료든, 미결 레슨이 있으면 새 레슨을 만들지 않는다.** 그것부터 닫힌다.
+   만료였다면 요약을 처음부터 다시 쓴다 — 앞서 쓰다 만 글은 참고만 하고 채점 대상이 아니다.
+
+### 레슨을 여는 순간 할 일
+
+레슨을 열어 주는(또는 재독시키는) 그 세션에서 **즉시** 요약 파일을 만들고
+`판정: 작성중`과 열린 날짜·시각(Asia/Seoul, UTC 오프셋 포함)을 적는다. 본문은 비워 둔다.
+기존 날짜만 있는 파일은 그날 00:00 +09:00을 기준으로 보수적으로 판정한다.
+일반 재접속은 시계를 갱신하지 않는다. 만료 복구 재독 때만 시각을 갱신하고,
+기존 원문은 `## 이전 시도 (채점 제외)`에 보존한 뒤 새 본문을 비워 둔다.
+
+이걸 빼먹으면 48시간 시계가 시작되지 않고, 다음 세션이 열림과 만료를 구별할 수 없다.
+이 한 줄이 상태 기계 전체를 떠받친다.
+
+열린 레슨이 있는데 사용자가 다음 레슨을 요구하면, 거절하지 말고 상태를 알린 뒤
+닫는 작업을 먼저 제안한다. 사용자가 재차 요구하면 그것은 사용자의 결정이므로 따르되,
+`NOTES.md` 에 그 사실을 한 줄 남긴다.
+
+## 레슨의 세 가지 상태
+
+| 상태 | 뜻 | 다음 레슨 |
 |---|---|---|
-| 1 | Say one thing per sentence | |
-| 2 | Keep sentences to 20 words or fewer, counting whitespace-separated chunks | auto |
-| 3 | Keep one topic per paragraph, 6 sentences or fewer | auto |
-| 4 | Use at most one em dash and one bracket pair per sentence | auto |
+| **열림** | 레슨을 열었고, 필수 항목이 아직 남아 있다 | 막힘 |
+| **만료** | 레슨을 열거나 만료 복구 재독한 시각으로부터 48시간이 지났는데 아직 열려 있다 | 막힘 |
+| **닫힘** | 요약이 통과했고 필수 실행 항목이 전부 기록됐다 | 열림 |
 
-### Words
+**만료는 그냥 못 닫는다.** 해당 레슨을 다시 읽고 요약부터 다시 해야 열린 상태로 돌아온다.
+48시간은 실행의 유통기한이지 권장 마감이 아니다.
 
-| | Rule | |
-|---|---|---|
-| 5 | Define each new term in one sentence where it first appears, and link the glossary | |
-| 6 | Give each term one meaning. Call the same thing by the same name every time | |
-| 7 | Stack at most three nouns together | auto |
-| 8 | Prefer verbs to nominalisations. `검증할 수 있다`, not `검증의 가능성` | auto |
+## 실행 항목 — 어디에 선언하고 어떻게 닫는가
 
-The glossary is `<topic>/reference/0000-glossary.html`. It owns that workspace's terms.
-When a lesson defines a term, add it to the glossary too.
-When the two definitions drift, the glossary wins.
+각 레슨 HTML의 `<head>` 가 자기 계약을 선언한다. 빌더(`tools/build-index.py`)는
+`index-*` 만 읽으므로 이 태그들은 배포에 영향이 없다.
 
-### Claims
-
-| | Rule | |
-|---|---|---|
-| 9 | Attach a source link to every claim | |
-| 10 | Mark which claims are quoted and which are your own inference | |
-
-Rule 10 buys trust. When you join two sources into a new conclusion, say so.
-The `여기서부터는 추론입니다` block in `ai/lessons/0002-retrieval-loop.html` is the pattern.
-
-### Quizzes
-
-| | Rule | |
-|---|---|---|
-| 11 | Match answer options to the same character count, spaces included | |
-
-A length difference leaks the answer. Count the options after writing them.
-
-## Before you finish
-
-Two commands must pass.
-
-```sh
-python3 tools/style-check.py <files you changed>   # 0 violations
-python3 tools/build-index.py                       # regenerate the listing pages
+```html
+<meta name="lesson-claim-1"  content="이 레슨이 남겨야 할 핵심 주장">
+<meta name="lesson-action-1" content="required · 무엇을 하면 닫히는가">
+<meta name="lesson-action-2" content="optional · 하면 좋은 것">
 ```
 
-Then check three things by eye.
+- `lesson-claim-*` — **요약 채점 기준**. 요약이 이 주장들을 전부 담았는지로 통과를 판정한다.
+  재량 판정이 아니다. 기준은 문서에 있고, 사용자는 기준 자체에 이의를 제기할 수 있다.
+- `lesson-action-*` — 실습 항목. `required` 가 전부 기록돼야 닫힌다. `optional` 은 닫힘에 무관하다.
+- **필수/선택은 레슨 저작 시점에 내가 분류하고, 사용자가 뒤집을 수 있다.** 뒤집힌 경우
+  meta 를 고치고 `NOTES.md` 에 한 줄 남긴다.
+- 이름에 번호를 붙이는 이유: 빌더의 `MetaTags` 가 dict 라 같은 `name` 이 겹치면 첫 개만 남는다.
 
-- Every new term is in the glossary.
-- Quiz options have equal character counts.
-- No document links to a Markdown file by relative path.
-  `tools/build-index.py` drops `.md` files and `learning-records/` from the deploy.
-  A relative link 404s on the published site. Link the repo blob URL instead.
+### 요약 항목은 선언하지 않는다
 
-## Scope
+**모든 레슨은 실습 항목과 별개로 "내 언어로 요약" 항목을 항상 하나 갖는다.**
+실습 항목이 0개인 레슨도 요약은 필수다. 보편 규칙이므로 meta 에 적지 않는다.
 
-**These rules apply to documents the learner reads.** That means `lessons/` and `reference/`.
-`MISSION.md` counts too, because lessons link to it.
+## 요약 — 형식과 채점
 
-`NOTES.md`, `RESOURCES.md` and `learning-records/` are **working records**.
-The rules are not enforced there. Run the checker on them if you like, but they need not pass.
-Rule 6 still holds: when terms drift in the records, lessons drift with them.
+사용자가 쓴 요약문은 `<topic>/summaries/000N-<slug>.md` 에 그대로 남긴다.
+레슨 번호와 파일 번호를 맞춘다.
 
-Lessons already in `valley/` and `llmops/` predate these rules.
-Leave them alone unless asked.
+```markdown
+# 요약 — 레슨 000N <레슨 제목>
 
-`tools/style-check.py` targets Korean prose. Its word counts and patterns assume Korean,
-so it is not meaningful on this English file.
+열린 날짜: <YYYY-MM-DD> · 열린 시각: <YYYY-MM-DDTHH:MM:SS+09:00> · 판정: 작성중 | 통과 | 재작성
 
-How each workspace is run lives in that workspace's `NOTES.md`.
-Repo layout and build steps live in [README.md](./README.md).
+## 내 언어로
+
+<사용자가 쓴 글. 내가 고쳐 쓰지 않는다. 오타도 두고, 잘못된 부분은 아래에 적는다.>
+
+## 실행 기록
+
+<lesson-action 번호 · 수행한 일 · 관찰 결과. 미실행이면 미실행으로 적는다.>
+
+## 이번에 나온 숫자
+
+<실습에서 나온 값. 결정급이 아닌 것도 여기 적는다.>
+
+## 빠진 것 / 틀린 것
+
+<claim 대비 무엇이 빠졌는지, 무엇이 틀렸는지. 통과면 "없음".>
+```
+
+채점 규칙:
+
+- **요약문을 대신 쓰지 않는다.** 사용자가 쓴 글이 아니면 이 파일은 무의미하다.
+  사용자가 말로 하면 받아 적는 것은 되지만, 내용을 보태면 안 된다.
+- 최소 한 문단을 사용자의 말로 쓴다. `lesson-claim-*` 대비 빠진 주장·틀린 주장을 지목하고 통과/재작성을 판정한다.
+- `판정: 통과`는 요약 채점 결과다. 닫힘은 `## 실행 기록`의 필수 항목까지 확인한다.
+- 레슨에 계약 meta가 없으면, 재독을 열기 전에 본문에서 핵심 주장과 실행 항목을 추려 meta로 명시한다.
+  기존 기록만 보고 소급 통과 처리하지 않는다.
+- 통과했고 그 레슨에 관련 용어가 있으면 `GLOSSARY.md` 승격을 검토한다
+  (이 저장소의 승격 기준 — 이해를 보인 뒤에만 등재).
+
+## 산출물은 어디로 가는가
+
+| 성격 | 자리 |
+|---|---|
+| 사용자가 쓴 요약문 | `<topic>/summaries/000N-*.md` |
+| 실습에서 나온 숫자 전반 | 같은 요약 파일의 `## 이번에 나온 숫자` |
+| 일일 문단 원문 | 블로그 주간 GitHub 이슈 댓글 |
+| 일일 원문 링크·적용·회상 질문 | `writing/daily/YYYY-MM-DD.md` |
+| 사용자 주간 본문·발행 기록 | `writing/weekly/YYYY-Www.md` |
+| **다음에 뭘 배울지를 바꾸는** 발견 | `<topic>/learning-records/000N-*.md` |
+
+`teach` 스킬은 학습기록이 **활동 로그가 아니라고** 명시한다. 그래서 실습 숫자를
+기본적으로 학습기록에 쓰지 않는다. 다음 레슨을 분기시키거나 미션을 움직이는 숫자일 때만
+학습기록을 쓰고, 그 경우에도 숫자가 아니라 **그래서 무엇이 달라지는가**를 쓴다.
+
+사내 로그·원자료는 저장소에 넣지 않는다. 숫자만 옮겨 적는다 (`.gitignore` 참조).
+`summaries/`·`learning-records/`·`writing/`는 빌더의 allow-list(`lessons/`·`reference/`·`assets/`)
+밖이라 **사이트에 배포되지 않는다.**
+
+## 소급 스윕 (2026-09-19 시작, 끝나면 이 절을 지운다)
+
+새 규칙 이전에 만들어진 레슨 6개는 **요약만** 소급한다 — 실습 산출물은 소급하지 않는다.
+사면은 없다. 요약을 쓰려면 레슨을 다시 열어야 하므로, **이 스윕이 곧 만료 복구의 재독이다.**
+예외 조항이 아니다.
+
+- 소급 대상: valley 0001~0004, llmops 0001~0002. 현재 판정은 `summaries/`에서 읽는다.
+- 이후에 이미 저작된 레슨은 지우거나 재번호하지 않는다. 새 레슨을 열기 전에 해당 주제의 가장 앞 미결부터 닫는다.
+- `llmops`는 `ai`로 흡수되었으므로, llmops를 다시 학습하는 경우에만 그 주제의 스윕을 진행한다.
+  ai의 진도를 llmops 스윕에 종속시키지 않는다.
+
+**한 세션에 한 편.** 앞 편이 통과한 뒤 다음 편을 연다. 네 편을 한자리에서 몰아 쓰면
+그건 이 규칙이 막으려는 벼락치기 그대로이고, 2~4편에는 48시간 시계가 아예 안 돈다.
+
+**스윕으로 닫힌 레슨은 필수 실습 항목이 열린 채로 남는다.** 그리고 그 항목들은
+소급 대상이 **아니다** — 영구히 미결로 두고 닫힘 판정에서 뺀다. 위의 일반 규칙
+(필수 실습 항목이 전부 기록돼야 닫힘)은 **스윕 이후에 열리는 레슨부터** 적용된다.
+두 기준이 공존하는 기간이므로, 요약 파일에 `스윕 종료` 라고 적어 구분한다.
+
+## 작업은 전부 PR 로 낸다
+
+**`main` 에 직접 커밋하지 않는다.** 레슨 한 편이든 오타 하나든 브랜치를 내고 PR 로 올린다.
+
+```sh
+git switch -c <prefix>/<짧은-설명>
+# 작업
+python3 tools/build-index.py --check   # 목록이 어긋나면 생성물도 같이 커밋
+git push -u origin HEAD
+gh pr create
+```
+
+브랜치 접두사:
+
+| 접두사 | 쓰는 경우 |
+|---|---|
+| `lesson/` | 새 레슨·참조 문서 |
+| `summary/` | 요약·일일 글감·주간 블로그 초안 |
+| `system/` | 규약·빌더·ADR 등 학습 시스템 자체 |
+| `fix/` | 오타·링크·스타일 수정 |
+
+PR 본문에 반드시 넣는 것:
+
+- **무엇이 닫히는가** — 이 PR 로 어느 레슨이 닫히는지, 아니면 아무것도 안 닫히는지
+- **남는 미결** — 열린 채로 남는 필수 항목
+- 글쓰기 변경이면 날짜·주차·근거 레슨 링크와 발행 여부 (PR 생성은 블로그 발행이 아니다)
+- 사내 데이터·원자료가 섞이지 않았는지 확인한 한 줄 (`git diff --stat` 으로 점검)
+
+머지 후 브랜치는 지운다. PR 이 열려 있는 동안에도 레슨 상태 판정은
+`summaries/`의 파일이 기준이지 PR의 머지 여부가 아니다. 닫힘 조건을 만족한 기록이
+커밋됐으면 PR 머지 전에도 닫힌 것으로 판정한다.
+
+## 목록 페이지
+
+`index.html` · `<topic>/index.html` 은 생성물이다. 직접 고치지 말고
+`python3 tools/build-index.py` 를 돌린다. 레슨·참조 문서를 추가하거나 `<head>` 를
+건드렸으면 `--check` 로 목록이 어긋나지 않는지 확인하고, 어긋났으면 생성물을 같이 커밋한다.
