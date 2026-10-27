@@ -9,7 +9,6 @@
 에이전트는 `MISSION.md`, `NOTES.md`, 최근 `learning-records/`를 읽고 짧은 레슨을 진행한다.
 대화와 실습으로 이해를 확인하고, 다음 학습에 영향을 주는 발견을 `learning-records/`에 남긴다.
 
-요약과 블로그 글쓰기는 필요할 때 활용한다. 제출·채점·발행 여부로 다음 레슨을 막지 않는다.
 운영 규약은 [AGENTS.md](./AGENTS.md)를 따른다.
 
 ## 웹에서 보기
@@ -82,6 +81,7 @@ python3 tools/build-index.py --stage _site  # 배포될 파일 그대로 모아 
 ## `/teach` 스킬
 
 레슨을 만드는 것은 [Matt Pocock의 `teach` 스킬](https://github.com/mattpocock/skills)이다.
+학습 방식과 파일 역할은 [공식 소개 글](https://www.aihero.dev/skills-teach)을 참고한다.
 스킬 자체를 [`.claude/skills/teach/`](./.claude/skills/teach) 에 **복사해 커밋해 두었다.**
 Claude Code 세션은 어느 환경에서 열든 이 저장소를 클론하므로,
 웹(claude.ai/code) · 모바일 · 데스크탑 앱 · 터미널 CLI 어디서 열어도
