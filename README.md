@@ -10,7 +10,6 @@
 대화와 실습으로 이해를 확인하고, 다음 학습에 영향을 주는 발견을 `learning-records/`에 남긴다.
 
 요약과 블로그 글쓰기는 필요할 때 활용한다. 제출·채점·발행 여부로 다음 레슨을 막지 않는다.
-기존 `summaries/` 파일은 사용자 원문을 보존하는 과거 기록이며, 새 학습의 상태표로 사용하지 않는다.
 운영 규약은 [AGENTS.md](./AGENTS.md)를 따른다.
 
 ## 웹에서 보기
@@ -31,7 +30,7 @@
 빌더가 올릴 파일을 골라내는 방식은 allow-list다 — `lessons/` · `reference/` 의
 HTML과 `assets/` 의 정적 파일만 복사한다. 그래서 메모·노트북·실습 산출물이
 저장소에 새로 생겨도 **자동으로 공개되지 않는다.** 마크다운 문서
-(`MISSION.md` · `NOTES.md` · `RESOURCES.md` · `GLOSSARY.md`)와 `learning-records/`·`summaries/`
+(`MISSION.md` · `NOTES.md` · `RESOURCES.md` · `GLOSSARY.md`)와 `learning-records/`
 도 여기서 걸러진다 — 학습 기록은 사이트의 일부가 아니고, GitHub에서
 렌더링해 읽는 편이 낫다.
 

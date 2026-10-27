@@ -8,7 +8,7 @@
 - 사용자 원문: “AI 가 코드를 어떻게 작성했는 지는 알아도, 왜 그런 판단을 했고 왜 그런 구조로 작성했는지는 이해하지 못했을 수 있다.”
 - 사용자 원문: “간격을 두고 인출 강도가 떨어졌을 때 복습함으로써 저장 강도를 높이는 데 도움이 된다. 언제 기억할지를 기준으로 복습 간격을 설정할 수 있다.”
 
-원문 전체와 당시 피드백은 기존 `summaries/0001-the-delegation-line.md`, `summaries/0002-retrieval-loop.md`에 보존한다. 이 파일들은 과거 기록이며 진도 판정에 사용하지 않는다.
+당시 원문 전체와 피드백은 Git 이력의 [레슨 0001 기록](https://github.com/eatingbug/study/blob/4477428b55bf914c5d74d5712c304b37d6c44a1d/ai/summaries/0001-the-delegation-line.md)과 [레슨 0002 기록](https://github.com/eatingbug/study/blob/4477428b55bf914c5d74d5712c304b37d6c44a1d/ai/summaries/0002-retrieval-loop.md)에서 확인할 수 있다. 현재 학습기록에는 다음 수업에 필요한 발견만 남긴다.
 
 ## 다음 학습에서 고려할 점
 
