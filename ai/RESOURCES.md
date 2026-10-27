@@ -41,3 +41,8 @@
 - **AI 인프라/플랫폼 축의 1차 자료가 없다.** 추론 서버(vLLM/TGI), 배칭, KV 캐시, 비용 모델링의 신뢰 가능한 출처를 아직 못 찾았다. 인프라 레슨 전에 반드시 채울 것.
 - **Bjork PDF 본문 미확보.** 자동 추출 실패. storage/retrieval strength 정의를 verbatim으로 인용하려면 직접 읽어야 한다.
 - **한국 시장의 AI Engineer JD 실물**이 없다. 사용자가 실제 관심 있는 회사 JD 3~5개를 모아 오면 커리큘럼을 그쪽으로 조준할 수 있다.
+
+## 운영 경험 기록 (레슨 0003, 2026-10-27)
+
+- [Google SRE Workbook — Postmortem Culture: Learning from Failure](https://sre.google/workbook/postmortem-culture/)
+  Google 운영자의 1차 경험. ‘Key details omitted’와 ‘Key action item characteristics missing’에서 수치·경과·후속 조치의 구체성을 설명한다. 레슨 0003의 다섯 줄 양식은 이 지침을 모델 교체 경험에 응용한 저자의 제안이며, 검증된 학습 프로토콜이라는 주장은 하지 않는다.
