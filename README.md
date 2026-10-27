@@ -3,29 +3,13 @@
 학습 워크스페이스 모음. 각 디렉터리가 하나의 주제이고,
 [Matt Pocock의 `teach` 스킬](https://github.com/mattpocock) 규약을 따른다.
 
-목표는 **읽기 → 회상 → 직접 쓰기 → 적용 → 주간 포스팅**을 반복하는 것이다.
+## 학습 시작하기
 
-- 매일 기본 30분: 레슨 최소 1개 학습과 자기 문단 최소 1개.
-- 미결 레슨이 있으면 복습·요약·적용을 이어 간다. 요약과 필수 실행이 있어야 닫힌다.
-- 매주 일요일 21시: [개인 블로그](https://eatingbug.github.io)에 한 편을 직접 발행한다.
-- 독자: 해당 개념을 처음 배우는 동료 개발자. 실험 결과가 없어도 개념·작은 예시를 설명할 수 있다.
+에이전트에게 `ai 오늘 학습을 시작하자`처럼 주제를 지정하거나, 배우고 싶은 내용을 말한다.
+에이전트는 `MISSION.md`, `NOTES.md`, 최근 `learning-records/`를 읽고 짧은 레슨을 진행한다.
+대화와 실습으로 이해를 확인하고, 다음 학습에 영향을 주는 발견을 `learning-records/`에 남긴다.
 
-일일 문단 원문은 **블로그 저장소의 주간 이슈 댓글**에 쓴다.
-study에는 원문 링크·요약·적용·회상 질문을 남기고, 주간 본문도 사용자가 직접 쓴다.
-에이전트는 질문·구조 피드백·기계적 교정·발행 형식 준비를 돕는다.
-
-운영 규약과 일일·주간 절차는 [AGENTS.md](./AGENTS.md)에 모았다.
-[결정 배경](./docs/adr/0002-daily-learning-weekly-post.md)을 참고한다.
-
-## 오늘 시작하기
-
-에이전트에게 `ai 오늘 학습을 시작하자`처럼 주제를 지정한다.
-레슨을 읽고 블로그 주간 이슈에 한 문단을 직접 쓴다.
-에이전트는 해당 레슨의 `summaries/000N-*.md`에 원문 댓글 링크·요약 채점·적용 기록을 남긴다.
-금요일에는 같은 이슈에서 주간 초고를 직접 쓰고, 주말에 블로그 `_posts/`에서 교정·발행한다.
-별도의 일일 파일이나 생성 명령은 없다.
-
-모든 저장소 변경은 브랜치와 PR로 낸다. 블로그와 study의 Pages 배포는 별개다.
+운영 규약은 [AGENTS.md](./AGENTS.md)를 따른다.
 
 ## 웹에서 보기
 
@@ -39,13 +23,13 @@ study에는 원문 링크·요약·적용·회상 질문을 남기고, 주간 �
 > 워크플로가 배포 권한을 얻는다. 그 뒤로는 푸시할 때마다 자동으로 갱신된다.
 
 사이트 구조는 디렉터리 구조 그대로다 — 루트에 전체 목록,
-`/llmops/` 와 `/valley/` 에 워크스페이스별 목록.
+`/ai/` · `/llmops/` · `/valley/`에 워크스페이스별 목록.
 
 **사이트에 올라가는 것은 HTML(레슨·참조 문서)과 `assets/` 뿐이다.**
 빌더가 올릴 파일을 골라내는 방식은 allow-list다 — `lessons/` · `reference/` 의
 HTML과 `assets/` 의 정적 파일만 복사한다. 그래서 메모·노트북·실습 산출물이
 저장소에 새로 생겨도 **자동으로 공개되지 않는다.** 마크다운 문서
-(`MISSION.md` · `NOTES.md` · `RESOURCES.md` · `GLOSSARY.md`)와 `learning-records/`·`summaries/`
+(`MISSION.md` · `NOTES.md` · `RESOURCES.md` · `GLOSSARY.md`)와 `learning-records/`
 도 여기서 걸러진다 — 학습 기록은 사이트의 일부가 아니고, GitHub에서
 렌더링해 읽는 편이 낫다.
 
@@ -97,6 +81,7 @@ python3 tools/build-index.py --stage _site  # 배포될 파일 그대로 모아 
 ## `/teach` 스킬
 
 레슨을 만드는 것은 [Matt Pocock의 `teach` 스킬](https://github.com/mattpocock/skills)이다.
+학습 방식과 파일 역할은 [공식 소개 글](https://www.aihero.dev/skills-teach)을 참고한다.
 스킬 자체를 [`.claude/skills/teach/`](./.claude/skills/teach) 에 **복사해 커밋해 두었다.**
 Claude Code 세션은 어느 환경에서 열든 이 저장소를 클론하므로,
 웹(claude.ai/code) · 모바일 · 데스크탑 앱 · 터미널 CLI 어디서 열어도
@@ -146,7 +131,6 @@ Claude Code 세션은 어느 환경에서 열든 이 저장소를 클론하므�
 ├── GLOSSARY.md         이 주제의 표준 용어 (이해가 증명된 것만 등재)
 ├── lessons/            0001-*.html — 한 번에 하나씩, 짧게, 인터랙티브
 ├── reference/          압축된 참조 문서. 프린트해서 옆에 두는 용도
-├── summaries/          사용자 요약·필수 실행 기록. 레슨 닫힘의 기준
 ├── learning-records/   무엇을 알게 됐고 그래서 다음에 뭘 배울지 (ADR 형식)
 └── assets/             레슨이 공유하는 스타일시트·퀴즈 위젯 등
 ```
@@ -172,6 +156,6 @@ python3 tools/style-check.py ai/lessons/*.html ai/reference/*.html
 ## 저장소에 넣지 않는 것
 
 - `raw/` — 저작권 있는 원본 자료(유료 구독 콘텐츠 등). 로컬에만 둔다.
-- 실습에 쓴 사내 데이터·로그·CSV. 허용된 집계 **숫자**만 해당 레슨 요약에 옮겨 적는다.
+- 실습에 쓴 사내 데이터·로그·CSV. 허용된 집계 **숫자**만 필요한 학습기록에 남긴다.
 
 자세한 규칙은 [`.gitignore`](./.gitignore) 참조.
